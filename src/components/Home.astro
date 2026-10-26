@@ -1,0 +1,204 @@
+---
+import Base from '../layouts/Base.astro';
+import Mark from './Mark.astro';
+import MockApp from './MockApp.astro';
+import ExampleArt from './ExampleArt.astro';
+import Icon from './Icon.astro';
+import DownloadButton from './DownloadButton.astro';
+import { MARK_FACETS } from './brandMarkFacets';
+import { dicts, type Locale } from '../i18n';
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const t = dicts[locale];
+const other = dicts[t.lang_switch.target as Locale];
+
+// Floating facets in the hero: triangles lifted from the mark, placed with a fixed seed so every
+// build is identical.
+let seed = 7;
+const rand = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+// Only reasonably fat triangles; slivers read as noise at small sizes.
+const tris = MARK_FACETS.filter(([d]) => {
+  const n = d.match(/-?\d+(\.\d+)?/g)!.map(Number);
+  if (n.length !== 6) return false;
+  const area = Math.abs((n[2] - n[0]) * (n[5] - n[1]) - (n[4] - n[0]) * (n[3] - n[1])) / 2;
+  const longest = Math.max(Math.hypot(n[2] - n[0], n[3] - n[1]), Math.hypot(n[4] - n[2], n[5] - n[3]), Math.hypot(n[0] - n[4], n[1] - n[5]));
+  return area / longest ** 2 > 0.15;
+});
+const particles = Array.from({ length: 26 }, (_, i) => {
+  const [d, fill] = tris[(i * 7) % tris.length];
+  const nums = d.match(/-?\d+(\.\d+)?/g)!.map(Number);
+  const xs = [nums[0], nums[2], nums[4]], ys = [nums[1], nums[3], nums[5]];
+  const x0 = Math.min(...xs), y0 = Math.min(...ys);
+  return {
+    d, fill,
+    vb: `${x0} ${y0} ${Math.max(...xs) - x0} ${Math.max(...ys) - y0}`,
+    left: rand() * 100, top: rand() * 100, size: 10 + rand() * 26,
+    rot: Math.round(rand() * 360), dur: 7 + rand() * 7, delay: -rand() * 10,
+  };
+});
+---
+<Base locale={locale}>
+  <a class="skip" href="#main">{t.skip}</a>
+
+  <header class="site-header">
+    <a class="brand" href={t.path} aria-label={t.nav.home}><Mark size={30} /><span>Tangent</span></a>
+    <nav aria-label={t.nav.label} class="site-nav">
+      <a href="#how">{t.nav.how}</a>
+      <a href="#features">{t.nav.features}</a>
+      <a href="#sources">{t.nav.sources}</a>
+      <a href="#export">{t.nav.export}</a>
+    </nav>
+    <div class="header-actions">
+      <a class="lang" href={other.path} hreflang={other.htmlLang} lang={other.htmlLang} aria-label={t.lang_switch.aria}>{t.lang_switch.label}</a>
+      <DownloadButton label={t.download} size="sm" />
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="particles" aria-hidden="true">
+        {particles.map((p) => (
+          <svg viewBox={p.vb} style={`left:${p.left.toFixed(1)}%;top:${p.top.toFixed(1)}%;width:${p.size.toFixed(0)}px;--r:${p.rot}deg;--dur:${p.dur.toFixed(1)}s;--delay:${p.delay.toFixed(1)}s`}>
+            <path d={p.d} fill={p.fill} />
+          </svg>
+        ))}
+      </div>
+      <div class="hero-inner">
+        <h1 id="hero-title" class="wordmark">Tangent</h1>
+        <p class="eyebrow">{t.hero.eyebrow}</p>
+        <div class="hero-copy">
+          <p class="lede">{t.hero.lede}</p>
+          <div class="cta-row">
+            <DownloadButton label={t.download} />
+            <a class="btn btn-ghost btn-lg" href="#how">{t.hero.secondary}</a>
+          </div>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#intro" aria-label={t.hero.scroll}><Icon name="arrow" /></a>
+    </section>
+
+    <section id="intro" class="section statement" aria-labelledby="intro-title">
+      <div class="narrow" data-reveal>
+        <p class="kicker">{t.intro.kicker}</p>
+        <h2 id="intro-title">{t.intro.title}</h2>
+        <p class="body-lg">{t.intro.body}</p>
+      </div>
+      <div class="wide" data-reveal><MockApp t={t.mock} /></div>
+    </section>
+
+    <section id="how" class="section" aria-labelledby="how-title">
+      <div class="narrow center" data-reveal>
+        <p class="kicker">{t.how.kicker}</p>
+        <h2 id="how-title">{t.how.title}</h2>
+      </div>
+      <ol class="steps wide">
+        {t.how.steps.map((s, i) => (
+          <li class="card step" data-reveal style={`--i:${i}`}>
+            <span class="step-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section id="features" class="section" aria-labelledby="features-title">
+      <div class="narrow center" data-reveal>
+        <p class="kicker">{t.features.kicker}</p>
+        <h2 id="features-title">{t.features.title}</h2>
+      </div>
+      <ul class="grid-3 wide">
+        {t.features.items.map((f, i) => (
+          <li class="card feature" data-reveal style={`--i:${i % 3}`}>
+            <span class="feature-icon"><Icon name={f.icon} /></span>
+            <h3>{f.title}</h3>
+            <p>{f.body}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section id="sources" class="section" aria-labelledby="sources-title">
+      <div class="narrow center" data-reveal>
+        <p class="kicker">{t.sources.kicker}</p>
+        <h2 id="sources-title">{t.sources.title}</h2>
+        <p class="body-lg">{t.sources.body}</p>
+      </div>
+      <div class="sources wide" data-reveal>
+        {t.sources.groups.map((g) => (
+          <div class="source-group">
+            <h3 class="mono-label">{g.title}</h3>
+            <ul class="pills">{g.items.map((s) => <li>{s}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+      <ul class="trust wide">
+        {t.sources.trust.map((x, i) => (
+          <li data-reveal style={`--i:${i}`}>
+            <span class="feature-icon"><Icon name={i === 0 ? 'lock' : 'shield'} /></span>
+            <div><h3>{x.title}</h3><p>{x.body}</p></div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section id="examples" class="section" aria-labelledby="examples-title">
+      <div class="narrow center" data-reveal>
+        <p class="kicker">{t.examples.kicker}</p>
+        <h2 id="examples-title">{t.examples.title}</h2>
+        <p class="body-lg">{t.examples.body}</p>
+      </div>
+      <ul class="grid-3 wide">
+        {t.examples.items.map((e, i) => (
+          <li class="card example" data-reveal style={`--i:${i}`}>
+            <div class="example-art"><ExampleArt id={e.id} label={`${t.examples.figure} ${e.title}`} /></div>
+            <h3>{e.title}</h3>
+            <p>{e.detail}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section id="export" class="section" aria-labelledby="export-title">
+      <div class="narrow center" data-reveal>
+        <p class="kicker">{t.export.kicker}</p>
+        <h2 id="export-title">{t.export.title}</h2>
+      </div>
+      <dl class="exports wide" data-reveal>
+        {t.export.items.map((x, i) => (
+          <div class={i === t.export.items.length - 1 ? 'export export-bambu' : 'export'}>
+            <dt>{x.name}</dt>
+            <dd>{x.body}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <section class="final" aria-labelledby="final-title">
+      <p class="final-word" aria-hidden="true">Tangent</p>
+      <div class="final-inner" data-reveal>
+        <Mark size={72} class="final-mark" />
+        <h2 id="final-title">{t.final.title}</h2>
+        <p class="body-lg">{t.final.body}</p>
+        <DownloadButton label={t.download} />
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand" href={t.path} aria-label={t.nav.home}><Mark size={24} /><span>Tangent</span></a>
+    <nav aria-label={t.nav.label} class="footer-nav">
+      <a href="#how">{t.nav.how}</a>
+      <a href="#features">{t.nav.features}</a>
+      <a href="#sources">{t.nav.sources}</a>
+      <a href="#export">{t.nav.export}</a>
+    </nav>
+    <div class="footer-lang">
+      <span class="mono-label">{t.footer.language}</span>
+      <a href={dicts.en.path} hreflang="en" lang="en" aria-current={locale === 'en' ? 'page' : undefined}>English</a>
+      <a href={dicts['zh-tw'].path} hreflang="zh-Hant-TW" lang="zh-Hant-TW" aria-current={locale === 'zh-tw' ? 'page' : undefined}>繁體中文</a>
+    </div>
+    <p class="footer-note">{t.footer.note}</p>
+  </footer>
+</Base>

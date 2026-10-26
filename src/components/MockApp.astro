@@ -1,0 +1,55 @@
+---
+// A drawn (not screenshotted) impression of the app: conversation on the left, the model on the right.
+import Mark from './Mark.astro';
+import { iso, isoBox, isoCircle, poly, viewBox, type Pt } from '../lib/draw';
+import type { Dict } from '../i18n/en';
+
+interface Props { t: Dict['mock'] }
+const { t } = Astro.props;
+
+// The 90 × 60 × 28 mm enclosure from the conversation, lid seam 6 mm below the top.
+const L = 90, W = 60, H = 28, seam = H - 6;
+const body = isoBox(0, 0, 0, L, W, seam);
+const lid = isoBox(0, 0, seam, L, W, H);
+const holes = [[6, 6], [L - 6, 6], [L - 6, W - 6], [6, W - 6]].map(([x, y]) => isoCircle(x, y, H, 2.2));
+const dimY = W + 12;
+const d0 = iso(0, dimY, 0), d1 = iso(L, dimY, 0);
+const ext = [poly([iso(0, W + 2, 0), iso(0, dimY + 3, 0)]), poly([iso(L, W + 2, 0), iso(L, dimY + 3, 0)])];
+const mid: Pt = iso(L / 2, dimY + 5, 0);
+const vb = viewBox([iso(0, 0, H), iso(L, 0, 0), iso(0, W, 0), iso(L, W, 0), iso(0, dimY + 8, 0), iso(L, dimY + 8, 0)], 10);
+---
+<figure class="mock" aria-label={t.label} role="img">
+  <div class="mock-window">
+    <div class="mock-bar" aria-hidden="true">
+      <span class="dots"><i></i><i></i><i></i></span>
+      <span class="mock-tab"><Mark size={14} />{t.project}</span>
+    </div>
+    <div class="mock-body" aria-hidden="true">
+      <div class="mock-chat">
+        <p class="mock-title">{t.conversation}</p>
+        <div class="msg msg-user">{t.user1}</div>
+        <div class="msg msg-agent">
+          <Mark size={18} class="msg-avatar" />
+          <div>
+            <p>{t.agent1}</p>
+            <p class="msg-q">{t.question}</p>
+            <div class="msg-options"><span class="opt is-picked">{t.optionA}</span><span class="opt">{t.optionB}</span></div>
+          </div>
+        </div>
+        <div class="msg msg-user">{t.user2Before} <span class="chip">@{t.chip}</span> {t.user2After}</div>
+        <div class="msg-status"><Mark size={14} class="pulse" />{t.building}</div>
+      </div>
+      <div class="mock-view">
+        <svg viewBox={vb} class="mock-model">
+          {body.map((f) => <path d={f.d} class={`face face-${f.kind}`} />)}
+          {lid.map((f) => <path d={f.d} class={`face face-${f.kind}${f.kind === 'top' ? ' is-selected' : ''}`} />)}
+          {holes.map((d) => <path d={d} class="hole" />)}
+          <path d={poly([d0, d1])} class="dim" />
+          {ext.map((d) => <path d={d} class="dim dim-ext" />)}
+          <text x={mid[0]} y={mid[1]} class="dim-label" transform={`rotate(30 ${mid[0]} ${mid[1]})`} text-anchor="middle">{t.dims}</text>
+        </svg>
+        <div class="mock-versions"><span>{t.versions}</span><b>v1</b><b>v2</b><b class="is-current">v3</b></div>
+      </div>
+    </div>
+  </div>
+</figure>

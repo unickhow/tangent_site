@@ -1,0 +1,13 @@
+---
+interface Props { label: string; size?: 'sm' | 'lg' }
+const { label, size = 'lg' } = Astro.props;
+---
+{/*
+  PLACEHOLDER: there is no download yet. This is deliberately a <button> with no href and no
+  handler, so it goes nowhere. When the owner publishes a build, replace it with
+  <a class="btn …" href="…"> pointing at the real file or release page.
+*/}
+<button type="button" class={`btn btn-primary btn-${size}`} data-placeholder="download">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3v12" /><path d="M7 10l5 5 5-5" /><path d="M5 21h14" /></svg>
+  {label}
+</button>

@@ -1,0 +1,57 @@
+---
+// Line drawings of the three bundled examples. They are simplified
+// illustrations, not renders of the template models.
+import { circle, gear, iso, isoBox, poly, viewBox, type Face } from '../lib/draw';
+
+interface Props { id: string; label: string }
+const { id, label } = Astro.props;
+
+let vb = '';
+let faces: Face[] = [];
+let lines: string[] = [];
+let accents: string[] = [];
+
+if (id === 'pi') {
+  // Tray, lid and fins, drawn back to front so nearer fins cover farther ones.
+  const L = 92, W = 64;
+  faces = [...isoBox(0, 0, 0, L, W, 14), ...isoBox(0, 0, 14, L, W, 18)];
+  for (let y = 4; y < W - 4; y += 6.4) faces.push(...isoBox(5, y, 18, L - 5, y + 1.8, 27));
+  // USB-C and HDMI cutouts on the near side.
+  lines = [[10, 22], [28, 44], [50, 66]].map(([a, b]) => poly([iso(a, W, 4), iso(b, W, 4), iso(b, W, 10), iso(a, W, 10)]));
+  vb = viewBox([iso(0, 0, 27), iso(L, 0, 0), iso(0, W, 0), iso(L, W, 0), iso(L, 0, 27), iso(0, W, 27)]);
+} else if (id === 'fpv') {
+  // Top view of an X frame, 220 mm motor to motor.
+  const r = 220 / 2 / Math.SQRT2;
+  const arm = (sx: number, sy: number) => {
+    const a = Math.atan2(sy, sx), w = 9, nx = -Math.sin(a) * w, ny = Math.cos(a) * w;
+    return poly([[nx, ny], [sx * r + nx, sy * r + ny], [sx * r - nx, sy * r - ny], [-nx, -ny]]);
+  };
+  const corners = [[1, 1], [1, -1], [-1, 1], [-1, -1]];
+  lines = [...corners.map(([x, y]) => arm(x, y)), poly([[-22, -42], [22, -42], [22, 42], [-22, 42]])];
+  accents = [
+    ...corners.flatMap(([x, y]) => [circle(x * r, y * r, 14), circle(x * r, y * r, 4)]),
+    poly([[-15, -15], [15, -15], [15, 15], [-15, 15]]),
+    ...corners.map(([x, y]) => circle(x * 15.25 * 0.86, y * 15.25 * 0.86, 1.6)),
+  ];
+  vb = '-104 -104 208 208';
+} else {
+  // 4:1 planetary: sun 12, planets 12, ring 36 teeth (ratio 1 + 36 / 12).
+  const m = 4, carrier = (m * (12 + 12)) / 2;
+  // Phase each gear so a planet tooth sits in a sun gap and a ring gap (gap centres are 0.75 of a
+  // tooth step from the phase, tooth centres 0.25), so the drawing never shows teeth colliding.
+  const step = (Math.PI * 2) / 12, ringStep = (Math.PI * 2) / 36, a0 = -Math.PI / 2;
+  lines = [circle(0, 0, 100), gear(0, 0, 36, m, a0 - 0.75 * ringStep, true), gear(0, 0, 12, m, a0 - 0.75 * step)];
+  accents = [0, 1, 2].flatMap((i) => {
+    const a = a0 + (i * Math.PI * 2) / 3;
+    const [x, y] = [carrier * Math.cos(a), carrier * Math.sin(a)];
+    return [gear(x, y, 12, m, a + Math.PI - 0.25 * step), circle(x, y, 5)];
+  });
+  lines.push(circle(0, 0, 6), ...Array.from({ length: 6 }, (_, i) => circle(90 * Math.cos(i * Math.PI / 3), 90 * Math.sin(i * Math.PI / 3), 3.5)));
+  vb = '-108 -108 216 216';
+}
+---
+<svg class="art" viewBox={vb} role="img" aria-label={label}>
+  {faces.map((f) => <path d={f.d} class={`face face-${f.kind}`} />)}
+  {lines.map((d) => <path d={d} class="line" />)}
+  {accents.map((d) => <path d={d} class="line line-accent" />)}
+</svg>
