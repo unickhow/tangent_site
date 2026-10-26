@@ -65,7 +65,7 @@ src/components/         Home (all sections), MockApp (drawn app window playing o
 src/components/brandMarkFacets.ts   copied from tangent/src/components/ (generated there; recopy if the mark changes)
 src/lib/draw.ts         isometric and gear geometry for the drawings
 src/lib/viewer.ts       desktop-only three.js viewer for the reference-image model (lazy chunk)
-src/lib/refView.ts      camera, lighting and edges shared by the drawing and the viewer
+src/lib/refView.ts      camera, lighting, edges and stem/leaf colouring shared by the drawing and the viewer
 src/data/mandarin.json  the reference project's final mesh; public/ref/mandarin.glb is built from it
 src/styles/global.css   tokens (light and dark), layout, motion
 scripts/                og.mjs (social images), check-dist.mjs (built-output checks),
@@ -83,8 +83,11 @@ Motion is ported from the app, with its timings, and each one shows something re
 - **App window:** when it scrolls in, it plays one Agent turn once. The mark thinks, writes and
   builds (`BrandMark`), then the model draws its edges and fades in its faces
   (`Viewport3D` `playEntrance`).
-- **Reference images:** a real project: the light icon attached with a request, then the final
-  mesh of that model (`src/data/mandarin.json`, copied by `scripts/extract-model.mjs`) drawing in.
+- **Reference images:** a real project: the light icon attached with a request, then the turn as
+  the app shows it (thinking, writing with the code's line count ticking up, building) while the
+  final mesh (`src/data/mandarin.json`, from `scripts/extract-model.mjs`) is built up: body facets
+  bottom-up, the stem, each leaf unfolding, one light pass. A Replay control plays it again. The
+  timings are illustrative, not the project's.
 - **Reference model on desktop:** with a fine pointer that hovers, WebGL and a window at least
   1024 px wide, a three.js viewer loads as the section nears the screen and fades in over the
   drawing once its turn has played. The drawing is projected at build time through the viewer's

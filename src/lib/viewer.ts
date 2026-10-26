@@ -4,6 +4,7 @@
 // set at one device pixel. Drag (or arrow keys) turns the model; the wheel keeps scrolling the page.
 import {
   Box3,
+  BufferAttribute,
   Color,
   Group,
   LineBasicMaterial,
@@ -17,28 +18,31 @@ import {
   WebGLRenderer,
 } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { LIGHT, VIEW, makeCamera } from './refView';
+import { LIGHT, REGION_COLOR, VIEW, makeCamera, regionOf } from './refView';
 
 interface Options { url: string; color: string; reducedMotion: boolean }
 
 // Flat normal from screen-space derivatives; shade = ambient + diffuse · max(0, n·light), applied to
 // the sRGB colour and written without colour-space conversion or tone mapping, as the SVG does.
 const vertexShader = `
+  attribute vec3 tint;
   varying vec3 vWorld;
+  varying vec3 vTint;
   void main() {
+    vTint = tint;
     vec4 world = modelMatrix * vec4(position, 1.0);
     vWorld = world.xyz;
     gl_Position = projectionMatrix * viewMatrix * world;
   }`;
 const fragmentShader = `
-  uniform vec3 uBase;
   uniform vec3 uLight;
   uniform float uAmbient;
   uniform float uDiffuse;
   varying vec3 vWorld;
+  varying vec3 vTint;
   void main() {
     vec3 n = normalize(cross(dFdx(vWorld), dFdy(vWorld)));
-    gl_FragColor = vec4(uBase * (uAmbient + uDiffuse * max(0.0, dot(n, uLight))), 1.0);
+    gl_FragColor = vec4(vTint * (uAmbient + uDiffuse * max(0.0, dot(n, uLight))), 1.0);
   }`;
 
 export async function mountViewer(host: HTMLElement, { url, color, reducedMotion }: Options) {
@@ -46,12 +50,22 @@ export async function mountViewer(host: HTMLElement, { url, color, reducedMotion
   const meshSource = gltf.scene.getObjectByName('mandarin') as Mesh;
   const edgeSource = gltf.scene.getObjectByName('edges') as LineSegments;
 
-  const c = new Color().setStyle(color, 'srgb-linear'); // keep the sRGB numbers as they are
+  // Per-triangle sRGB base colour, by the same regions the drawing uses: body in the project's
+  // orange, stem and leaves like the icon. Kept as raw sRGB numbers (no colour-space conversion).
+  const srgb = (hex: string) => { const c = new Color().setStyle(hex, 'srgb-linear'); return [c.r, c.g, c.b]; };
+  const position = meshSource.geometry.getAttribute('position');
+  const tint = new Float32Array(position.count * 3);
+  for (let t = 0; t < position.count; t += 3) {
+    const p = Array.from({ length: 9 }, (_, i) => position.array[t * 3 + i]);
+    const region = regionOf(p);
+    const c = srgb(region === 'body' ? color : REGION_COLOR[region]);
+    for (let v = 0; v < 3; v++) tint.set(c, (t + v) * 3);
+  }
+  meshSource.geometry.setAttribute('tint', new BufferAttribute(tint, 3));
   const material = new ShaderMaterial({
     vertexShader,
     fragmentShader,
     uniforms: {
-      uBase: { value: new Vector3(c.r, c.g, c.b) },
       uLight: { value: LIGHT },
       uAmbient: { value: VIEW.ambient },
       uDiffuse: { value: VIEW.diffuse },
@@ -142,5 +156,11 @@ export async function mountViewer(host: HTMLElement, { url, color, reducedMotion
 
   new ResizeObserver(resize).observe(host);
   resize();
-  return { render };
+  /** Back to the starting pose (the drawing's frame), for a replay. */
+  const reset = () => {
+    cancelAnimationFrame(frame);
+    yaw = pitch = vYaw = vPitch = 0;
+    turn(0, 0);
+  };
+  return { render, reset };
 }

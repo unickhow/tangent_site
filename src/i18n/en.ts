@@ -46,6 +46,7 @@ export const en = {
     chip: 'Top face',
     user2After: '3 mm thick',
     phases: ['Thinking', 'Writing the reply and code', 'Building with build123d'],
+    linesUnit: 'lines',
     versions: 'History',
     dims: '90 mm',
   },
@@ -115,6 +116,8 @@ export const en = {
     note: 'v2–v6, in conversation: irregular facets, a rounder outline, one printable piece, sturdier stem and leaves',
     viewerLabel: 'The mandarin model in 3D. Drag, or use the arrow keys, to turn it.',
     viewerHint: 'Drag to rotate',
+    replay: 'Replay',
+    replayLabel: 'Replay the build',
   },
   sources: {
     kicker: 'Model sources',

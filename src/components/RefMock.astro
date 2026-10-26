@@ -2,14 +2,17 @@
 // Reference images, from a real project: the light app icon attached with a short request, refined
 // in conversation over six versions into one printable solid. The model is that project's final
 // mesh (src/data/mandarin.json, from scripts/extract-model.mjs), drawn at build time from the app's
-// three-quarter card view. Plays once when it scrolls in, with the same motions as MockApp.
-// On desktop (fine pointer with hover, WebGL, wide screen) a three.js viewer (lib/viewer.ts) takes
-// over once the drawn turn has played; everywhere else the drawing is what's shown.
+// three-quarter card view. When it scrolls in it plays the turn once, as the app shows it: the
+// Agent thinks, writes the code (its line count ticking up), then builds — body facets drawn and
+// filled from the bottom up, the stem, each leaf unfolding, one light across the finished model.
+// A replay control plays it again. On desktop (fine pointer with hover, WebGL, wide screen) a
+// three.js viewer (lib/viewer.ts) takes over once the build has finished; everywhere else the
+// drawing stays. An illustration of the flow: the timings are not the project's real ones.
 import Mark from './Mark.astro';
 import AgentMark from './AgentMark.astro';
 import model from '../data/mandarin.json';
 import { Box3, Sphere, Vector3 } from 'three';
-import { VIEW, makeCamera, shade } from '../lib/refView';
+import { REGION_COLOR, VIEW, makeCamera, regionOf, shade } from '../lib/refView';
 import type { Dict } from '../i18n/en';
 
 interface Props { t: Dict['reference']; mock: Dict['mock'] }
@@ -18,7 +21,9 @@ const { t, mock } = Astro.props;
 // Projected through the very camera the desktop viewer uses (lib/refView.ts), so the drawing is
 // that viewer's first frame and swapping one for the other can't be seen.
 const part = model.parts[0];
-const base = [1, 3, 5].map((i) => parseInt(part.color.slice(i, i + 2), 16));
+// Body in the project's orange; stem and leaves coloured like the icon (lib/refView.ts regionOf)
+const rgb = (hex: string) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+const baseOf = (p: number[]) => { const r = regionOf(p); return rgb(r === 'body' ? part.color : REGION_COLOR[r]); };
 const box = new Box3();
 part.faces.forEach(({ p }) => [0, 3, 6].forEach((i) => box.expandByPoint(new Vector3(p[i], p[i + 1], p[i + 2]))));
 const centre = box.getCenter(new Vector3());
@@ -34,27 +39,59 @@ const tris = part.faces
     if (normal.dot(new Vector3(...(n as [number, number, number]))) < 0) normal.negate();
     const mid = pts[0].clone().add(pts[1]).add(pts[2]).divideScalar(3);
     return {
+      region: regionOf(p),
+      y: mid.y + centre.y, // height in the model, for building bottom-up
       visible: normal.dot(camera.position.clone().sub(mid)) > 0,
       depth: -mid.distanceTo(camera.position),
       xy: pts.map((q) => {
         const v = q.clone().project(camera);
         return [((v.x + 1) / 2) * W, ((1 - v.y) / 2) * H];
       }),
-      fill: `rgb(${base.map((c) => Math.round(c * shade(normal))).join(',')})`,
+      fill: `rgb(${baseOf(p).map((c) => Math.round(c * shade(normal))).join(',')})`,
       edge: e === 1,
     };
   })
   .filter((f) => f.visible)
   .sort((a, b) => a.depth - b.depth);
+const project = (x: number, y: number, z: number) => {
+  const v = new Vector3(x, y, z).sub(centre).project(camera);
+  return [((v.x + 1) / 2) * W, ((1 - v.y) / 2) * H];
+};
 const d = (xy: number[][]) => 'M' + xy.map(([x, y]) => `${x.toFixed(2)} ${y.toFixed(2)}`).join('L') + 'Z';
 const edge = `rgba(${VIEW.edge.rgb.join(',')},${VIEW.edge.alpha})`;
 
-const T0 = { user: 200, think: 600, write: 1400, build: 1600, edges: 2300, faces: 2560, reply: 2700, note: 3400 };
+// One turn, in ms after the section scrolls in (an illustration, not the project's real timings).
+const T0 = {
+  user: 200, think: 500, write: 1100, build: 1900,
+  body: [1950, 1050], // facets start between these two (bottom first), then fill 220 ms behind
+  stem: [3050, 300], leafLeft: 3300, leafRight: 3420, sweep: 3950,
+  reply: 4100, note: 4600, end: 5000,
+};
 const phases = [
   { motion: 'think' as const, from: T0.think, to: T0.write, label: mock.phases[0] },
-  { motion: 'write' as const, from: T0.write, to: T0.build, label: mock.phases[1] },
+  { motion: 'write' as const, from: T0.write, to: T0.build, label: mock.phases[1], lines: model.codeLines },
   { motion: 'build' as const, from: T0.build, to: T0.reply, label: mock.phases[2] },
 ];
+// Per-triangle timing: a soft, repeatable stagger so the body reads as being put together.
+const ys = (r: string) => tris.filter((f) => f.region === r).map((f) => f.y);
+const span = (v: number[]) => [Math.min(...v), Math.max(...v)];
+const [b0, b1] = span(ys('body')), [s0, s1] = span(ys('stem'));
+const xs = tris.flatMap((f) => f.xy.map((q) => q[0]));
+const [x0, x1] = span(xs);
+const roots = { leafLeft: project(1, 59, 0), leafRight: project(0, 59, 0) }; // where each leaf meets the stem
+const timing = (f: (typeof tris)[number], i: number) => {
+  const cx = (f.xy[0][0] + f.xy[1][0] + f.xy[2][0]) / 3;
+  const sweep = `--s:${(T0.sweep + ((cx - x0) / (x1 - x0)) * 320).toFixed(0)}ms`;
+  if (f.region === 'leafLeft' || f.region === 'leafRight') {
+    const [ox, oy] = roots[f.region];
+    return `--d:${T0[f.region]}ms;--o:${ox.toFixed(1)}px ${oy.toFixed(1)}px;--r:${f.region === 'leafRight' ? -40 : 40}deg;${sweep}`;
+  }
+  const jitter = ((i * 2654435761) % 997) / 997 * 120;
+  const delay = f.region === 'stem'
+    ? T0.stem[0] + ((f.y - s0) / (s1 - s0)) * T0.stem[1]
+    : T0.body[0] + ((f.y - b0) / (b1 - b0)) * T0.body[1] + jitter;
+  return `--d:${delay.toFixed(0)}ms;${sweep}`;
+};
 const ms = (n: number) => `--t:${n}ms`;
 const versions = Array.from({ length: model.versions }, (_, i) => `v${i + 1}`);
 ---
@@ -82,21 +119,27 @@ const versions = Array.from({ length: model.versions }, (_, i) => `v${i + 1}`);
         <div class="mock-phases">
           {phases.map((p) => (
             <span class="mock-phase" style={`--t:${p.from}ms;--len:${p.to - p.from}ms`}>
-              <AgentMark motion={p.motion} size={16} />{p.label}…
+              <AgentMark motion={p.motion} size={16} />
+              <span>{p.label}…{p.lines && <span class="mock-lines" style={`--lines-to:${p.lines};--len:${p.to - p.from}ms`} data-unit={` ${mock.linesUnit}`}></span>}</span>
             </span>
           ))}
         </div>
       </div>
       <div class="mock-view">
         <div class="ref-stage">
-          <svg viewBox={`0 0 ${W} ${H}`} class="mock-model mock-solid" role="img" aria-label={t.label} style={`--edges:${T0.edges}ms;--faces:${T0.faces}ms`}>
-            {tris.map((f) => f.edge
-              ? <path d={d(f.xy)} class="face" style={`fill:${f.fill};stroke:${edge}`} pathLength="1" />
-              : <path d={d(f.xy)} class="face face-smooth" style={`fill:${f.fill};stroke:${f.fill}`} pathLength="1" />)}
+          <svg viewBox={`0 0 ${W} ${H}`} class="mock-model mock-solid" role="img" aria-label={t.label}>
+            {tris.map((f, i) => {
+              const kind = ['face', f.edge ? '' : 'face-smooth', f.region.startsWith('leaf') ? 'leaf' : ''].filter(Boolean).join(' ');
+              return <path d={d(f.xy)} class={kind} style={`fill:${f.fill};stroke:${f.edge ? edge : f.fill};${timing(f, i)}`} pathLength="1" />;
+            })}
           </svg>
           <div class="viewer" data-viewer tabindex="0" role="application" aria-label={t.viewerLabel}></div>
         </div>
         <span class="viewer-hint" aria-hidden="true">{t.viewerHint}</span>
+        <button type="button" class="replay" data-replay aria-label={t.replayLabel}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7" /><path d="M3 4v5h5" /></svg>
+          {t.replay}
+        </button>
         <span class="mock-size seq" aria-hidden="true" style={ms(T0.reply)}>{part.size.join(' × ')} mm</span>
         <div class="mock-versions seq" style={ms(T0.note)} aria-hidden="true">
           <span>{mock.versions}</span>{versions.map((v, i) => <b class={i === versions.length - 1 ? 'is-current' : undefined}>{v}</b>)}
@@ -107,51 +150,74 @@ const versions = Array.from({ length: model.versions }, (_, i) => `v${i + 1}`);
 </figure>
 
 <script>
-  // Desktop only; phones, tablets, no WebGL, no JavaScript and crawlers keep the drawing.
+  // The turn plays from CSS when the section scrolls in. Here: a replay control everywhere, and on
+  // desktop only (phones, tablets, no WebGL, no JavaScript and crawlers keep the drawing) the 3D
+  // viewer, swapped in once the build has finished.
   const fig = document.querySelector<HTMLElement>('.mock-ref');
   const host = fig?.querySelector<HTMLElement>('[data-viewer]');
+  const END = 5000; // matches T0.end in the frontmatter
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const desktop = matchMedia('(hover: hover) and (pointer: fine) and (min-width: 1024px)').matches;
   const webgl = () => {
     try {
-      const c = document.createElement('canvas');
-      return !!c.getContext('webgl2'); // the viewer's shader needs WebGL 2
+      return !!document.createElement('canvas').getContext('webgl2'); // the viewer's shader needs WebGL 2
     } catch {
       return false;
     }
   };
-  // Resolves once the section has scrolled in and its drawn turn has had time to play.
-  const played = (el: Element, wait: number) =>
+  const revealed = (el: Element) =>
     new Promise<void>((done) => {
-      const go = () => setTimeout(done, wait);
-      if (el.classList.contains('is-in')) return go();
+      if (el.classList.contains('is-in')) return done();
       const mo = new MutationObserver(() => {
         if (el.classList.contains('is-in')) {
           mo.disconnect();
-          go();
+          done();
         }
       });
       mo.observe(el, { attributes: true, attributeFilter: ['class'] });
     });
+
+  let viewer: { render: () => void; reset: () => void } | null = null;
+  let swapTimer = 0;
+  const swapIn = () => {
+    if (!fig || !viewer) return;
+    // The canvas draws the drawing's exact frame on top of it; only once that frame is on screen
+    // does the drawing go, so there is never a moment without the model.
+    viewer.render();
+    fig.classList.add('has-viewer');
+    requestAnimationFrame(() => requestAnimationFrame(() => fig.classList.add('viewer-only')));
+    fig.querySelector('.mock-solid')?.setAttribute('aria-hidden', 'true');
+  };
+
+  fig?.querySelector('[data-replay]')?.addEventListener('click', () => {
+    clearTimeout(swapTimer);
+    viewer?.reset();
+    fig.classList.remove('has-viewer', 'viewer-only');
+    fig.querySelector('.mock-solid')?.removeAttribute('aria-hidden');
+    // Restart every one-off animation of the turn; the Agent marks' loops keep running
+    for (const a of fig.getAnimations({ subtree: true })) {
+      if (a.effect?.getTiming().iterations === Infinity) continue;
+      a.cancel();
+      a.play();
+    }
+    if (viewer) swapTimer = window.setTimeout(swapIn, END);
+  });
 
   if (fig && host && desktop && webgl()) {
     const io = new IntersectionObserver(
       async (entries) => {
         if (!entries.some((e) => e.isIntersecting)) return;
         io.disconnect();
-        const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
         try {
           const { mountViewer } = await import('../lib/viewer');
           host.classList.add('is-mounted');
-          const [viewer] = await Promise.all([
+          const wrapper = fig.closest('[data-reveal]') ?? fig;
+          const [mounted] = await Promise.all([
             mountViewer(host, { url: '/ref/mandarin.glb', color: fig.dataset.color ?? '#f58220', reducedMotion }),
-            played(fig.closest('[data-reveal]') ?? fig, reducedMotion ? 0 : 3000),
+            revealed(wrapper),
           ]);
-          // The canvas draws the drawing's exact frame on top of it; only once that frame is on
-          // screen does the drawing go, so there is never a moment without the model.
-          viewer.render();
-          fig.classList.add('has-viewer');
-          requestAnimationFrame(() => requestAnimationFrame(() => fig.classList.add('viewer-only')));
-          fig.querySelector('.mock-solid')?.setAttribute('aria-hidden', 'true');
+          viewer = mounted;
+          swapTimer = window.setTimeout(swapIn, reducedMotion ? 0 : END);
         } catch {
           host.classList.remove('is-mounted'); // keep the drawing
         }

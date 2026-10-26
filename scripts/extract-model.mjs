@@ -21,5 +21,7 @@ const parts = tab.agentModel.geometry.parts.map((p) => ({
     return tris;
   }),
 }));
-writeFileSync(out, JSON.stringify({ versions: tab.snapshots.length, parts }) + '\n');
+// codeLines: length of the current version's build123d code, shown ticking up in the demo
+const codeLines = tab.agentModel.code.split('\n').length;
+writeFileSync(out, JSON.stringify({ versions: tab.snapshots.length, codeLines, parts }) + '\n');
 console.log(`Wrote ${out}: ${parts.map((p) => p.faces.length).join('+')} triangles, ${tab.snapshots.length} versions`);

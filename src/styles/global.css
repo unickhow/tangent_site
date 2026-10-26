@@ -422,6 +422,7 @@ h3 { font-size: 1.08rem; letter-spacing: -0.012em; line-height: 1.3; }
   /* The reference demo reads input first: the picture, then the model made from it. */
   .mock-ref .mock-view { order: 1; }
   .mock-size { top: 16px; bottom: auto; }
+  .mock-ref .replay { left: auto; right: 14px; }
   .mock-ref .mock-chat { border-top: 0; border-bottom: 1px solid var(--line); }
 }
 
@@ -478,6 +479,34 @@ h3 { font-size: 1.08rem; letter-spacing: -0.012em; line-height: 1.3; }
 @keyframes edges { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @keyframes faces { from { fill-opacity: 0; } to { fill-opacity: 1; } }
 @keyframes fade { from { opacity: 0; } }
+
+/* The reference demo's build (RefMock.astro): each facet draws its edges, then fills, at its own
+   --d (bottom first); the stem follows; each leaf unfolds from where it meets the stem like the
+   launch's leaves; then one light passes across (--s). Without JS or with reduced motion: finished. */
+.js .is-in .mock-ref .mock-model .face {
+  stroke-dasharray: 1;
+  animation: edges 320ms cubic-bezier(0.33, 1, 0.68, 1) var(--d) both, faces 280ms linear calc(var(--d) + 220ms) both, sweep 380ms ease-in-out var(--s);
+}
+.js .is-in .mock-ref .mock-model .face.leaf {
+  stroke-dasharray: none;
+  transform-box: view-box;
+  transform-origin: var(--o);
+  animation: leaf-in 500ms cubic-bezier(0.3, 0.9, 0.4, 1) var(--d) both, sweep 380ms ease-in-out var(--s);
+}
+/* The code's line count ticking up while the Agent writes, as the app shows "· N lines" */
+@property --lines { syntax: '<integer>'; inherits: false; initial-value: 0; }
+.mock-lines { --lines: var(--lines-to); counter-reset: lines var(--lines); font-family: var(--mono); color: var(--fg-muted); font-weight: 400; }
+.mock-lines::after { content: ' · ' counter(lines) attr(data-unit); white-space: pre; }
+.js .is-in .mock-ref .mock-lines { animation: lines-tick var(--len) cubic-bezier(0.3, 0.6, 0.4, 1) var(--t) both; }
+@keyframes lines-tick { from { --lines: 0; } to { --lines: var(--lines-to); } }
+.replay {
+  display: none; position: absolute; left: 14px; top: 14px; align-items: center; gap: 6px;
+  min-height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface);
+  font: inherit; font-size: 0.75rem; color: var(--fg-muted); cursor: pointer;
+}
+.replay:hover { color: var(--fg); border-color: var(--line-strong); }
+.js .mock-ref .replay { display: inline-flex; }
+@media (prefers-reduced-motion: reduce) { .js .mock-ref .replay { display: none; } }
 
 /* The Agent's working mark (tangent BrandMark, CSS from tangent/src/index.css) */
 .brand-mark-think path { animation: brand-think 2.6s ease-in-out infinite; }

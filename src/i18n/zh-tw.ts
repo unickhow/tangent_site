@@ -48,6 +48,7 @@ export const zhTW: Dict = {
     chip: '頂面',
     user2After: '改成 3 mm 厚',
     phases: ['思考', '撰寫說明與程式', '執行 build123d 建模'],
+    linesUnit: '行',
     versions: '歷史',
     dims: '90 mm',
   },
@@ -117,6 +118,8 @@ export const zhTW: Dict = {
     note: 'v2–v6 在對話中修改：面片不規則、輪廓更圓、一體成形列印、加強蒂頭與葉子',
     viewerLabel: '橘子的 3D 模型。拖曳或使用方向鍵旋轉。',
     viewerHint: '拖曳旋轉',
+    replay: '重播',
+    replayLabel: '重播建模過程',
   },
   sources: {
     kicker: 'Agent 來源',
