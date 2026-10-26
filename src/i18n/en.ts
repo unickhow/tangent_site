@@ -8,7 +8,7 @@ export const en = {
   meta: {
     title: 'Tangent — Describe a part, get a real CAD model',
     description:
-      'Tangent is a macOS app where you describe a part in chat and an AI Agent builds a real, measurable solid model with build123d. Edit it by conversation, then export STEP or STL, or open it in Bambu Studio.',
+      'Tangent is a macOS app where you describe a part in chat and an AI Agent builds an exact, measurable solid model. Change it by talking, then export STEP or STL, or open it in Bambu Studio.',
     ogAlt: 'The Tangent mandarin icon next to the words: Describe a part, get a real CAD model.',
   },
   skip: 'Skip to content',
@@ -16,8 +16,8 @@ export const en = {
     label: 'Main',
     how: 'How it works',
     features: 'Features',
+    examples: 'Examples',
     sources: 'Model sources',
-    export: 'Export',
     home: 'Tangent home',
   },
   lang_switch: { label: '中文', aria: '切換為繁體中文', target: 'zh-tw' },
@@ -31,7 +31,7 @@ export const en = {
   intro: {
     kicker: 'Why Tangent',
     title: 'From a sentence to a part you can measure',
-    body: 'Modeling even a simple bracket usually means learning a CAD package first, and a generated shape without real dimensions isn’t a part you can make. With Tangent you say what you need, the Agent writes build123d code, and you get a real solid you can check, change and send to a printer or a machine shop.',
+    body: 'A simple bracket shouldn’t need a CAD course, and a shape without real dimensions isn’t a part. Say what you need; you get an exact solid you can measure, change and send to a printer or a shop.',
   },
   mock: {
     label: 'Tangent showing a conversation next to the 3D model it built',
@@ -45,7 +45,7 @@ export const en = {
     user2Before: 'Make',
     chip: 'Top face',
     user2After: '3 mm thick',
-    building: 'Building…',
+    phases: ['Thinking', 'Writing the reply and code', 'Building with build123d'],
     versions: 'History',
     dims: '90 mm',
   },
@@ -55,15 +55,15 @@ export const en = {
     steps: [
       {
         title: 'Describe it',
-        body: 'Write what you need. Add images, PDFs, text files or links. An SVG goes in as a picture and as its source, so the Agent can model from the exact paths.',
+        body: 'Write what you need. Attach images, PDFs, text files or links if they help.',
       },
       {
         title: 'The Agent models it',
-        body: 'It replies with a short explanation and build123d code. Tangent runs the code in a sandbox and shows the solid. If the build fails, the error goes back to the Agent for up to two fixes.',
+        body: 'It writes build123d code, Tangent runs it in a sandbox on your Mac, and the solid appears. Build errors go back to the Agent to fix.',
       },
       {
         title: 'Refine and export',
-        body: 'Keep talking to change it. Every result becomes a version you can restore, branch or compare. When it’s right, export it or send it to Bambu Studio.',
+        body: 'Keep talking to change it. Each result is a version. Export when it’s right.',
       },
     ],
   },
@@ -74,53 +74,66 @@ export const en = {
       {
         icon: 'select',
         title: 'Point at geometry',
-        body: 'Select faces, edges, vertices or whole parts and add them to the message with ⌘L. Each one becomes a chip inside your sentence, with its position, normal and size sent along.',
+        body: 'Select faces, edges or parts and press ⌘L. They land in your sentence as chips, with position and size attached.',
       },
       {
         icon: 'versions',
         title: 'Every result is a version',
-        body: 'History keeps each version. Restore one, branch from it, or overlay the previous version to compare.',
+        body: 'Restore any version, branch from it, or compare it with the last one.',
       },
       {
         icon: 'options',
         title: 'Questions with options',
-        body: 'When a choice changes the design, the Agent asks, with two to four options you can pick in one click.',
+        body: 'When a choice matters, the Agent asks and offers options you pick in one click.',
       },
       {
         icon: 'pin',
         title: 'Annotations that stay',
-        body: 'Pin notes (P1, P2…) to the model. They stay until you delete them, and the Agent acts on one when you refer to it.',
+        body: 'Pin notes to the model. The Agent acts on one when you mention it.',
       },
       {
         icon: 'measure',
         title: 'Measure and inspect',
-        body: 'Measure, section, x-ray, the view cube and focus work on any model, including the examples.',
+        body: 'Measure, section, x-ray and focus on any model.',
       },
       {
         icon: 'book',
         title: 'CAD knowledge built in',
-        body: 'Every model source gets the same bundled build123d modeling knowledge, whatever you have installed.',
+        body: 'Every model source gets the same bundled modeling knowledge.',
       },
     ],
+  },
+  reference: {
+    kicker: 'Reference images',
+    title: 'Start from a picture',
+    body: 'Attach an image and say what you want. An SVG also sends its exact paths.',
+    label: 'A Tangent project: the app icon attached in the conversation, and the solid mandarin modeled from it',
+    project: 'Tangent icon model',
+    file: 'app-icon-light.png',
+    user: 'Make a model of this shape, about 7 cm on each side',
+    agent: 'I modeled the faceted orange with a short stem and two angular leaves.',
+    note: 'v2–v6, in conversation: irregular facets, a rounder outline, one printable piece, sturdier stem and leaves',
+    viewerLabel: 'The mandarin model in 3D. Drag, or use the arrow keys, to turn it.',
+    viewerHint: 'Drag to rotate',
   },
   sources: {
     kicker: 'Model sources',
     title: 'Use the model you already have',
-    body: 'Pick the model, and the options its source supports such as effort, verbosity or thinking, from the menu next to the message box.',
+    body: 'Pick a model and its options from the menu next to the message box.',
     groups: [
       { title: 'Local CLIs', items: ['Claude Code', 'Codex'] },
       { title: 'Local servers', items: ['Ollama', 'LM Studio'] },
       { title: 'Cloud APIs', items: ['OpenAI', 'Anthropic', 'Gemini', 'OpenRouter', 'Any OpenAI-compatible service'] },
     ],
     trust: [
-      { title: 'Keys stay in your Keychain', body: 'API keys are saved in the macOS Keychain and never handed back to the interface.' },
-      { title: 'Model code runs sandboxed', body: 'The Agent’s code can import only build123d and math, and runs in a sandbox on your Mac.' },
+      { title: 'Keys stay in your Keychain', body: 'API keys live in the macOS Keychain.' },
+      { title: 'Model code runs sandboxed', body: 'The Agent’s code runs in a sandbox on your Mac.' },
     ],
   },
   examples: {
     kicker: 'Examples',
     title: 'Open a real model and keep going',
-    body: 'Three examples open from the home screen as ordinary models, so you can select, measure and edit them with the Agent.',
+    body: 'Open one from the home screen and edit it with the Agent.',
     items: [
       { id: 'pi', title: 'Raspberry Pi 5 cooling case', detail: 'Three-piece CNC aluminum, with a reference board' },
       { id: 'fpv', title: 'Carbon quadcopter frame', detail: '5-inch, 220 mm wheelbase, with motors and FC' },
@@ -134,21 +147,20 @@ export const en = {
     items: [
       { name: 'STEP', body: 'For CAD tools and machine shops.' },
       { name: 'STL', body: 'For any slicer.' },
-      { name: 'build123d code', body: 'The Python that builds the model.' },
+      { name: 'build123d code', body: 'The Python behind the model.' },
       { name: 'Project', body: 'The whole project as JSON.' },
       {
         name: 'Open in Bambu Studio',
-        body: 'A 3MF with one closed object per printable part. Reference parts stay out and oversized parts are flagged.',
+        body: 'One object per printable part. Oversized parts are flagged.',
       },
     ],
   },
   final: {
     title: 'Start with a sentence',
-    body: 'Tangent runs on macOS, in English and Traditional Chinese, and the Agent replies in the language you choose.',
+    body: 'For macOS, in English and Traditional Chinese.',
   },
   footer: {
     language: 'Language',
-    note: 'Models are built with build123d.',
   },
 };
 

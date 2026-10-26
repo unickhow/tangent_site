@@ -1,6 +1,10 @@
 ---
 // A drawn (not screenshotted) impression of the app: conversation on the left, the model on the right.
+// When it scrolls into view it plays one Agent turn once, with the app's own motions: the mark
+// thinks, writes and builds, then the model draws its edges and fades in its faces (Viewport3D's
+// entrance). Each step's start is `--t`; without JS or with reduced motion it shows the end state.
 import Mark from './Mark.astro';
+import AgentMark from './AgentMark.astro';
 import { iso, isoBox, isoCircle, poly, viewBox, type Pt } from '../lib/draw';
 import type { Dict } from '../i18n/en';
 
@@ -9,14 +13,23 @@ const { t } = Astro.props;
 
 // The 90 × 60 × 28 mm enclosure from the conversation, lid seam 6 mm below the top.
 const L = 90, W = 60, H = 28, seam = H - 6;
-const body = isoBox(0, 0, 0, L, W, seam);
-const lid = isoBox(0, 0, seam, L, W, H);
+const faces = [...isoBox(0, 0, 0, L, W, seam), ...isoBox(0, 0, seam, L, W, H)];
+const top = faces[faces.length - 1];
 const holes = [[6, 6], [L - 6, 6], [L - 6, W - 6], [6, W - 6]].map(([x, y]) => isoCircle(x, y, H, 2.2));
 const dimY = W + 12;
 const d0 = iso(0, dimY, 0), d1 = iso(L, dimY, 0);
 const ext = [poly([iso(0, W + 2, 0), iso(0, dimY + 3, 0)]), poly([iso(L, W + 2, 0), iso(L, dimY + 3, 0)])];
 const mid: Pt = iso(L / 2, dimY + 5, 0);
 const vb = viewBox([iso(0, 0, H), iso(L, 0, 0), iso(0, W, 0), iso(L, W, 0), iso(0, dimY + 8, 0), iso(L, dimY + 8, 0)], 10);
+
+// One turn, in ms after the window scrolls in. Phase lengths follow the order the app shows them.
+const T = { user1: 200, think: 500, write: 1300, reply: 1500, build: 2300, edges: 2400, faces: 2660, version: 3000, ask: 3300, pick: 4000, select: 4500, user2: 4900 };
+const phases = [
+  { motion: 'think' as const, from: T.think, to: T.write, label: t.phases[0] },
+  { motion: 'write' as const, from: T.write, to: T.build, label: t.phases[1] },
+  { motion: 'build' as const, from: T.build, to: T.version + 200, label: t.phases[2] },
+];
+const at = (ms: number) => `--t:${ms}ms`;
 ---
 <figure class="mock" aria-label={t.label} role="img">
   <div class="mock-window">
@@ -27,28 +40,38 @@ const vb = viewBox([iso(0, 0, H), iso(L, 0, 0), iso(0, W, 0), iso(L, W, 0), iso(
     <div class="mock-body" aria-hidden="true">
       <div class="mock-chat">
         <p class="mock-title">{t.conversation}</p>
-        <div class="msg msg-user">{t.user1}</div>
+        <div class="msg msg-user seq" style={at(T.user1)}>{t.user1}</div>
         <div class="msg msg-agent">
-          <Mark size={18} class="msg-avatar" />
+          <Mark size={18} class="msg-avatar seq" style={at(T.reply)} />
           <div>
-            <p>{t.agent1}</p>
-            <p class="msg-q">{t.question}</p>
-            <div class="msg-options"><span class="opt is-picked">{t.optionA}</span><span class="opt">{t.optionB}</span></div>
+            <p class="seq" style={at(T.reply)}>{t.agent1}</p>
+            <p class="msg-q seq" style={at(T.ask)}>{t.question}</p>
+            <div class="msg-options seq" style={at(T.ask)}>
+              <span class="opt opt-pick" style={at(T.pick)}>{t.optionA}</span><span class="opt">{t.optionB}</span>
+            </div>
           </div>
         </div>
-        <div class="msg msg-user">{t.user2Before} <span class="chip">@{t.chip}</span> {t.user2After}</div>
-        <div class="msg-status"><Mark size={14} class="pulse" />{t.building}</div>
+        <div class="msg msg-user seq" style={at(T.user2)}>{t.user2Before} <span class="chip">@{t.chip}</span> {t.user2After}</div>
+        <div class="mock-phases">
+          {phases.map((p) => (
+            <span class="mock-phase" style={`--t:${p.from}ms;--len:${p.to - p.from}ms`}>
+              <AgentMark motion={p.motion} size={16} />{p.label}…
+            </span>
+          ))}
+        </div>
       </div>
       <div class="mock-view">
-        <svg viewBox={vb} class="mock-model">
-          {body.map((f) => <path d={f.d} class={`face face-${f.kind}`} />)}
-          {lid.map((f) => <path d={f.d} class={`face face-${f.kind}${f.kind === 'top' ? ' is-selected' : ''}`} />)}
+        <svg viewBox={vb} class="mock-model" style={`--edges:${T.edges}ms;--faces:${T.faces}ms`}>
+          {faces.map((f) => <path d={f.d} class={`face face-${f.kind}`} pathLength="1" />)}
+          <path d={top.d} class="face-selected seq" style={at(T.select)} />
           {holes.map((d) => <path d={d} class="hole" />)}
-          <path d={poly([d0, d1])} class="dim" />
-          {ext.map((d) => <path d={d} class="dim dim-ext" />)}
-          <text x={mid[0]} y={mid[1]} class="dim-label" transform={`rotate(30 ${mid[0]} ${mid[1]})`} text-anchor="middle">{t.dims}</text>
+          <g class="dims">
+            <path d={poly([d0, d1])} class="dim" />
+            {ext.map((d) => <path d={d} class="dim dim-ext" />)}
+            <text x={mid[0]} y={mid[1]} class="dim-label" transform={`rotate(30 ${mid[0]} ${mid[1]})`} text-anchor="middle">{t.dims}</text>
+          </g>
         </svg>
-        <div class="mock-versions"><span>{t.versions}</span><b>v1</b><b>v2</b><b class="is-current">v3</b></div>
+        <div class="mock-versions seq" style={at(T.version)}><span>{t.versions}</span><b>v1</b><b>v2</b><b class="is-current">v3</b></div>
       </div>
     </div>
   </div>

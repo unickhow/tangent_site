@@ -30,7 +30,7 @@ for (const [locale, c] of Object.entries(cards)) {
   <text x="470" y="250" font-family="Helvetica Neue, Helvetica, Arial" font-weight="700" font-size="120" letter-spacing="-6" fill="#2A1408">Tangent</text>
   <text x="474" y="350" font-family="${c.font}" font-size="50" fill="#2A1408">${c.line1}</text>
   <text x="474" y="414" font-family="${c.font}" font-size="50" fill="#2A1408">${c.line2}</text>
-  <text x="476" y="490" font-family="Menlo, monospace" font-size="22" letter-spacing="3" fill="#6B3A17">macOS · build123d</text>
+  <text x="476" y="490" font-family="Menlo, monospace" font-size="22" letter-spacing="3" fill="#6B3A17">macOS</text>
 </svg>`;
   render(svg, new URL(`../public/og-${locale}.png`, import.meta.url).pathname, 1200, 630);
 }

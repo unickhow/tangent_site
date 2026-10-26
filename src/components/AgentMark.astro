@@ -1,0 +1,26 @@
+---
+// The Agent's working mark (tangent/src/components/BrandMark.tsx): think — a light sweeps left to
+// right; write — facets light in reading order; build — outline drawn, then faces filled.
+import { MARK_FACETS, MARK_VIEWBOX } from './brandMarkFacets';
+type Motion = 'think' | 'write' | 'build';
+interface Props { motion: Motion; size?: number; class?: string }
+const { motion, size = 16, class: className } = Astro.props;
+
+const [VX, VY, VW, VH] = MARK_VIEWBOX.split(' ').map(Number);
+const centres = MARK_FACETS.map(([d]) => {
+  const n = (d.match(/-?[\d.]+/g) ?? []).map(Number);
+  const xs = n.filter((_, i) => i % 2 === 0), ys = n.filter((_, i) => i % 2 === 1);
+  return [xs.reduce((a, b) => a + b, 0) / xs.length, ys.reduce((a, b) => a + b, 0) / ys.length];
+});
+const delay: Record<Motion, (i: number) => number> = {
+  think: (i) => ((centres[i][0] - VX) / VW) * 1.2,
+  write: (i) => ((centres[i][1] - VY) / VH) * 0.9 + ((centres[i][0] - VX) / VW) * 0.5,
+  build: (i) => ((centres[i][1] - VY) / VH) * 0.5,
+};
+---
+<svg class:list={[`brand-mark-${motion}`, className]} width={size} height={size} viewBox={MARK_VIEWBOX} aria-hidden="true" focusable="false">
+  {MARK_FACETS.map(([d, fill], i) => (
+    <path d={d} fill={fill} stroke={fill} stroke-width={motion === 'build' ? 1.2 : 0.6} stroke-linejoin="round"
+      pathLength={motion === 'build' ? 1 : undefined} style={`animation-delay:${delay[motion](i).toFixed(2)}s`} />
+  ))}
+</svg>

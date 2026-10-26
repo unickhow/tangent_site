@@ -56,3 +56,4 @@ export function gear(cx: number, cy: number, teeth: number, module: number, phas
 export function circle(cx: number, cy: number, r: number) {
   return `M${cx - r} ${cy}a${r} ${r} 0 1 0 ${2 * r} 0a${r} ${r} 0 1 0 ${-2 * r} 0Z`;
 }
+

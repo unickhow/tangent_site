@@ -20,6 +20,9 @@ importers:
       astro:
         specifier: 6.4.8
         version: 6.4.8(@types/node@24.19.2)(lightningcss@1.33.0)(rollup@4.65.0)(yaml@2.9.1)
+      three:
+        specifier: 0.173.0
+        version: 0.173.0
 
 packages:
 
@@ -1291,6 +1294,9 @@ packages:
     resolution: {integrity: sha512-bkxnTg1kSU0guhIBmibA6UUhrQmPVA1XsQLN+ylCd+UWzbnLkySOcXpyk1mrl05f+pcaCx2eHb+sp6BgMZWX+Q==}
     engines: {node: '>=16'}
     hasBin: true
+
+  three@0.173.0:
+    resolution: {integrity: sha512-AUwVmViIEUgBwxJJ7stnF0NkPpZxx1aZ6WiAbQ/Qq61h6I9UR4grXtZDmO8mnlaNORhHnIBlXJ1uBxILEKuVyw==}
 
   tiny-inflate@1.0.3:
     resolution: {integrity: sha512-pkY1fj1cKHb2seWDy0B16HeWyczlJA9/WW3u3c4z/NiWDsO3DOU5D7nhTLE9CF0yXv/QZFY7sEJmj24dK+Rrqw==}
@@ -3034,6 +3040,8 @@ snapshots:
       csso: 5.0.5
       picocolors: 1.1.1
       sax: 1.6.1
+
+  three@0.173.0: {}
 
   tiny-inflate@1.0.3: {}
 

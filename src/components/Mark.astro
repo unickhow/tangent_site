@@ -1,9 +1,9 @@
 ---
 // The low-poly mandarin, from the app's generated facets (tangent/src/components/brandMarkFacets.ts).
 import { MARK_FACETS, MARK_VIEWBOX } from './brandMarkFacets';
-interface Props { size?: number; class?: string }
-const { size = 32, class: className } = Astro.props;
+interface Props { size?: number; class?: string; style?: string }
+const { size = 32, class: className, style } = Astro.props;
 ---
-<svg class={className} width={size} height={size} viewBox={MARK_VIEWBOX} aria-hidden="true" focusable="false">
+<svg class={className} style={style} width={size} height={size} viewBox={MARK_VIEWBOX} aria-hidden="true" focusable="false">
   {MARK_FACETS.map(([d, fill]) => <path d={d} fill={fill} stroke={fill} stroke-width="0.4" stroke-linejoin="round" />)}
 </svg>

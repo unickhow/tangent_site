@@ -51,7 +51,7 @@ if (id === 'pi') {
 }
 ---
 <svg class="art" viewBox={vb} role="img" aria-label={label}>
-  {faces.map((f) => <path d={f.d} class={`face face-${f.kind}`} />)}
-  {lines.map((d) => <path d={d} class="line" />)}
-  {accents.map((d) => <path d={d} class="line line-accent" />)}
+  {faces.map((f) => <path d={f.d} class={`face face-${f.kind}`} pathLength="1" />)}
+  {lines.map((d) => <path d={d} class="line" pathLength="1" />)}
+  {accents.map((d) => <path d={d} class="line line-accent" pathLength="1" />)}
 </svg>

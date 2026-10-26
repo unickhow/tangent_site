@@ -58,15 +58,41 @@ taglines, pricing, release dates, stats or testimonials the owner hasn't defined
 astro.config.mjs        site URL placeholder, sitemap with hreflang alternates
 src/pages/              index.astro (en), zh-tw/index.astro, robots.txt.ts
 src/layouts/Base.astro  <head>: title, description, canonical, hreflang, OG, Twitter, JSON-LD
-src/components/         Home (all sections), MockApp (drawn app window), ExampleArt (line drawings),
-                        Mark (mandarin logo), Icon, DownloadButton
+src/components/         Home (all sections), MockApp (drawn app window playing one Agent turn),
+                        RefMock (a real reference-image project and its model),
+                        ExampleArt (line drawings), LaunchMark (the app's launch), AgentMark (the Agent's
+                        think / write / build motions), Mark (mandarin logo), Icon, DownloadButton
 src/components/brandMarkFacets.ts   copied from tangent/src/components/ (generated there; recopy if the mark changes)
 src/lib/draw.ts         isometric and gear geometry for the drawings
+src/lib/viewer.ts       desktop-only three.js viewer for the reference-image model (lazy chunk)
+src/lib/refView.ts      camera, lighting and edges shared by the drawing and the viewer
+src/data/mandarin.json  the reference project's final mesh; public/ref/mandarin.glb is built from it
 src/styles/global.css   tokens (light and dark), layout, motion
-scripts/                og.mjs (social images), check-dist.mjs (built-output checks)
+scripts/                og.mjs (social images), check-dist.mjs (built-output checks),
+                        extract-model.mjs (mesh out of a saved project), make-glb.mjs (mesh → GLB)
 ```
 
 Design follows the app: neutral page, apricot and brown from the icon tiles for brand moments,
 orange only for the Agent and the brand, blue-violet only for "you selected this". Light and dark
-follow the system. Motion is limited to the hero (facets drifting, the name coming into focus) and
-fade-ins; `prefers-reduced-motion` turns all of it off.
+follow the system.
+
+Motion is ported from the app, with its timings, and each one shows something real:
+
+- **Hero:** the launch from `LaunchScreen.tsx`. Facets fold in, the leaves unfold, one light
+  passes, then the name appears. It is pure CSS, so it runs without JavaScript.
+- **App window:** when it scrolls in, it plays one Agent turn once. The mark thinks, writes and
+  builds (`BrandMark`), then the model draws its edges and fades in its faces
+  (`Viewport3D` `playEntrance`).
+- **Reference images:** a real project: the light icon attached with a request, then the final
+  mesh of that model (`src/data/mandarin.json`, copied by `scripts/extract-model.mjs`) drawing in.
+- **Reference model on desktop:** with a fine pointer that hovers, WebGL and a window at least
+  1024 px wide, a three.js viewer loads as the section nears the screen and fades in over the
+  drawing once its turn has played. The drawing is projected at build time through the viewer's
+  own camera and shading (`src/lib/refView.ts`), so the viewer's first frame matches it and the
+  swap is a hard cut, not a fade. Drag or the arrow keys turn it (light inertia, none under
+  reduced motion); the wheel keeps scrolling the page. Everywhere else the drawing stays.
+- **Examples:** each drawing traces its outline as it appears, like opening an example in the app.
+- **Closing mark:** one light pass.
+
+Nothing loops for decoration. Without JavaScript, or with `prefers-reduced-motion`, every piece
+shows its finished state.
