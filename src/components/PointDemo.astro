@@ -1,0 +1,52 @@
+---
+// Selection, shown on the enclosure from the opening mock: the pointer clicks one of the lid's four
+// holes, the hole joins the message as a chip (the app's label for a hole face), the Agent builds,
+// and only that hole gets larger while the other three stay as they were. Plays once when it
+// scrolls in; without JS or with reduced motion it shows the finished state. An illustration.
+import AgentMark from './AgentMark.astro';
+import { iso, isoBox, isoCircle, viewBox } from '../lib/draw';
+import type { Dict } from '../i18n/en';
+
+interface Props { t: Dict['point'] }
+const { t } = Astro.props;
+
+const L = 90, W = 60, H = 28, seam = H - 6;
+const faces = [...isoBox(0, 0, 0, L, W, seam), ...isoBox(0, 0, seam, L, W, H)];
+const corners = [[6, 6], [L - 6, 6], [6, W - 6], [L - 6, W - 6]];
+const PICK = 3; // front right: nearest the viewer
+const holes = corners.map(([x, y]) => isoCircle(x, y, H, 2.2, 28));
+const [px, py] = iso(corners[PICK][0], corners[PICK][1], H);
+const vb = viewBox([iso(0, 0, H), iso(L, 0, 0), iso(0, W, 0), iso(L, W, 0)], 12);
+
+// ms after the section scrolls in
+const T = { cursor: 200, click: 1000, chip: 1250, text: 1450, send: 2050, build: 2200, grow: 2800, done: 3400 };
+const at = (ms: number) => `--t:${ms}ms`;
+---
+<figure class="point-demo" role="img" aria-label={t.label}>
+  <div class="point-stage" aria-hidden="true">
+    <svg viewBox={vb} class="point-model" style={`--g:${T.grow}ms`}>
+      {faces.map((f) => <path d={f.d} class={`face face-${f.kind}`} />)}
+      {holes.map((d, i) => (i === PICK
+        ? <path d={d} class="hole hole-picked" style={`transform-origin:${px.toFixed(2)}px ${py.toFixed(2)}px`} />
+        : <path d={d} class="hole" />))}
+      <path d={holes[PICK]} class="hole-selected" style={`${at(T.click)};transform-origin:${px.toFixed(2)}px ${py.toFixed(2)}px`} />
+      <circle cx={px} cy={py} r="4" class="click-ring" style={at(T.click)} />
+      <g class="pointer" style={at(T.cursor)}>
+        <path d="M0 0l0 9.5 2.6-2.5 1.8 4 1.6-.7-1.8-4 3.6-.2z" transform={`translate(${(px + 0.6).toFixed(2)} ${(py + 0.6).toFixed(2)})`} />
+      </g>
+    </svg>
+  </div>
+  <div class="point-composer" aria-hidden="true">
+    <p class="point-message">
+      <span class="seq" style={at(T.text)}>{t.before} </span><span class="chip seq" style={at(T.chip)}>@{t.chip}</span><span class="seq" style={at(T.text)}> {t.after}</span>
+    </p>
+    <span class="point-send" style={at(T.send)}>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5" /><path d="M5 12l7-7 7 7" /></svg>
+    </span>
+  </div>
+  <div class="mock-phases point-status" aria-hidden="true">
+    <span class="mock-phase" style={`--t:${T.build}ms;--len:${T.done - T.build}ms`}>
+      <AgentMark motion="build" size={16} />{t.building}…
+    </span>
+  </div>
+</figure>

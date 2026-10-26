@@ -10,8 +10,8 @@ const facets = [...src.matchAll(/\['([^']+)', '(#[0-9A-Fa-f]{6})'\]/g)].map((m) 
 const mark = facets.map(([d, f]) => `<path d="${d}" fill="${f}" stroke="${f}" stroke-width="0.4" stroke-linejoin="round"/>`).join('');
 
 const cards = {
-  en: { line1: 'Describe a part,', line2: 'get a real CAD model.', font: 'Helvetica Neue, Helvetica, Arial' },
-  'zh-tw': { line1: '描述零件，', line2: '得到真正的 CAD 模型。', font: 'PingFang TC, Heiti TC, sans-serif' },
+  en: { line1: 'Point at it.', line2: 'Tell it what to change.', font: 'Helvetica Neue, Helvetica, Arial' },
+  'zh-tw': { line1: '指給它看，', line2: '說要改什麼。', font: 'PingFang TC, Heiti TC, sans-serif' },
 };
 
 const tmp = mkdtempSync(join(tmpdir(), 'tangent-og-'));

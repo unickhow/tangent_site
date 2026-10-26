@@ -6,10 +6,10 @@ export const en = {
   ogLocale: 'en_US',
   path: '/',
   meta: {
-    title: 'Tangent — Describe a part, get a real CAD model',
+    title: 'Tangent — Point at a part and tell the Agent what to change',
     description:
-      'Tangent is a macOS app where you describe a part in chat and an AI Agent builds an exact, measurable solid model. Change it by talking, then export STEP or STL, or open it in Bambu Studio.',
-    ogAlt: 'The Tangent mandarin icon next to the words: Describe a part, get a real CAD model.',
+      'Tangent is a macOS CAD app where you click a face, edge or hole and tell an AI Agent what to change. Every result is an exact, measurable solid and a version you can compare or restore. Export STEP or STL, or open it in Bambu Studio.',
+    ogAlt: 'The Tangent mandarin icon next to the words: Point at it. Tell it what to change.',
   },
   skip: 'Skip to content',
   nav: {
@@ -18,20 +18,23 @@ export const en = {
     features: 'Features',
     examples: 'Examples',
     sources: 'Model sources',
+    pricing: 'Pricing',
     home: 'Tangent home',
   },
+  theme: { label: 'Theme', system: 'System', light: 'Light', dark: 'Dark' },
   lang_switch: { label: '中文', aria: '切換為繁體中文', target: 'zh-tw' },
-  download: 'Download for macOS',
+  // No download yet: every call to action points at the waitlist form in the pricing section
+  cta: 'Join the waitlist',
   hero: {
-    eyebrow: 'macOS app',
-    lede: 'Describe a part. Tangent builds a solid model with real dimensions you can measure and export to STEP.',
+    eyebrow: 'macOS app · in development',
+    lede: 'Click any face, edge or hole and say what to change. The Agent knows exactly which part you mean, and every result is a measurable CAD version you can compare or roll back.',
     secondary: 'See how it works',
     scroll: 'Scroll to the next section',
   },
   intro: {
     kicker: 'Why Tangent',
-    title: 'From a sentence to a part you can measure',
-    body: 'A simple bracket shouldn’t need a CAD course, and a shape without real dimensions isn’t a part. Say what you need; you get an exact solid you can measure, change and send to a printer or a shop.',
+    title: 'Getting a first model is easy. Changing the right part is not.',
+    body: 'The hard part is the tenth change: describing in words which edge you mean, then hoping it lands there. In Tangent you point at it instead. Every result is kept as a version, and it’s a real solid you can measure and export.',
   },
   mock: {
     label: 'Tangent showing a conversation next to the 3D model it built',
@@ -49,10 +52,11 @@ export const en = {
     linesUnit: 'lines',
     versions: 'History',
     dims: '90 mm',
+    caption: 'The “Top face” in the last message was clicked on the model, not described.',
   },
   how: {
     kicker: 'How it works',
-    title: 'Three steps, one conversation',
+    title: 'Start with a sentence, then point',
     steps: [
       {
         title: 'Describe it',
@@ -63,10 +67,23 @@ export const en = {
         body: 'It writes build123d code, Tangent runs it in a sandbox on your Mac, and the solid appears. Build errors go back to the Agent to fix.',
       },
       {
-        title: 'Refine and export',
-        body: 'Keep talking to change it. Each result is a version. Export when it’s right.',
+        title: 'Point and refine',
+        body: 'Click the part you want changed and say what to do. Each result is a version you can restore, branch or compare.',
       },
     ],
+  },
+  point: {
+    kicker: 'Selection',
+    title: 'Point at it instead of describing it',
+    body: 'Click a face, edge or hole on the model and it drops into your message. The Agent gets its exact position, normal and size, so it knows which part you mean without a paragraph explaining it.',
+    without: 'Instead of',
+    withoutText: '“the M3 hole in the front right corner of the lid, not the other three…”',
+    with: 'Just',
+    before: 'Make',
+    chip: 'Bore wall',
+    after: '1.5 mm larger',
+    label: 'Clicking one hole on an enclosure adds it to the message, and only that hole gets larger',
+    building: 'Building with build123d',
   },
   features: {
     kicker: 'Features',
@@ -75,7 +92,7 @@ export const en = {
       {
         icon: 'select',
         title: 'Point at geometry',
-        body: 'Select faces, edges or parts and press ⌘L. They land in your sentence as chips, with position and size attached.',
+        body: 'Click a face, edge or part and press ⌘L. It lands in your sentence, so the Agent knows exactly which one you mean.',
       },
       {
         icon: 'versions',
@@ -107,7 +124,7 @@ export const en = {
   reference: {
     kicker: 'Reference images',
     title: 'Start from a picture',
-    body: 'Attach an image and say what you want. An SVG also sends its exact paths.',
+    body: 'Attach an image for a first model, then refine it the same way: point and say what to change. An SVG also sends its exact paths.',
     label: 'A Tangent project: the app icon attached in the conversation, and the solid mandarin modeled from it',
     project: 'Tangent icon model',
     file: 'app-icon-light.png',
@@ -158,8 +175,29 @@ export const en = {
       },
     ],
   },
+  pricing: {
+    kicker: 'Pricing',
+    title: 'Try it free, then buy it once',
+    plans: [
+      { name: 'Free trial', price: 'Free', unit: 'for 72 hours', features: ['One project'] },
+      {
+        name: 'Tangent',
+        price: 'US$19',
+        unit: 'one-time purchase',
+        features: ['Full features', 'All 1.x updates included', 'The version you own keeps working'],
+      },
+    ],
+    disclaimer: 'Prices and plans may change before launch.',
+    waitlist: {
+      title: 'Tangent is still in development',
+      body: 'Join the waitlist to hear when it’s ready.',
+      button: 'Join the waitlist',
+      thanks: 'You’re on the list. We’ll email you when Tangent is ready.',
+      failed: 'The form opened in a new tab.',
+    },
+  },
   final: {
-    title: 'Start with a sentence',
+    title: 'Point. Then talk.',
     body: 'For macOS, in English and Traditional Chinese.',
   },
   footer: {

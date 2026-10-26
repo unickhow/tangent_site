@@ -25,9 +25,18 @@ pnpm og             # regenerate public/og-*.png and apple-touch-icon.png (needs
   `robots.txt` and `sitemap.xml` are built from `SITE_URL`, which falls back to the placeholder
   `https://example.com` (`astro.config.mjs`). Build with the real one:
   `SITE_URL=https://your-domain pnpm build`.
-- **Download.** Every Download button is a placeholder: a `<button data-placeholder="download">`
-  with no `href` and no handler (`src/components/DownloadButton.astro`). Replace it with a link once
-  a build is published. `pnpm check` fails if a placeholder gains an `href`, so update the check too.
+- **Waitlist.** The app is in development, so there is no download. Every call to action
+  ("Join the waitlist") points at the waitlist in the pricing section
+  (`src/components/Pricing.astro`), which is the owner's Tally form `Gee9QZ`
+  (`src/lib/waitlist.ts`). The button is a real link to `https://tally.so/r/Gee9QZ` (new tab,
+  works without JavaScript); with JavaScript it opens Tally's popup instead, loading Tally's
+  script only on click. The page language goes along as a hidden field `lang` (add a hidden field
+  with that name in Tally to record it). If the script can't load, the form opens in a new tab.
+  The form must be published in Tally, or the popup only shows a spinner. `pnpm check` verifies
+  the link and that Tally isn't loaded with the page.
+- **Pricing.** The plans (72-hour free trial with one project; US$19 one-time purchase with full
+  features and all 1.x updates) are the owner's, shown with a "may change before launch" note.
+  They aren't in the structured data, since nothing can be bought yet.
 
 ## Version control
 
@@ -59,9 +68,11 @@ astro.config.mjs        site URL placeholder, sitemap with hreflang alternates
 src/pages/              index.astro (en), zh-tw/index.astro, robots.txt.ts
 src/layouts/Base.astro  <head>: title, description, canonical, hreflang, OG, Twitter, JSON-LD
 src/components/         Home (all sections), MockApp (drawn app window playing one Agent turn),
+                        PointDemo (click one hole, it joins the message, only it changes),
                         RefMock (a real reference-image project and its model),
                         ExampleArt (line drawings), LaunchMark (the app's launch), AgentMark (the Agent's
-                        think / write / build motions), Mark (mandarin logo), Icon, DownloadButton
+                        think / write / build motions), Pricing (plans, disclaimer, waitlist form),
+                        ThemeSwitch (System / Light / Dark), Mark (mandarin logo), Icon
 src/components/brandMarkFacets.ts   copied from tangent/src/components/ (generated there; recopy if the mark changes)
 src/lib/draw.ts         isometric and gear geometry for the drawings
 src/lib/viewer.ts       desktop-only three.js viewer for the reference-image model (lazy chunk)
@@ -74,7 +85,10 @@ scripts/                og.mjs (social images), check-dist.mjs (built-output che
 
 Design follows the app: neutral page, apricot and brown from the icon tiles for brand moments,
 orange only for the Agent and the brand, blue-violet only for "you selected this". Light and dark
-follow the system.
+follow the system unless the visitor picks one in the header (System / Light / Dark,
+`ThemeSwitch.astro`). The choice is kept in `localStorage` (`tangent-theme`) and applied before
+first paint by the inline script in `Base.astro`'s `<head>`, which sets `data-theme` on `<html>`;
+the tokens in `global.css` let `[data-theme]` override `prefers-color-scheme`.
 
 Motion is ported from the app, with its timings, and each one shows something real:
 
@@ -94,6 +108,8 @@ Motion is ported from the app, with its timings, and each one shows something re
   own camera and shading (`src/lib/refView.ts`), so the viewer's first frame matches it and the
   swap is a hard cut, not a fade. Drag or the arrow keys turn it (light inertia, none under
   reduced motion); the wheel keeps scrolling the page. Everywhere else the drawing stays.
+- **Selection:** a pointer clicks one of the lid's holes, it joins the message as a chip, the
+  Agent builds, and only that hole gets larger. The app's own wording and labels.
 - **Examples:** each drawing traces its outline as it appears, like opening an example in the app.
 - **Closing mark:** one light pass.
 

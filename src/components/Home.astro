@@ -6,7 +6,9 @@ import MockApp from './MockApp.astro';
 import RefMock from './RefMock.astro';
 import ExampleArt from './ExampleArt.astro';
 import Icon from './Icon.astro';
-import DownloadButton from './DownloadButton.astro';
+import Pricing from './Pricing.astro';
+import ThemeSwitch from './ThemeSwitch.astro';
+import PointDemo from './PointDemo.astro';
 import { dicts, type Locale } from '../i18n';
 
 interface Props { locale: Locale }
@@ -14,13 +16,16 @@ const { locale } = Astro.props;
 const t = dicts[locale];
 const other = dicts[t.lang_switch.target as Locale];
 
-// Story order: the promise, the problem and a turn of the app, how it works, what you can do,
-// real examples, what comes out, what you need to run it, then the call to action.
+// Story order: the promise (pointing at what to change), the problem and a turn of the app,
+// pointing instead of describing (what sets Tangent apart), how it works, what you can do,
+// real examples, what comes out, what you need to run it, what it costs (as a waitlist while the
+// app is in development), then the call to action.
 const nav = [
   ['#how', t.nav.how],
   ['#features', t.nav.features],
   ['#examples', t.nav.examples],
   ['#sources', t.nav.sources],
+  ['#pricing', t.nav.pricing],
 ];
 ---
 <Base locale={locale}>
@@ -32,8 +37,9 @@ const nav = [
       {nav.map(([href, label]) => <a href={href}>{label}</a>)}
     </nav>
     <div class="header-actions">
+      <ThemeSwitch t={t.theme} />
       <a class="lang" href={other.path} hreflang={other.htmlLang} lang={other.htmlLang} aria-label={t.lang_switch.aria}>{t.lang_switch.label}</a>
-      <DownloadButton label={t.download} size="sm" />
+      <a class="btn btn-primary btn-sm" href="#waitlist">{t.cta}</a>
     </div>
   </header>
 
@@ -48,7 +54,7 @@ const nav = [
         <div class="hero-copy">
           <p class="lede">{t.hero.lede}</p>
           <div class="cta-row">
-            <DownloadButton label={t.download} />
+            <a class="btn btn-primary btn-lg" href="#waitlist">{t.cta}</a>
             <a class="btn btn-ghost btn-lg" href="#how">{t.hero.secondary}</a>
           </div>
         </div>
@@ -62,7 +68,25 @@ const nav = [
         <h2 id="intro-title">{t.intro.title}</h2>
         <p class="body-lg">{t.intro.body}</p>
       </div>
-      <div class="wide" data-reveal><MockApp t={t.mock} /></div>
+      <div class="wide" data-reveal>
+        <MockApp t={t.mock} />
+        <p class="mock-caption">{t.mock.caption}</p>
+      </div>
+    </section>
+
+    <section id="point" class="section" aria-labelledby="point-title">
+      <div class="point-split wide">
+        <div class="point-copy" data-reveal>
+          <p class="kicker">{t.point.kicker}</p>
+          <h2 id="point-title">{t.point.title}</h2>
+          <p class="body-lg">{t.point.body}</p>
+          <dl class="point-compare">
+            <div><dt>{t.point.without}</dt><dd class="point-without">{t.point.withoutText}</dd></div>
+            <div><dt>{t.point.with}</dt><dd>{t.point.before} <span class="chip">@{t.point.chip}</span> {t.point.after}</dd></div>
+          </dl>
+        </div>
+        <div data-reveal><PointDemo t={t.point} /></div>
+      </div>
     </section>
 
     <section id="how" class="section" aria-labelledby="how-title">
@@ -164,12 +188,14 @@ const nav = [
       </ul>
     </section>
 
+    <Pricing t={t.pricing} />
+
     <section class="final" aria-labelledby="final-title">
       <div class="final-inner" data-reveal>
         <LaunchMark class="final-launch" />
         <h2 id="final-title">{t.final.title}</h2>
         <p class="body-lg">{t.final.body}</p>
-        <DownloadButton label={t.download} />
+        <a class="btn btn-primary btn-lg" href="#waitlist">{t.cta}</a>
       </div>
     </section>
   </main>

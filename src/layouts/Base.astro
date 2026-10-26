@@ -40,8 +40,22 @@ const jsonLd = {
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#ffe6cc" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#2a1408" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffe6cc" media="(prefers-color-scheme: light)" data-light="#ffe6cc" data-dark="#2a1408" />
+    <meta name="theme-color" content="#2a1408" media="(prefers-color-scheme: dark)" data-light="#ffe6cc" data-dark="#2a1408" />
+    {/* Before first paint: apply a theme the visitor chose (header switch), so nothing flashes.
+        No choice stored means System: the CSS follows prefers-color-scheme live. */}
+    <script is:inline data-theme-init>
+      try {
+        var theme = localStorage.getItem('tangent-theme');
+        if (theme === 'light' || theme === 'dark') {
+          document.documentElement.dataset.theme = theme;
+          document.querySelectorAll('meta[name="theme-color"]').forEach(function (m) {
+            m.content = m.dataset[theme];
+          });
+          document.querySelector('meta[name="color-scheme"]').content = theme;
+        }
+      } catch (e) {}
+    </script>
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Tangent" />

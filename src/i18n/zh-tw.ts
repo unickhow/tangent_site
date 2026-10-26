@@ -8,10 +8,10 @@ export const zhTW: Dict = {
   ogLocale: 'zh_TW',
   path: '/zh-tw/',
   meta: {
-    title: 'Tangent — 描述零件，得到真正的 CAD 模型',
+    title: 'Tangent — 點選模型部位，直接告訴 Agent 要改什麼',
     description:
-      'Tangent 是一款 macOS 應用程式：在對話中描述零件，AI Agent 就會建出尺寸精確、可以量測的實體模型。用對話修改，再匯出 STEP、STL，或直接在 Bambu Studio 開啟。',
-    ogAlt: 'Tangent 的橘子圖示，旁邊寫著：描述零件，得到真正的 CAD 模型。',
+      'Tangent 是一款 macOS CAD 應用程式：點選模型上的面、邊或孔，告訴 AI Agent 要改什麼。每次修改都是尺寸精確、能量測的實體，也是能比較、能還原的版本。可匯出 STEP、STL，或直接在 Bambu Studio 開啟。',
+    ogAlt: 'Tangent 的橘子圖示，旁邊寫著：指給它看，說要改什麼。',
   },
   skip: '跳到主要內容',
   nav: {
@@ -20,20 +20,22 @@ export const zhTW: Dict = {
     features: '功能',
     examples: '範例',
     sources: 'Agent 來源',
+    pricing: '價格',
     home: 'Tangent 首頁',
   },
+  theme: { label: '外觀', system: '跟隨系統', light: '淺色', dark: '深色' },
   lang_switch: { label: 'EN', aria: 'Switch to English', target: 'en' },
-  download: '下載 macOS 版',
+  cta: '加入等候名單',
   hero: {
-    eyebrow: 'macOS 應用程式',
-    lede: '描述一個零件，Tangent 會建出有真實尺寸、能量測、能匯出 STEP 的實體模型。',
+    eyebrow: 'macOS 應用程式 · 開發中',
+    lede: '點選任何面、邊或孔，說出要改什麼。Agent 清楚知道你指的是哪裡；每次修改都是能量測、能比較、能還原的 CAD 版本。',
     secondary: '了解運作方式',
     scroll: '捲動到下一段',
   },
   intro: {
     kicker: '為什麼是 Tangent',
-    title: '從一句話，到一個能量測的零件',
-    body: '做個支架不該先學一套 CAD 軟體，沒有真實尺寸的外形也做不成零件。說出需求，就得到尺寸精確、能量測、能修改的實體模型。',
+    title: '生成模型不難，難的是改對地方',
+    body: '真正麻煩的是第十次修改：要用文字說清楚是哪一條邊，然後祈禱它改對。在 Tangent 裡，你直接指給它看。每次修改都留下版本，得到的是能量測、能匯出的真實實體。',
   },
   mock: {
     label: 'Tangent 的畫面：左邊是對話，右邊是 Agent 建出的 3D 模型',
@@ -51,10 +53,11 @@ export const zhTW: Dict = {
     linesUnit: '行',
     versions: '歷史',
     dims: '90 mm',
+    caption: '最後一則訊息裡的「頂面」是在模型上點選的，不是打字描述的。',
   },
   how: {
     kicker: '運作方式',
-    title: '三個步驟，一段對話',
+    title: '從一句話開始，接著用指的',
     steps: [
       {
         title: '描述需求',
@@ -65,10 +68,23 @@ export const zhTW: Dict = {
         body: 'Agent 寫出 build123d 程式碼，Tangent 在 Mac 上的沙盒中執行，模型隨即出現。出錯會自動送回 Agent 修正。',
       },
       {
-        title: '修改與匯出',
-        body: '繼續對話就能修改，每個結果都是一個版本。滿意了就匯出。',
+        title: '點選並修改',
+        body: '點選要改的部位，說出要怎麼改。每個結果都是一個版本，可以還原、開分支或比較。',
       },
     ],
+  },
+  point: {
+    kicker: '選取部位',
+    title: '指給它看，不用描述',
+    body: '在模型上點選面、邊或孔，它就會出現在你的訊息裡。Agent 拿到它的精確位置、法向與尺寸，清楚知道你指的是哪裡，不用再寫一段話說明。',
+    without: '不用寫',
+    withoutText: '「上蓋右前角那個 M3 孔，不是另外三個……」',
+    with: '只要',
+    before: '把',
+    chip: '內孔圓柱壁',
+    after: '的孔徑加大 1.5 mm',
+    label: '在外殼上點選其中一個孔，它就加入訊息，而且只有那個孔被加大',
+    building: '執行 build123d 建模',
   },
   features: {
     kicker: '功能',
@@ -77,7 +93,7 @@ export const zhTW: Dict = {
       {
         icon: 'select',
         title: '直接指給 Agent 看',
-        body: '選取面、邊或實體，按 ⌘L 加入對話，部位會連同位置與尺寸成為句中的標籤。',
+        body: '點選面、邊或實體，按 ⌘L 加入對話。它會成為句子的一部分，Agent 清楚知道你指的是哪裡。',
       },
       {
         icon: 'versions',
@@ -109,7 +125,7 @@ export const zhTW: Dict = {
   reference: {
     kicker: '參考圖片',
     title: '從一張圖開始',
-    body: '附上圖片，說明你要什麼。SVG 還會連同精確路徑一起送出。',
+    body: '附上圖片得到第一版，接著一樣用指的修改。SVG 還會連同精確路徑一起送出。',
     label: 'Tangent 專案畫面：對話中附上 app 圖示，右邊是照著它建出的立體橘子',
     project: 'Tangent 圖示模型',
     file: 'app-icon-light.png',
@@ -160,8 +176,29 @@ export const zhTW: Dict = {
       },
     ],
   },
+  pricing: {
+    kicker: '價格',
+    title: '先免費試用，再一次買斷',
+    plans: [
+      { name: '免費試用', price: '免費', unit: '試用 72 小時', features: ['一個專案'] },
+      {
+        name: 'Tangent',
+        price: 'US$19',
+        unit: '一次買斷',
+        features: ['完整功能', '包含所有 1.x 更新', '已購買的版本可以一直使用'],
+      },
+    ],
+    disclaimer: '上市前，價格與方案可能調整。',
+    waitlist: {
+      title: 'Tangent 仍在開發中',
+      body: '加入等候名單，準備好時通知你。',
+      button: '加入等候名單',
+      thanks: '已加入等候名單，Tangent 準備好時會寄信通知你。',
+      failed: '表單已在新分頁開啟。',
+    },
+  },
   final: {
-    title: '從一句話開始',
+    title: '先指，再說',
     body: 'macOS 版，支援繁體中文與英文。',
   },
   footer: {

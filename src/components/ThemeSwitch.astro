@@ -1,0 +1,73 @@
+---
+// System / Light / Dark. A radio group, so it's keyboard operable (arrow keys) and announces the
+// current choice. Shown only with JavaScript; without it the site follows the system, as before.
+// The choice is applied before first paint by the script in Base.astro's <head>.
+import type { Dict } from '../i18n/en';
+interface Props { t: Dict['theme'] }
+const { t } = Astro.props;
+const options = [
+  { value: 'system', label: t.system, icon: ['M3 5h18v11H3z', 'M8 20h8', 'M12 16v4'] },
+  { value: 'light', label: t.light, icon: ['M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8z', 'M12 2v2', 'M12 20v2', 'M4.9 4.9l1.4 1.4', 'M17.7 17.7l1.4 1.4', 'M2 12h2', 'M20 12h2', 'M4.9 19.1l1.4-1.4', 'M17.7 6.3l1.4-1.4'] },
+  { value: 'dark', label: t.dark, icon: ['M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z'] },
+];
+---
+<fieldset class="theme-switch" data-theme-switch>
+  <legend class="sr-only">{t.label}</legend>
+  {options.map((o) => (
+    <label title={o.label}>
+      <input type="radio" name="theme" value={o.value} checked={o.value === 'system'} />
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        {o.icon.map((d) => <path d={d} />)}
+      </svg>
+      <span class="sr-only">{o.label}</span>
+    </label>
+  ))}
+</fieldset>
+
+<script>
+  const KEY = 'tangent-theme';
+  const root = document.documentElement;
+  const read = () => {
+    try {
+      return localStorage.getItem(KEY);
+    } catch {
+      return null;
+    }
+  };
+  const apply = (theme: string) => {
+    const forced = theme === 'light' || theme === 'dark';
+    if (forced) root.dataset.theme = theme;
+    else delete root.dataset.theme;
+    // System: each theme-color keeps its own media query; forced: both show the chosen colour
+    document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((m) => {
+      m.content = forced ? m.dataset[theme]! : m.media.includes('dark') ? m.dataset.dark! : m.dataset.light!;
+    });
+    const scheme = document.querySelector<HTMLMetaElement>('meta[name="color-scheme"]');
+    if (scheme) scheme.content = forced ? theme : 'light dark';
+    try {
+      if (forced) localStorage.setItem(KEY, theme);
+      else localStorage.removeItem(KEY);
+    } catch {
+      // Private windows can block storage: the choice holds for this page only
+    }
+  };
+  // A switch cross-fades the whole page (View Transitions), or eases colours where that isn't
+  // supported; reduced motion switches at once. The first paint never animates.
+  const switchTo = (theme: string) => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return apply(theme);
+    const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown };
+    if (doc.startViewTransition) {
+      doc.startViewTransition(() => apply(theme));
+      return;
+    }
+    root.classList.add('theme-fading');
+    apply(theme);
+    setTimeout(() => root.classList.remove('theme-fading'), 320);
+  };
+  const stored = read();
+  for (const group of document.querySelectorAll('[data-theme-switch]')) {
+    const current = stored === 'light' || stored === 'dark' ? stored : 'system';
+    group.querySelector<HTMLInputElement>(`input[value="${current}"]`)!.checked = true;
+    group.addEventListener('change', (e) => switchTo((e.target as HTMLInputElement).value));
+  }
+</script>
