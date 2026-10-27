@@ -1,14 +1,14 @@
 {
   "name": "tangent-site",
   "private": true,
-  "version": "0.9.0",
+  "version": "0.9.1",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "check": "node scripts/check-dist.mjs",
-    "og": "node scripts/og.mjs"
+    "og": "node --experimental-strip-types scripts/og.mts"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

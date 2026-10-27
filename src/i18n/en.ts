@@ -9,7 +9,7 @@ export const en = {
     title: 'Tangent — Point at a part and tell the Agent what to change',
     description:
       'Tangent is a macOS CAD app where you click a face, edge or hole and tell an AI Agent what to change. Every result is an exact, measurable solid and a version you can compare or restore. Export STEP or STL, or open it in Bambu Studio.',
-    ogAlt: 'The Tangent mandarin icon next to the words: Point at it. Tell it what to change.',
+    ogAlt: 'The Tangent mark and the words “Point at it. Tell it what to change.” beside a 3D mandarin model with one face selected.',
   },
   skip: 'Skip to content',
   nav: {

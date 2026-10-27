@@ -16,7 +16,8 @@ pnpm dev            # dev server on http://localhost:4321 with live reload
 pnpm build          # static files into dist/
 pnpm preview        # serve dist/ on http://localhost:4321
 pnpm check          # after a build: checks titles, descriptions, canonical, hreflang, OG/Twitter, JSON-LD, h1, alt text, placeholders
-pnpm og             # regenerate public/og-*.png and apple-touch-icon.png (needs rsvg-convert: brew install librsvg)
+pnpm og             # regenerate public/og-*.png and apple-touch-icon.png (needs rsvg-convert: brew install librsvg,
+                    # and uvx, which converts the site's Geist fonts for it)
 ```
 
 ## Before publishing
@@ -79,7 +80,7 @@ src/lib/viewer.ts       desktop-only three.js viewer for the reference-image mod
 src/lib/refView.ts      camera, lighting, edges and stem/leaf colouring shared by the drawing and the viewer
 src/data/mandarin.json  the reference project's final mesh; public/ref/mandarin.glb is built from it
 src/styles/global.css   tokens (light and dark), layout, motion
-scripts/                og.mjs (social images), check-dist.mjs (built-output checks),
+scripts/                og.mts (social images: the v6 mandarin with one face selected), check-dist.mjs (built-output checks),
                         extract-model.mjs (mesh out of a saved project), make-glb.mjs (mesh → GLB)
 ```
 

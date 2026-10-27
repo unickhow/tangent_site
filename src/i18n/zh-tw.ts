@@ -11,7 +11,7 @@ export const zhTW: Dict = {
     title: 'Tangent — 點選模型部位，直接告訴 Agent 要改什麼',
     description:
       'Tangent 是一款 macOS CAD 應用程式：點選模型上的面、邊或孔，告訴 AI Agent 要改什麼。每次修改都是尺寸精確、能量測的實體，也是能比較、能還原的版本。可匯出 STEP、STL，或直接在 Bambu Studio 開啟。',
-    ogAlt: 'Tangent 的橘子圖示，旁邊寫著：指給它看，說要改什麼。',
+    ogAlt: 'Tangent 標誌與「指給它看，說要改什麼。」，旁邊是一顆選取了其中一個面的 3D 橘子模型。',
   },
   skip: '跳到主要內容',
   nav: {
