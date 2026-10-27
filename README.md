@@ -23,9 +23,9 @@ pnpm og             # regenerate public/og-*.png and apple-touch-icon.png (needs
 ## Before publishing
 
 - **Domain.** There is no public domain yet. Canonical URLs, `hreflang` links, Open Graph URLs,
-  `robots.txt` and `sitemap.xml` are built from `SITE_URL`, which falls back to the placeholder
-  `https://example.com` (`astro.config.mjs`). Build with the real one:
-  `SITE_URL=https://your-domain pnpm build`.
+  `robots.txt` and `sitemap.xml` are built from `SITE_URL`, which falls back to Vercel's
+  `VERCEL_PROJECT_PRODUCTION_URL` / `VERCEL_URL` or the placeholder `https://example.com`
+  (`astro.config.mjs`). Build with the real one: `SITE_URL=https://your-domain pnpm build`.
 - **Waitlist.** The app is in development, so there is no download. Every call to action
   ("Join the waitlist") points at the waitlist in the pricing section
   (`src/components/Pricing.astro`), which is the owner's Tally form `Gee9QZ`
