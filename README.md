@@ -22,10 +22,10 @@ pnpm og             # regenerate public/og-*.png and apple-touch-icon.png (needs
 
 ## Before publishing
 
-- **Domain.** There is no public domain yet. Canonical URLs, `hreflang` links, Open Graph URLs,
-  `robots.txt` and `sitemap.xml` are built from `SITE_URL`, which falls back to Vercel's
-  `VERCEL_PROJECT_PRODUCTION_URL` / `VERCEL_URL` or the placeholder `https://example.com`
-  (`astro.config.mjs`). Build with the real one: `SITE_URL=https://your-domain pnpm build`.
+- **Domain.** The public domain is `https://tangent.nicraft.co`. Canonical URLs, `hreflang` links,
+  Open Graph URLs, `robots.txt` and `sitemap.xml` are built from `SITE_URL`, which falls back to
+  Vercel's `VERCEL_PROJECT_PRODUCTION_URL` / `VERCEL_URL`, then to the public domain
+  (`astro.config.mjs`). On Vercel, keep `tangent.nicraft.co` as the project's production domain.
 - **Waitlist.** The app is in development, so there is no download. Every call to action
   ("Join the waitlist") points at the waitlist in the pricing section
   (`src/components/Pricing.astro`), which is the owner's Tally form `Gee9QZ`
@@ -38,6 +38,17 @@ pnpm og             # regenerate public/og-*.png and apple-touch-icon.png (needs
 - **Pricing.** The plans (72-hour free trial with one project; US$19 one-time purchase with full
   features and all 1.x updates) are the owner's, shown with a "may change before launch" note.
   They aren't in the structured data, since nothing can be bought yet.
+
+- **Legal.** The Privacy Policy and Terms of Use (`/privacy/`, `/terms/` and their `/zh-tw/`
+  versions) are `src/legal/<doc>.<locale>.md`, adapted from Bangs' for what Tangent does
+  differently: requests go from the Mac straight to the model source the user picks (never
+  through Nicraft), keys stay in the Keychain, uv downloads the engine from PyPI, and AI-made
+  models must be checked before anything is made from them. Nicraft is the operator and
+  trademark owner, contact@nicraft.co the contact. Anything that may change (trial, Macs per
+  license, versions covered, refunds, payment provider) is deferred to the app or checkout.
+  When the app changes what it sends or stores (`tangent/AGENTS.md`), or before purchases,
+  license activation, update checks, crash reports or analytics ship, update both languages
+  and bump `updated`.
 
 ## Version control
 
@@ -66,14 +77,16 @@ taglines, pricing, release dates, stats or testimonials the owner hasn't defined
 
 ```
 astro.config.mjs        site URL placeholder, sitemap with hreflang alternates
-src/pages/              index.astro (en), zh-tw/index.astro, robots.txt.ts
+src/pages/              index.astro (en), zh-tw/index.astro, privacy.astro, terms.astro (and zh-tw/), robots.txt.ts
+src/legal/              privacy and terms, one Markdown file per language
 src/layouts/Base.astro  <head>: title, description, canonical, hreflang, OG, Twitter, JSON-LD
 src/components/         Home (all sections), MockApp (drawn app window playing one Agent turn),
                         PointDemo (click one hole, it joins the message, only it changes),
                         RefMock (a real reference-image project and its model),
                         ExampleArt (line drawings), LaunchMark (the app's launch), AgentMark (the Agent's
                         think / write / build motions), Pricing (plans, disclaimer, waitlist form),
-                        ThemeSwitch (System / Light / Dark), Mark (mandarin logo), Icon
+                        ThemeSwitch (System / Light / Dark), Footer (same rows as Bangs' footer),
+                        Legal (privacy and terms pages), Mark (mandarin logo), Icon
 src/components/brandMarkFacets.ts   copied from tangent/src/components/ (generated there; recopy if the mark changes)
 src/lib/draw.ts         isometric and gear geometry for the drawings
 src/lib/viewer.ts       desktop-only three.js viewer for the reference-image model (lazy chunk)

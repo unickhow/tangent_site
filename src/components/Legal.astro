@@ -1,0 +1,43 @@
+---
+// Privacy Policy and Terms of Use. The text lives in src/legal/<doc>.<locale>.md; titles and
+// descriptions come from the dictionary, the last-updated date from each file's frontmatter.
+// The header is the home page's, without the section links and the call to action (as on Bangs'
+// legal pages); it floats over an apricot band like the home page's over the hero.
+import Base from '../layouts/Base.astro';
+import Mark from './Mark.astro';
+import Footer from './Footer.astro';
+import ThemeSwitch from './ThemeSwitch.astro';
+import { dicts, type LegalDoc, type Locale } from '../i18n';
+
+interface Props { locale: Locale; doc: LegalDoc }
+const { locale, doc } = Astro.props;
+const t = dicts[locale];
+const other = dicts[t.lang_switch.target as Locale];
+const files = import.meta.glob<{ Content: any; frontmatter: { updated: string | Date } }>('../legal/*.md', { eager: true });
+const { Content, frontmatter } = files[`../legal/${doc}.${locale}.md`];
+const date = new Date(frontmatter.updated);
+const updated = new Intl.DateTimeFormat(t.htmlLang, { dateStyle: 'long', timeZone: 'UTC' }).format(date);
+---
+<Base locale={locale} page={doc}>
+  <a class="skip" href="#main">{t.skip}</a>
+
+  <header class="site-header">
+    <a class="brand" href={t.path} aria-label={t.legal.back}><Mark size={30} /><span>Tangent</span></a>
+    <div class="header-actions">
+      <ThemeSwitch t={t.theme} />
+      <a class="lang" href={`${other.path}${doc}/`} hreflang={other.htmlLang} lang={other.htmlLang} aria-label={t.lang_switch.aria}>{t.lang_switch.label}</a>
+    </div>
+  </header>
+
+  <main id="main" class="legal">
+    <header class="legal-head">
+      <div class="legal-doc">
+        <h1>{t.legal[doc].title}</h1>
+        <p class="mono-label">{t.legal.updated}<time datetime={date.toISOString().slice(0, 10)}>{updated}</time></p>
+      </div>
+    </header>
+    <article class="legal-doc prose"><Content /></article>
+  </main>
+
+  <Footer t={t} />
+</Base>

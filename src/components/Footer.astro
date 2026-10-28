@@ -1,0 +1,27 @@
+---
+// The same layout as Bangs' site: brand and line, legal links and contact, Nicraft's other apps,
+// then the fine print.
+import Mark from './Mark.astro';
+import type { Dict } from '../i18n/en';
+interface Props { t: Dict }
+const { t } = Astro.props;
+const year = 2026;
+---
+<footer class="site-footer">
+  <div class="footer-row">
+    <div class="brand"><Mark size={24} /><span>Tangent</span></div>
+    <p>{t.footer.tagline}</p>
+    <nav aria-label={t.footer.label} class="footer-links">
+      <a href={`${t.path}privacy/`}>{t.legal.privacy.title}</a>
+      <a href={`${t.path}terms/`}>{t.legal.terms.title}</a>
+      <a href="mailto:contact@nicraft.co">{t.footer.contact}contact@nicraft.co</a>
+    </nav>
+    <nav aria-label={t.footer.more.label} class="footer-more">
+      <span class="mono-label">{t.footer.more.label}</span>
+      {t.footer.more.items.map((p) => (
+        <a href={p.url} hreflang={t.htmlLang}><img src={p.icon} width="40" height="40" alt="" loading="lazy" /><span><strong>{p.name}</strong>{p.blurb}</span></a>
+      ))}
+    </nav>
+    <p class="fine">© {year} Nicraft. {t.footer.rights} {t.footer.trademark}</p>
+  </div>
+</footer>

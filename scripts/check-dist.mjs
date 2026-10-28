@@ -36,6 +36,30 @@ for (const [locale, file] of Object.entries(pages)) {
   check(!/<script[^>]*src="https:\/\/tally\.so/.test(html), `${locale}: Tally isn't loaded with the page`);
   check((html.match(/href="#waitlist"/g) ?? []).length >= 2 && html.includes('id="waitlist"'), `${locale}: calls to action point at the waitlist`);
   check(!/data-placeholder="download"/.test(html), `${locale}: no dead Download button left`);
+  check(html.includes(`href="https://bangs.nicraft.co${locale === 'en' ? '/' : '/zh-tw/'}"`), `${locale}: footer links Bangs in the same language`);
+}
+// Legal pages: their own title, description, canonical and hreflang; the contact address; linked
+// from every page's footer.
+const legal = ['privacy', 'terms'].flatMap((doc) => [[`en ${doc}`, `dist/${doc}/index.html`, `/${doc}/`], [`zh-tw ${doc}`, `dist/zh-tw/${doc}/index.html`, `/zh-tw/${doc}/`]]);
+for (const [name, file, path] of legal) {
+  const html = existsSync(file) ? readFileSync(file, 'utf8') : '';
+  check(html, `${file} exists`);
+  const title = one(html, /<title>([^<]+)<\/title>/);
+  const description = one(html, /<meta name="description" content="([^"]+)"/);
+  check(title && !seen.title.has(title), `${name}: unique <title>`);
+  check(description && !seen.description.has(description) && description.length <= 160, `${name}: unique meta description ≤ 160 chars`);
+  seen.title.add(title); seen.description.add(description);
+  check(new RegExp(`<link rel="canonical" href="https?://[^"]+${path}"`).test(html), `${name}: canonical URL`);
+  for (const code of ['en', 'zh-TW', 'x-default']) check(html.includes(`hreflang="${code}"`), `${name}: hreflang ${code}`);
+  check((html.match(/<h1[\s>]/g) ?? []).length === 1, `${name}: exactly one <h1>`);
+  check(!html.includes('application/ld+json'), `${name}: no home-page JSON-LD`);
+  check(html.includes('contact@nicraft.co'), `${name}: contact address`);
+}
+for (const [locale, file] of [...Object.entries(pages), ...legal.map(([n, f]) => [n, f])]) {
+  const html = readFileSync(file, 'utf8');
+  const base = locale.startsWith('zh-tw') ? '/zh-tw/' : '/';
+  check(html.includes(`href="${base}privacy/"`) && html.includes(`href="${base}terms/"`) && html.includes('mailto:contact@nicraft.co'), `${locale}: footer links to privacy, terms and contact`);
+  check(html.includes('© 2026 Nicraft.'), `${locale}: footer credits Nicraft`);
 }
 for (const f of ['dist/robots.txt', 'dist/sitemap-index.xml', 'dist/sitemap-0.xml', 'dist/og-en.png', 'dist/og-zh-tw.png']) check(existsSync(f), `${f} exists`);
 check(readFileSync('dist/sitemap-0.xml', 'utf8').includes('hreflang="zh-TW"'), 'sitemap lists hreflang alternates');

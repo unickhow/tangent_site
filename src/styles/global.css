@@ -472,22 +472,45 @@ h3 { font-size: 1.08rem; letter-spacing: -0.012em; line-height: 1.3; }
 .final h2 { font-size: clamp(2.4rem, 6vw, 4.4rem); }
 .final .body-lg { color: var(--hero-muted); margin-bottom: 32px; }
 
-/* Footer */
-.site-footer {
-  display: grid; grid-template-columns: auto 1fr auto; gap: 16px 32px; align-items: center;
-  padding: 28px var(--gutter) 40px; background: var(--hero-2); color: var(--hero-fg);
+/* Footer (Footer.astro): the same rows as Bangs' site, in Tangent's apricot */
+.site-footer { padding: 72px var(--gutter) 40px; background: var(--hero-2); color: var(--hero-fg); }
+.footer-row { display: grid; gap: 12px; max-width: 1280px; margin: 0 auto; font-size: 0.92rem; color: var(--hero-muted); }
+.footer-row .brand { justify-self: start; min-height: 0; color: var(--hero-fg); }
+.footer-links { display: flex; flex-wrap: wrap; column-gap: 20px; }
+.footer-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--hero-fg); text-decoration: none; }
+.footer-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.footer-row .fine { max-width: 75ch; font-size: 0.8rem; }
+/* Nicraft's other apps */
+.footer-more { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 4px 32px; padding-top: 24px; border-top: 1px solid color-mix(in srgb, var(--hero-fg) 14%, transparent); }
+.footer-more > span { grid-column: 1 / -1; }
+.footer-more a { display: flex; align-items: flex-start; gap: 12px; padding-block: 12px; color: var(--hero-muted); font-size: 0.88rem; line-height: 1.5; text-decoration: none; }
+.footer-more img { flex: none; width: 40px; height: 40px; }
+.footer-more a > span { display: grid; gap: 2px; text-wrap: pretty; }
+.footer-more strong { color: var(--hero-fg); font-size: 0.95rem; font-weight: 650; }
+.footer-more a:hover strong { text-decoration: underline; text-underline-offset: 4px; }
+
+/* Legal pages (Legal.astro): an apricot band under the header, like the hero, then the text */
+.legal-head {
+  padding: clamp(120px, 16vw, 176px) var(--gutter) clamp(40px, 6vw, 64px);
+  color: var(--hero-fg);
+  background:
+    radial-gradient(var(--hero-dot) 1px, transparent 1.4px) 0 0 / 28px 28px,
+    linear-gradient(var(--hero) 0 60%, var(--bg));
 }
-.footer-nav { display: flex; flex-wrap: wrap; gap: 4px 20px; justify-content: center; }
-.footer-nav a, .footer-lang a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: none; font-size: 0.92rem; }
-.footer-nav a:hover, .footer-lang a:hover { text-decoration: underline; text-underline-offset: 4px; }
-.footer-lang { display: flex; align-items: center; gap: 16px; }
-.footer-lang .mono-label { color: var(--hero-muted); }
-.footer-lang a[aria-current='page'] { font-weight: 650; }
-.footer-note { grid-column: 1 / -1; font-size: 0.85rem; color: var(--hero-muted); }
-@media (max-width: 760px) {
-  .site-footer { grid-template-columns: 1fr; }
-  .footer-nav { justify-content: flex-start; }
-}
+.legal-head .legal-doc { display: grid; gap: 16px; }
+.legal-head h1 { font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 650; letter-spacing: -0.04em; line-height: 1.02; }
+:lang(zh-Hant-TW) .legal-head h1 { letter-spacing: 0; }
+.legal-head .mono-label { color: var(--hero-muted); }
+.legal-doc { max-width: 720px; margin-inline: auto; }
+.prose { padding: 0 var(--gutter) clamp(88px, 12vw, 144px); box-sizing: content-box; color: var(--fg-muted); }
+.prose > * + * { margin-top: 16px; }
+.prose h2 { margin-top: 48px; font-size: 1.35rem; font-weight: 600; letter-spacing: -0.015em; color: var(--fg); }
+.prose h2 + * { margin-top: 12px; }
+.prose ul { padding-left: 1.25em; list-style: disc; }
+.prose li + li, .prose li > ul { margin-top: 8px; }
+.prose li > p { margin-top: 8px; }
+.prose strong { color: var(--fg); font-weight: 600; }
+.prose a { color: var(--fg); text-underline-offset: 3px; }
 
 /* ---------- App mock ---------- */
 .mock { margin: 0; }

@@ -6,3 +6,6 @@ export type Locale = keyof typeof dicts;
 
 // hreflang codes for <link rel="alternate">; `en` is also x-default.
 export const hreflang: Record<Locale, string> = { en: 'en', 'zh-tw': 'zh-TW' };
+
+// The legal pages, served at <locale path><doc>/ (e.g. /privacy/, /zh-tw/terms/).
+export type LegalDoc = 'privacy' | 'terms';

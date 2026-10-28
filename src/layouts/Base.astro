@@ -2,23 +2,26 @@
 import '@fontsource-variable/geist';
 import '@fontsource-variable/geist-mono';
 import '../styles/global.css';
-import { dicts, hreflang, type Locale } from '../i18n';
+import { dicts, hreflang, type LegalDoc, type Locale } from '../i18n';
 
-interface Props { locale: Locale }
-const { locale } = Astro.props;
+interface Props { locale: Locale; page?: 'home' | LegalDoc }
+const { locale, page = 'home' } = Astro.props;
 const t = dicts[locale];
 const site = Astro.site!;
 const url = (p: string) => new URL(p, site).href;
-const canonical = url(t.path);
+const pathIn = (l: Locale) => dicts[l].path + (page === 'home' ? '' : `${page}/`);
+const meta = page === 'home' ? t.meta : { title: t.legal[page].meta, description: t.legal[page].description };
+const canonical = url(pathIn(locale));
 const ogImage = url(`/og-${locale}.png`);
-const alternates = (Object.keys(dicts) as Locale[]).map((l) => ({ code: hreflang[l], href: url(dicts[l].path) }));
+const alternates = (Object.keys(dicts) as Locale[]).map((l) => ({ code: hreflang[l], href: url(pathIn(l)) }));
 const other = dicts[t.lang_switch.target as Locale];
 
-const jsonLd = {
+// Home page only.
+const jsonLd = page !== 'home' ? null : {
   '@context': 'https://schema.org',
   '@type': 'SoftwareApplication',
   name: 'Tangent',
-  description: t.meta.description,
+  description: meta.description,
   applicationCategory: 'DesignApplication',
   operatingSystem: 'macOS',
   inLanguage: ['en', 'zh-TW'],
@@ -31,11 +34,11 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{t.meta.title}</title>
-    <meta name="description" content={t.meta.description} />
+    <title>{meta.title}</title>
+    <meta name="description" content={meta.description} />
     <link rel="canonical" href={canonical} />
     {alternates.map((a) => <link rel="alternate" hreflang={a.code} href={a.href} />)}
-    <link rel="alternate" hreflang="x-default" href={url('/')} />
+    <link rel="alternate" hreflang="x-default" href={url(pathIn('en'))} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -59,8 +62,8 @@ const jsonLd = {
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Tangent" />
-    <meta property="og:title" content={t.meta.title} />
-    <meta property="og:description" content={t.meta.description} />
+    <meta property="og:title" content={meta.title} />
+    <meta property="og:description" content={meta.description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={t.ogLocale} />
     <meta property="og:locale:alternate" content={other.ogLocale} />
@@ -69,12 +72,12 @@ const jsonLd = {
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={t.meta.ogAlt} />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={t.meta.title} />
-    <meta name="twitter:description" content={t.meta.description} />
+    <meta name="twitter:title" content={meta.title} />
+    <meta name="twitter:description" content={meta.description} />
     <meta name="twitter:image" content={ogImage} />
     <meta name="twitter:image:alt" content={t.meta.ogAlt} />
 
-    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
   <body>

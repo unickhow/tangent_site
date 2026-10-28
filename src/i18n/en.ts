@@ -201,7 +201,29 @@ export const en = {
     body: 'For macOS, in English and Traditional Chinese.',
   },
   footer: {
-    language: 'Language',
+    tagline: 'Point at the model, talk it into shape.',
+    label: 'Legal and contact',
+    contact: 'Contact: ',
+    // Nicraft's other apps. url is the app's site in this page's language; icon is the app's own
+    // icon (from its project), 128px for a 40px slot.
+    more: { label: 'More from Nicraft', items: [{ name: 'Bangs', url: 'https://bangs.nicraft.co/', icon: '/products/bangs.png', blurb: 'Your MacBook notch, put to work.' }] },
+    rights: 'All rights reserved.',
+    trademark:
+      'Tangent and the Tangent logo are trademarks of Nicraft. Apple, Mac and macOS are trademarks of Apple Inc. Other product names are trademarks of their respective owners.',
+  },
+  legal: {
+    updated: 'Last updated: ',
+    back: 'Back to Tangent',
+    privacy: {
+      title: 'Privacy Policy',
+      meta: 'Tangent Privacy Policy',
+      description: 'What Nicraft handles when you use Tangent, its website, waitlist and licenses, what goes to your model source, and the choices you have.',
+    },
+    terms: {
+      title: 'Terms of Use',
+      meta: 'Tangent Terms of Use',
+      description: 'The terms for using Tangent for macOS: licenses and purchases, model sources, AI-generated models, your designs, and your rights.',
+    },
   },
 };
 

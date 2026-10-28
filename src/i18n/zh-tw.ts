@@ -202,6 +202,26 @@ export const zhTW: Dict = {
     body: 'macOS 版，支援繁體中文與英文。',
   },
   footer: {
-    language: '語言',
+    tagline: '指著模型，邊聊邊改。',
+    label: '法律資訊與聯絡方式',
+    contact: '聯絡我們：',
+    more: { label: 'Nicraft 的其他產品', items: [{ name: 'Bangs', url: 'https://bangs.nicraft.co/zh-tw/', icon: '/products/bangs.png', blurb: '讓瀏海變成順手的控制台。' }] },
+    rights: '保留所有權利。',
+    trademark:
+      'Tangent 名稱及其標誌為 Nicraft 的商標。Apple、Mac 與 macOS 為 Apple Inc. 的商標。其他產品名稱為其各自權利人的商標。',
+  },
+  legal: {
+    updated: '最後更新：',
+    back: '回到 Tangent',
+    privacy: {
+      title: '隱私權政策',
+      meta: 'Tangent 隱私權政策',
+      description: '使用 Tangent、本網站、等候名單與授權時，Nicraft 如何處理您的資料、哪些內容會送往您的模型來源，以及您的選擇。',
+    },
+    terms: {
+      title: '使用條款',
+      meta: 'Tangent 使用條款',
+      description: 'Tangent macOS App 的使用條款：授權與購買、模型來源、AI 產生的模型、您的設計，以及您的權利。',
+    },
   },
 };

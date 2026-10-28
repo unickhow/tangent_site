@@ -7,6 +7,7 @@ import RefMock from './RefMock.astro';
 import ExampleArt from './ExampleArt.astro';
 import Icon from './Icon.astro';
 import Pricing from './Pricing.astro';
+import Footer from './Footer.astro';
 import ThemeSwitch from './ThemeSwitch.astro';
 import PointDemo from './PointDemo.astro';
 import { dicts, type Locale } from '../i18n';
@@ -200,15 +201,5 @@ const nav = [
     </section>
   </main>
 
-  <footer class="site-footer">
-    <a class="brand" href={t.path} aria-label={t.nav.home}><Mark size={24} /><span>Tangent</span></a>
-    <nav aria-label={t.nav.label} class="footer-nav">
-      {nav.map(([href, label]) => <a href={href}>{label}</a>)}
-    </nav>
-    <div class="footer-lang">
-      <span class="mono-label">{t.footer.language}</span>
-      <a href={dicts.en.path} hreflang="en" lang="en" aria-current={locale === 'en' ? 'page' : undefined}>English</a>
-      <a href={dicts['zh-tw'].path} hreflang="zh-Hant-TW" lang="zh-Hant-TW" aria-current={locale === 'zh-tw' ? 'page' : undefined}>繁體中文</a>
-    </div>
-  </footer>
+  <Footer t={t} />
 </Base>
