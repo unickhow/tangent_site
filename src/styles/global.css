@@ -191,6 +191,8 @@ p { text-wrap: pretty; }
 .header-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
 .site-nav + .header-actions { margin-left: 0; }
 .lang { min-width: 44px; justify-content: center; font-weight: 500; color: var(--fg); }
+/* The bar's controls keep their size and never wrap; the nav and the button give way first (below) */
+.site-header .brand, .header-actions > *, .site-header .btn { flex: none; white-space: nowrap; }
 .site-header:not(.is-stuck) .brand,
 .site-header:not(.is-stuck) .lang,
 .site-header:not(.is-stuck) .site-nav a { color: var(--hero-fg); }
@@ -213,8 +215,10 @@ p { text-wrap: pretty; }
 .site-header:not(.is-stuck) .theme-switch label { color: color-mix(in srgb, var(--hero-fg) 70%, transparent); }
 .site-header:not(.is-stuck) .theme-switch label:has(input:checked) { background: color-mix(in srgb, var(--hero-fg) 12%, transparent); color: var(--hero-fg); box-shadow: none; }
 
-@media (max-width: 900px) { .site-nav { display: none; } .site-nav + .header-actions { margin-left: auto; } }
-@media (max-width: 440px) { .site-header .btn { display: none; } }
+/* Measured with the English labels, the longest: the nav needs 1001px, the button 520px */
+@media (max-width: 1000px) { .site-nav { display: none; } .site-nav + .header-actions { margin-left: auto; } }
+@media (max-width: 519px) { .site-header .btn { display: none; } }
+@media (max-width: 360px) { .site-header { gap: 12px; } }
 
 /* ---------- Buttons ---------- */
 .btn {
