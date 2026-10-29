@@ -1,5 +1,5 @@
 ---
-updated: 2026-10-28
+updated: 2026-10-29
 ---
 
 This Privacy Policy explains what information Nicraft (“we”, “us”) handles when you use the Tangent app for macOS (“Tangent” or “the app”), visit this website (tangent.nicraft.co), join the waitlist, or buy, activate or update a Tangent license. Tangent is still growing, so this policy is written to cover the whole product, not only today’s features. When a new feature changes what we handle, we update this policy before that feature ships.
@@ -61,7 +61,7 @@ The model code the Agent writes is run in a sandbox on your Mac without network 
 
 ## 5. The website and the waitlist
 
-- **Website.** This site is static and doesn’t set cookies or run analytics. If you pick a theme, your browser remembers it in its own storage; it isn’t sent to us. Our hosting provider processes the technical data needed to deliver pages and keep the site secure, such as your IP address, browser type and the pages requested.
+- **Website.** We use Microsoft Clarity to understand how visitors use this site. Clarity sets cookies and records how you interact with pages, such as clicks, scrolling and mouse movement, along with your device and browser type and approximate location; text you type into forms is masked. Microsoft processes this data under its own privacy statement. If you pick a theme, your browser remembers it in its own storage; it isn’t sent to us. Our hosting provider processes the technical data needed to deliver pages and keep the site secure, such as your IP address, browser type and the pages requested.
 - **Waitlist.** The waitlist form is provided by Tally. It asks for your email address; any other question on the form is optional. It also records the language of the page you joined from. Tally’s script loads only when you open the form. We use this information to send you Tangent updates and launch news, and to decide what to build next. You can unsubscribe at any time with the link in any email, or by writing to us.
 
 ## 6. Purchases and licenses
@@ -73,6 +73,7 @@ Purchases are processed by a third-party payment provider, which may act as the 
 We share information only with providers that help us run Tangent, and only what each one needs. Currently they are:
 
 - **Vercel:** website hosting.
+- **Microsoft Clarity:** website analytics.
 - **Tally:** the waitlist form.
 
 As purchases, license delivery, email and updates go live, we’ll add the providers involved to this list. They may include a payment provider, a cloud service for licensing, and an email delivery service. We don’t sell your personal information, and we don’t share it for advertising.
