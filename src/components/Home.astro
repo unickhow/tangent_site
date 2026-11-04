@@ -6,7 +6,7 @@ import MockApp from './MockApp.astro';
 import RefMock from './RefMock.astro';
 import ExampleArt from './ExampleArt.astro';
 import Icon from './Icon.astro';
-import Pricing from './Pricing.astro';
+import GetTangent from './GetTangent.astro';
 import Footer from './Footer.astro';
 import ThemeSwitch from './ThemeSwitch.astro';
 import PointDemo from './PointDemo.astro';
@@ -26,7 +26,7 @@ const nav = [
   ['#features', t.nav.features],
   ['#examples', t.nav.examples],
   ['#sources', t.nav.sources],
-  ['#pricing', t.nav.pricing],
+  ['#get', t.nav.get],
 ];
 ---
 <Base locale={locale}>
@@ -189,7 +189,7 @@ const nav = [
       </ul>
     </section>
 
-    <Pricing t={t.pricing} />
+    <GetTangent t={t.get} />
 
     <section class="final" aria-labelledby="final-title">
       <div class="final-inner" data-reveal>

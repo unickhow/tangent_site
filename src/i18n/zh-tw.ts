@@ -20,7 +20,7 @@ export const zhTW: Dict = {
     features: '功能',
     examples: '範例',
     sources: 'Agent 來源',
-    pricing: '價格',
+    get: '取得 Tangent',
     home: 'Tangent 首頁',
   },
   theme: { label: '外觀', system: '跟隨系統', light: '淺色', dark: '深色' },
@@ -176,19 +176,10 @@ export const zhTW: Dict = {
       },
     ],
   },
-  pricing: {
-    kicker: '價格',
-    title: '先免費試用，再一次買斷',
-    plans: [
-      { name: '免費試用', price: '免費', unit: '試用 72 小時', features: ['一個專案'] },
-      {
-        name: 'Tangent',
-        price: 'US$19',
-        unit: '一次買斷',
-        features: ['完整功能', '包含所有 1.x 更新', '已購買的版本可以一直使用'],
-      },
-    ],
-    disclaimer: '上市前，價格與方案可能調整。',
+  get: {
+    kicker: '取得 Tangent',
+    title: 'Tangent 免費使用',
+    body: 'App 本身不收費；你所選模型來源的用量費用，由該服務商另行收取。',
     waitlist: {
       title: 'Tangent 仍在開發中',
       body: '加入等候名單，準備好時通知你。',

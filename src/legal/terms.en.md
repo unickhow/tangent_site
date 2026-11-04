@@ -1,52 +1,28 @@
 ---
-updated: 2026-10-28
+updated: 2026-11-04
 ---
 
-These Terms of Use (“Terms”) are an agreement between you and Nicraft (“we”, “us”). They govern the Tangent app for macOS (“Tangent” or “the app”), its updates and licenses, and this website (tangent.nicraft.co). By downloading, installing or using Tangent, you agree to these Terms. If you don’t agree, don’t use Tangent. Nothing in these Terms limits rights you have under consumer protection laws that can’t be waived.
+These Terms of Use (“Terms”) are an agreement between you and Nicraft (“we”, “us”). They govern the Tangent app for macOS (“Tangent” or “the app”), its updates, and this website (tangent.nicraft.co). By downloading, installing or using Tangent, you agree to these Terms. If you don’t agree, don’t use Tangent. Nothing in these Terms limits rights you have under consumer protection laws that can’t be waived.
 
-## 1. Plans and features
+## 1. Free to use
 
-Tangent offers a free trial and a paid license. The website, the app and the checkout page describe the following, as they apply at the time:
+Tangent is free. We don’t charge for the app or its updates. We may add, change or remove features in new versions.
 
-- what the trial includes and how long it lasts;
-- what a paid license includes, such as the number of Macs and the versions covered.
-
-The description shown when you buy is part of these Terms for your purchase. We may add, change or remove features in new versions. Changes never reduce what a license you have already bought covers.
+Tangent doesn’t include access to any AI model. Any fees your model source charges are separate (section 5).
 
 ## 2. Your license to use Tangent
 
-We grant you a personal, non-exclusive, non-transferable license to install and use Tangent on Macs you own or control. The license is subject to these Terms.
+We grant you a personal, non-exclusive, non-transferable, royalty-free license to install and use Tangent on Macs you own or control. The license is subject to these Terms. It gives you the right to use Tangent. It doesn’t give you ownership of Tangent or its code.
 
-- **Trials.** A trial lets you use Tangent within the limits and for the period stated in the app. When it ends, features covered only by a paid license stop working until you buy one. Your projects stay on your Mac.
-- **Paid licenses.** Unless the purchase page says otherwise:
-  - a license is a one-time purchase, not a subscription;
-  - it can be activated on the number of Macs stated at purchase;
-  - it includes updates for the versions stated at purchase, for example all 1.x updates.
-
-  A later major version may require a new purchase. That doesn’t affect your right to keep using the versions your license covers.
-- **Activation.** Activating a license may require an internet connection, at least the first time. You may deactivate a Mac to move your license to another one. Keep your license key private. Sharing or publishing it isn’t allowed.
-
-The license gives you the right to use Tangent. It doesn’t give you ownership of Tangent or its code.
-
-## 3. Purchases, prices and taxes
-
-Purchases are processed by a third-party payment provider. It may sell Tangent to you as reseller (“merchant of record”) and is named at checkout. Its terms also apply to the payment. Prices, currency and any taxes are shown at checkout before you pay. Prices may change, but changes don’t affect purchases already completed.
-
-A Tangent license doesn’t include access to any AI model. Any fees your model source charges are separate (section 7).
-
-## 4. Refunds
-
-The refund policy that applies to your purchase is stated on the purchase or checkout page. It will never give you less than the law where you live requires. If a purchase is refunded or reversed, we may deactivate the license. A Mac that is offline learns of this the next time it connects.
-
-## 5. Updates
+## 3. Updates
 
 We may provide updates that fix problems, improve compatibility or change features. Some updates may be needed to keep Tangent working or secure. We provide security and compatibility updates for supported versions for a reasonable period. We can’t promise that Tangent will keep working with every future version of macOS, of the model sources it supports, or of other apps.
 
-## 6. Previews and betas
+## 4. Previews and betas
 
-We may offer preview, beta or test versions. They may be unstable or incomplete, may stop working after a set time, and may change or lose features before release. Using one doesn’t entitle you to a paid license.
+We may offer preview, beta or test versions. They may be unstable or incomplete, may stop working after a set time, and may change or lose features before release. Using one doesn’t entitle you to any particular feature or release.
 
-## 7. Model sources
+## 5. Model sources
 
 Tangent’s Agent works with a model source you choose and set up yourself: a command-line tool, a local model server or a cloud service. Tangent doesn’t provide, host or resell any of them. When you use one:
 
@@ -57,7 +33,7 @@ Tangent’s Agent works with a model source you choose and set up yourself: a co
 
 We aren’t responsible for a model source’s outages, charges, content or handling of your data.
 
-## 8. AI-generated output and engineering use
+## 6. AI-generated output and engineering use
 
 The Agent’s replies, code and models are generated by AI and can be wrong, even when they look right and build without errors. Dimensions, tolerances, clearances, fits, wall thicknesses, strength, interference and printability may not be what you asked for or what your use needs. Example models use nominal dimensions from outside sources, and parts marked as reference are for context only.
 
@@ -65,7 +41,7 @@ You are responsible for checking every model before you rely on it: measure it, 
 
 Printing and machining are done by other software and equipment that you choose and set up. Open in Bambu Studio only hands the model to Bambu Studio. Check orientation, settings and presets there before you print.
 
-## 9. Your content, designs and data
+## 7. Your content, designs and data
 
 What you write, attach and build in Tangent, and the models and code it produces for you, are yours, as far as the law and your model source’s terms allow. We claim no rights in them. AI output may not be protected by copyright in every country, and a model source may produce similar output for other people.
 
@@ -73,34 +49,34 @@ You are responsible for having the rights to what you attach and send, such as i
 
 Your projects are stored on your Mac. Tangent is not a backup or archive service. Projects can be lost when you delete them or when your Mac or its storage fails, and attachments aren’t kept after you reopen Tangent. Export or back up anything important. Our [Privacy Policy](/privacy/) explains how information is handled.
 
-## 10. Acceptable use
+## 8. Acceptable use
 
 You may not:
 
-- copy, sell, rent, sublicense or redistribute Tangent or license keys, except as these Terms allow;
-- bypass, disable or interfere with licensing, security, sandbox or update features;
+- copy, sell, rent, sublicense or redistribute Tangent, except as these Terms allow;
+- bypass, disable or interfere with security, sandbox or update features;
 - reverse engineer, decompile or disassemble Tangent, except where the law allows it despite this restriction;
 - remove copyright, trademark or other notices;
 - use Tangent to design or make weapons, or items that are illegal to make or own where you live;
 - use Tangent unlawfully or to infringe the rights of others.
 
-## 11. Third-party software and services
+## 9. Third-party software and services
 
 Tangent includes and downloads open-source components, such as build123d and the CAD modeling knowledge it bundles. They are provided under their own licenses, which apply to those components and which these Terms don’t limit. Tangent also works with other apps and services, such as the uv tool, model sources and Bambu Studio. They are governed by their own terms and can change in ways that affect Tangent. We don’t control them. Tangent is not affiliated with, endorsed by or sponsored by Apple, Bambu Lab, Anthropic, OpenAI, Google or any other third party it works with.
 
-## 12. Feedback
+## 10. Feedback
 
 If you send us suggestions or feedback, including through the waitlist, we may use them to improve Tangent. We have no obligation to you for doing so.
 
-## 13. Intellectual property and trademarks
+## 11. Intellectual property and trademarks
 
-Tangent, including its code, design and content, belongs to Nicraft and is protected by intellectual property laws. This doesn’t include your content and designs (section 9) or open-source components (section 11). Nicraft owns the trademarks “Tangent” and the Tangent logo. These Terms don’t give you any right to use them. Other names and trademarks belong to their owners.
+Tangent, including its code, design and content, belongs to Nicraft and is protected by intellectual property laws. This doesn’t include your content and designs (section 7) or open-source components (section 9). Nicraft owns the trademarks “Tangent” and the Tangent logo. These Terms don’t give you any right to use them. Other names and trademarks belong to their owners.
 
-## 14. Disclaimer
+## 12. Disclaimer
 
 To the extent permitted by law, Tangent is provided “as is” and “as available”. We make no warranty that it will meet every need, or be uninterrupted, error-free or always compatible. We also make no warranty that the models, code or replies it produces are accurate, complete or fit for any purpose, or that data it stores can always be recovered. This doesn’t affect any warranty or right that the law gives you and that can’t be excluded.
 
-## 15. Limitation of liability
+## 13. Limitation of liability
 
 To the extent permitted by law, we are not liable for any of the following:
 
@@ -109,29 +85,29 @@ To the extent permitted by law, we are not liable for any of the following:
 - loss or damage arising from parts, products or materials made from models created with Tangent;
 - the acts, charges or output of model sources and other third-party services.
 
-Our total liability for any claim relating to Tangent is limited to the amount you paid for Tangent in the 12 months before the claim.
+Because Tangent is provided free of charge, and to the extent permitted by law, we are not liable to you for any loss arising from your use of it.
 
 These limits don’t apply to liability for intentional misconduct or gross negligence, or to any other liability that the law doesn’t allow us to limit.
 
-## 16. Termination
+## 14. Termination
 
-You may stop using Tangent and uninstall it at any time. If you seriously or repeatedly breach these Terms, we may suspend or end your license. Where practical, we’ll notify you first and give you a chance to fix the problem. Sections 8 to 15, 17 and 19 continue to apply after termination.
+You may stop using Tangent and uninstall it at any time. If you seriously or repeatedly breach these Terms, we may suspend or end your right to use Tangent. Where practical, we’ll notify you first and give you a chance to fix the problem. Sections 6 to 13, 15 and 17 continue to apply after termination.
 
-## 17. Governing law and disputes
+## 15. Governing law and disputes
 
 These Terms are governed by the laws of Taiwan (Republic of China). Disputes are decided by a court with jurisdiction under Taiwan law. If you are a consumer, you keep any protection that the mandatory laws of the country where you live give you, including the right to bring proceedings there where those laws allow it.
 
-## 18. Changes to these Terms
+## 16. Changes to these Terms
 
-We may update these Terms as Tangent and the law change. The date at the top shows the latest version. We’ll announce significant changes on this website or in the app before they take effect. If you keep using Tangent after a change takes effect, you accept the updated Terms. Changes don’t retroactively reduce what a completed purchase covers.
+We may update these Terms as Tangent and the law change. The date at the top shows the latest version. We’ll announce significant changes on this website or in the app before they take effect. If you keep using Tangent after a change takes effect, you accept the updated Terms. Changes don’t apply retroactively to anything that happened before they took effect.
 
-## 19. General
+## 17. General
 
 - If any part of these Terms is found unenforceable, the rest still applies.
 - Not enforcing a right immediately doesn’t waive it.
-- These Terms, the Privacy Policy and the purchase details shown at checkout are the entire agreement between you and us about Tangent.
+- These Terms and the Privacy Policy are the entire agreement between you and us about Tangent.
 - These Terms are available in English and Traditional Chinese. If the versions differ, the Traditional Chinese version prevails, to the extent permitted by law.
 
-## 20. Contact
+## 18. Contact
 
 Nicraft · contact@nicraft.co

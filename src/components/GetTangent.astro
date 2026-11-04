@@ -1,36 +1,18 @@
 ---
-// Pricing, shown as a waitlist while the app is in development. Plans and prices are the owner's;
-// the disclaimer says they may change before launch.
+// "Get Tangent": the app is free, and while it is in development this section is the waitlist.
 import type { Dict } from '../i18n/en';
 import { TALLY_FORM_ID, TALLY_FORM_URL, TALLY_SCRIPT } from '../lib/waitlist';
 
-interface Props { t: Dict['pricing'] }
+interface Props { t: Dict['get'] }
 const { t } = Astro.props;
 const w = t.waitlist;
 ---
-<section id="pricing" class="section" aria-labelledby="pricing-title">
+<section id="get" class="section" aria-labelledby="get-title">
   <div class="narrow center" data-reveal>
     <p class="kicker">{t.kicker}</p>
-    <h2 id="pricing-title">{t.title}</h2>
+    <h2 id="get-title">{t.title}</h2>
+    <p class="body-lg">{t.body}</p>
   </div>
-  <ul class="plans wide">
-    {t.plans.map((p, i) => (
-      <li class:list={['card', 'plan', { 'plan-main': i === 1 }]} data-reveal style={`--i:${i}`}>
-        <h3>{p.name}</h3>
-        <p class="plan-price"><span>{p.price}</span> <small>{p.unit}</small></p>
-        <ul class="plan-features">
-          {p.features.map((f) => (
-            <li>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-              {f}
-            </li>
-          ))}
-        </ul>
-      </li>
-    ))}
-  </ul>
-  <p class="plans-note wide">{t.disclaimer}</p>
-
   <div id="waitlist" class="waitlist wide" data-reveal>
     <div>
       <h3>{w.title}</h3>

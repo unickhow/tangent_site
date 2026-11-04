@@ -27,27 +27,25 @@ pnpm og             # regenerate public/og-*.png and apple-touch-icon.png (needs
   Vercel's `VERCEL_PROJECT_PRODUCTION_URL` / `VERCEL_URL`, then to the public domain
   (`astro.config.mjs`). On Vercel, keep `tangent.nicraft.co` as the project's production domain.
 - **Waitlist.** The app is in development, so there is no download. Every call to action
-  ("Join the waitlist") points at the waitlist in the pricing section
-  (`src/components/Pricing.astro`), which is the owner's Tally form `Gee9QZ`
+  ("Join the waitlist") points at the waitlist in the "Get Tangent" section
+  (`src/components/GetTangent.astro`, anchor `#get`), which is the owner's Tally form `Gee9QZ`
   (`src/lib/waitlist.ts`). The button is a real link to `https://tally.so/r/Gee9QZ` (new tab,
   works without JavaScript); with JavaScript it opens Tally's popup instead, loading Tally's
   script only on click. The page language goes along as a hidden field `lang` (add a hidden field
   with that name in Tally to record it). If the script can't load, the form opens in a new tab.
   The form must be published in Tally, or the popup only shows a spinner. `pnpm check` verifies
   the link and that Tally isn't loaded with the page.
-- **Pricing.** The plans (72-hour free trial with one project; US$19 one-time purchase with full
-  features and all 1.x updates) are the owner's, shown with a "may change before launch" note.
-  They aren't in the structured data, since nothing can be bought yet.
+- **Free.** Tangent is free, with no trial, purchase or license key. The site says so once, in the
+  "Get Tangent" section, and notes that a model source's own usage fees are separate. If a sign-in
+  (e.g. Google) is added later, update the Privacy Policy before it ships.
 
 - **Legal.** The Privacy Policy and Terms of Use (`/privacy/`, `/terms/` and their `/zh-tw/`
   versions) are `src/legal/<doc>.<locale>.md`, adapted from Bangs' for what Tangent does
   differently: requests go from the Mac straight to the model source the user picks (never
   through Nicraft), keys stay in the Keychain, uv downloads the engine from PyPI, and AI-made
   models must be checked before anything is made from them. Nicraft is the operator and
-  trademark owner, contact@nicraft.co the contact. Anything that may change (trial, Macs per
-  license, versions covered, refunds, payment provider) is deferred to the app or checkout.
-  When the app changes what it sends or stores (`tangent/AGENTS.md`), or before purchases,
-  license activation, update checks, crash reports or analytics ship, update both languages
+  trademark owner, contact@nicraft.co the contact. When the app changes what it sends or stores (`tangent/AGENTS.md`), or before sign-in,
+  update checks, crash reports or analytics ship, update both languages
   and bump `updated`.
 
 ## Version control
@@ -84,7 +82,7 @@ src/components/         Home (all sections), MockApp (drawn app window playing o
                         PointDemo (click one hole, it joins the message, only it changes),
                         RefMock (a real reference-image project and its model),
                         ExampleArt (line drawings), LaunchMark (the app's launch), AgentMark (the Agent's
-                        think / write / build motions), Pricing (plans, disclaimer, waitlist form),
+                        think / write / build motions), GetTangent ("Tangent is free", waitlist form),
                         ThemeSwitch (System / Light / Dark), Footer (same rows as Bangs' footer),
                         Legal (privacy and terms pages), Mark (mandarin logo), Icon
 src/components/brandMarkFacets.ts   copied from tangent/src/components/ (generated there; recopy if the mark changes)

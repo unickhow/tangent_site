@@ -18,12 +18,12 @@ export const en = {
     features: 'Features',
     examples: 'Examples',
     sources: 'Model sources',
-    pricing: 'Pricing',
+    get: 'Get Tangent',
     home: 'Tangent home',
   },
   theme: { label: 'Theme', system: 'System', light: 'Light', dark: 'Dark' },
   lang_switch: { label: '中文', aria: '切換為繁體中文', target: 'zh-tw' },
-  // No download yet: every call to action points at the waitlist form in the pricing section
+  // No download yet: every call to action points at the waitlist form in the "Get Tangent" section
   cta: 'Join the waitlist',
   hero: {
     eyebrow: 'macOS app · in development',
@@ -175,19 +175,10 @@ export const en = {
       },
     ],
   },
-  pricing: {
-    kicker: 'Pricing',
-    title: 'Try it free, then buy it once',
-    plans: [
-      { name: 'Free trial', price: 'Free', unit: 'for 72 hours', features: ['One project'] },
-      {
-        name: 'Tangent',
-        price: 'US$19',
-        unit: 'one-time purchase',
-        features: ['Full features', 'All 1.x updates included', 'The version you own keeps working'],
-      },
-    ],
-    disclaimer: 'Prices and plans may change before launch.',
+  get: {
+    kicker: 'Get Tangent',
+    title: 'Tangent is free',
+    body: 'The app costs nothing. Any usage fees from the model source you pick are charged by that provider.',
     waitlist: {
       title: 'Tangent is still in development',
       body: 'Join the waitlist to hear when it’s ready.',
@@ -217,12 +208,12 @@ export const en = {
     privacy: {
       title: 'Privacy Policy',
       meta: 'Tangent Privacy Policy',
-      description: 'What Nicraft handles when you use Tangent, its website, waitlist and licenses, what goes to your model source, and the choices you have.',
+      description: 'What Nicraft handles when you use Tangent, its website and waitlist, what goes to your model source, and the choices you have.',
     },
     terms: {
       title: 'Terms of Use',
       meta: 'Tangent Terms of Use',
-      description: 'The terms for using Tangent for macOS: licenses and purchases, model sources, AI-generated models, your designs, and your rights.',
+      description: 'The terms for using Tangent for macOS: your license to use it, model sources, AI-generated models, your designs, and your rights.',
     },
   },
 };
