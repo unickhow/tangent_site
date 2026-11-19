@@ -1,13 +1,13 @@
 {
-  "version": "0.14.0",
-  "notes": "Adds in-app updates and a first-launch setup guide.",
-  "notes_zh_tw": "新增 App 內更新與第一次開啟的設定精靈。",
-  "pub_date": "2026-11-19T03:07:06Z",
+  "version": "0.14.1",
+  "notes": "A new installer window.",
+  "notes_zh_tw": "全新的安裝視窗。",
+  "pub_date": "2026-11-19T04:10:26Z",
   "minimum_system_version": "12.0",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVm9SMVJmZ3NpVUNMWTlwUFpBR3Q4K0tybHlNclVoM3ZJUG5GbVNQZ3NqanFPcFpoWU1saTNZSlIvQzFDYnlNUEU2anZIVkxJNTIrcWNoWlFXbXJZZzgvRGpBSzRNYmdZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1MDU3NTY4CWZpbGU6VGFuZ2VudC5hcHAudGFyLmd6CXZlcnNpb246MC4xNC4wCkRVSHpqa1F4REQ2cUZUQU5zVzVoSHVIRDBEMndPRTlVSDlYaXE2REJXTnNSOHlZWjJGb1ZFaWgwYStOWlpaelBlNmp4YXJ1TXUwSFV4MGdDenBWRkF3PT0K",
-      "url": "https://download.nicraft.co/tangent/Tangent_0.14.0_aarch64.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVm9SMVJmZ3NpVUlGR09yWTErcnZCOEtyTWdBRlZPUWR4Sy9PRnYvcUQ2SkRtSkRQOEV3aHNVcndrU0UwSUtLVi9vblh1aFpJbTVqYytUbzBBbDUydk84bU5oTVVEL0FzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1MDYxMzgwCWZpbGU6VGFuZ2VudC5hcHAudGFyLmd6CXZlcnNpb246MC4xNC4xCkptWEV3TGM3RXBEbVVRUmRUcC9HcWJiMHV1eGlnaEIwdlRDeVg4RlhFeXZkdlZZa2kxRlIwUjFjSXBVcTJad1V2aUYxTUgyZ3hPWFBQY05XVUYzbUR3PT0K",
+      "url": "https://download.nicraft.co/tangent/Tangent_0.14.1_aarch64.app.tar.gz"
     }
   }
 }
