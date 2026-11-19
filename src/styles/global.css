@@ -38,6 +38,9 @@
   --radius: 22px;
   --radius-sm: 12px;
   --shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 18px 50px -20px rgba(15, 16, 20, 0.22);
+  /* Cursor-following light on the Features and How it works cards */
+  --glow-fill: rgba(232, 89, 12, 0.09);
+  --glow-edge: rgba(232, 89, 12, 0.6);
 
   --font: 'Geist Variable', -apple-system, BlinkMacSystemFont, 'PingFang TC', 'Noto Sans TC', 'Microsoft JhengHei', system-ui, sans-serif;
   --mono: 'Geist Mono Variable', ui-monospace, 'SF Mono', Menlo, monospace;
@@ -86,6 +89,8 @@
     --edge: #8c91a0;
 
     --shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 64px -24px rgba(0, 0, 0, 0.7);
+    --glow-fill: rgba(242, 107, 29, 0.16);
+    --glow-edge: rgba(255, 158, 92, 0.75);
   }
 }
 :root[data-theme='dark'] {
@@ -124,6 +129,8 @@
   --edge: #8c91a0;
 
   --shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 24px 64px -24px rgba(0, 0, 0, 0.7);
+  --glow-fill: rgba(242, 107, 29, 0.16);
+  --glow-edge: rgba(255, 158, 92, 0.75);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -327,6 +334,29 @@ h3 { font-size: 1.08rem; letter-spacing: -0.012em; line-height: 1.3; }
 }
 .card p { margin-top: 10px; color: var(--fg-muted); font-size: 0.96rem; }
 
+/* Cursor light ([data-glow] grids: How it works, Features). The script (Base.astro) sets --mx/--my on
+   every card from the one pointer, so the light spills across the gaps from card to card: a soft
+   fill under the text and a brighter ring on the border. Only for a real pointer; reduced motion
+   and touch keep the plain cards. */
+@media (hover: hover) and (pointer: fine) {
+  [data-glow] .card { position: relative; isolation: isolate; }
+  [data-glow] .card::before, [data-glow] .card::after {
+    content: ''; position: absolute; border-radius: inherit; pointer-events: none; opacity: 0;
+    transition: opacity 300ms var(--ease);
+  }
+  [data-glow] .card::before {
+    inset: 0; z-index: -1;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), var(--glow-fill), transparent 65%);
+  }
+  [data-glow] .card::after {
+    inset: -1px; padding: 1px;
+    background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), var(--glow-edge), transparent 70%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude;
+  }
+  [data-glow].is-glowing .card::before, [data-glow].is-glowing .card::after { opacity: 1; }
+}
+
 .steps, .grid-3 {
   display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 56px;
 }
@@ -388,7 +418,7 @@ h3 { font-size: 1.08rem; letter-spacing: -0.012em; line-height: 1.3; }
 
 /* Sources */
 .sources {
-  margin-top: 56px; display: grid; grid-template-columns: 1fr 1fr 2fr; gap: 16px;
+  margin-top: 56px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
 }
 .source-group {
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px;
@@ -403,27 +433,7 @@ h3 { font-size: 1.08rem; letter-spacing: -0.012em; line-height: 1.3; }
 .trust li { display: flex; gap: 16px; align-items: flex-start; padding: 24px; border-radius: var(--radius); border: 1px dashed var(--line-strong); }
 .trust .feature-icon { margin: 0; }
 .trust p { margin-top: 6px; color: var(--fg-muted); font-size: 0.95rem; }
-@media (max-width: 900px) { .sources { grid-template-columns: 1fr 1fr; } .sources .source-group:last-child { grid-column: 1 / -1; } }
 @media (max-width: 620px) { .sources, .trust { grid-template-columns: 1fr; } }
-
-/* Examples */
-.example { padding: 0; overflow: hidden; }
-.example-art {
-  height: clamp(200px, 22vw, 260px); display: grid; place-items: center; padding: 24px;
-  background:
-    radial-gradient(var(--dot) 1px, transparent 1.4px) 0 0 / 16px 16px,
-    var(--surface-2);
-  border-bottom: 1px solid var(--line);
-}
-.example h3 { padding: 22px 26px 0; }
-.example p { padding: 0 26px 26px; }
-.art { width: 100%; height: 100%; min-height: 0; overflow: visible; }
-.art .face { stroke: var(--edge); stroke-width: 0.6; stroke-linejoin: round; }
-.art .face-top { fill: var(--face-top); }
-.art .face-left { fill: var(--face-left); }
-.art .face-right { fill: var(--face-right); }
-.art .line { fill: none; stroke: var(--edge); stroke-width: 1.4; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-.art .line-accent { stroke: var(--fg); }
 
 /* Export */
 .exports {
@@ -439,17 +449,18 @@ h3 { font-size: 1.08rem; letter-spacing: -0.012em; line-height: 1.3; }
 @media (max-width: 900px) { .exports { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 620px) { .exports { grid-template-columns: 1fr; } .export-bambu { grid-template-columns: 1fr; gap: 0; } }
 
-/* Get Tangent (GetTangent.astro): the waitlist */
-.waitlist {
-  max-width: 820px; margin-top: 48px; padding: 28px; border-radius: var(--radius);
-  border: 1px dashed var(--line-strong); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 24px; align-items: start;
+/* Get Tangent (GetTangent.astro): the download */
+.download {
+  margin-top: 48px; padding: 28px 32px; border-radius: var(--radius);
+  border: 1px dashed var(--line-strong); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 32px; align-items: center;
   scroll-margin-top: 96px;
 }
-.waitlist p { margin-top: 6px; color: var(--fg-muted); font-size: 0.96rem; }
-.waitlist-action { display: grid; justify-items: start; align-content: center; }
-.waitlist-message { min-height: 1.4em; margin-top: 10px; font-size: 0.88rem; }
+.download p { margin-top: 6px; color: var(--fg-muted); font-size: 0.96rem; }
+.download-action { display: grid; justify-items: center; }
+.download-action .download-version { margin-top: 10px; font-size: 0.88rem; }
 @media (max-width: 720px) {
-  .waitlist { grid-template-columns: 1fr; }
+  .download { grid-template-columns: 1fr; }
+  .download-action { justify-items: start; }
 }
 
 /* Final call to action */
@@ -662,10 +673,6 @@ h3 { font-size: 1.08rem; letter-spacing: -0.012em; line-height: 1.3; }
   65%, 85% { stroke-dashoffset: 0; fill-opacity: 1; }
   100% { stroke-dashoffset: 0; fill-opacity: 0; }
 }
-
-/* An example coming into view traces its outline, like opening one in the app. */
-.js .is-in .art .line, .js .is-in .art .face { stroke-dasharray: 1; animation: edges 1.1s ease-in-out calc(var(--i, 0) * 120ms + 150ms) both; }
-.js .is-in .art .face { animation: edges 1.1s ease-in-out calc(var(--i, 0) * 120ms + 150ms) both, faces 400ms linear calc(var(--i, 0) * 120ms + 900ms) both; }
 
 /* ---------- Reveal on scroll (only when JS is running) ---------- */
 .js [data-reveal] {

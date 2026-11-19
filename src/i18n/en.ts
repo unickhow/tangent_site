@@ -16,17 +16,16 @@ export const en = {
     label: 'Main',
     how: 'How it works',
     features: 'Features',
-    examples: 'Examples',
     sources: 'Model sources',
     get: 'Get Tangent',
     home: 'Tangent home',
   },
   theme: { label: 'Theme', system: 'System', light: 'Light', dark: 'Dark' },
   lang_switch: { label: '中文', aria: '切換為繁體中文', target: 'zh-tw' },
-  // No download yet: every call to action points at the waitlist form in the "Get Tangent" section
-  cta: 'Join the waitlist',
+  // Every call to action points at the download in the "Get Tangent" section
+  cta: 'Download',
   hero: {
-    eyebrow: 'macOS app · in development',
+    eyebrow: 'macOS app',
     lede: 'Click any face, edge or hole and say what to change. The Agent knows exactly which part you mean, and every result is a measurable CAD version you can compare or roll back.',
     secondary: 'See how it works',
     scroll: 'Scroll to the next section',
@@ -139,27 +138,15 @@ export const en = {
   sources: {
     kicker: 'Model sources',
     title: 'Use the model you already have',
-    body: 'Pick a model and its options from the menu next to the message box.',
+    body: 'Tangent has no models of its own. Bring in the tools already on your Mac, then pick a model and its options from the menu next to the message box.',
     groups: [
       { title: 'Local CLIs', items: ['Claude Code', 'Codex'] },
       { title: 'Local servers', items: ['Ollama', 'LM Studio'] },
-      { title: 'Cloud APIs', items: ['OpenAI', 'Anthropic', 'Gemini', 'OpenRouter', 'Any OpenAI-compatible service'] },
     ],
     trust: [
-      { title: 'Keys stay in your Keychain', body: 'API keys live in the macOS Keychain.' },
+      { title: 'No keys in Tangent', body: 'Each tool keeps its own sign-in. Tangent stores no keys.' },
       { title: 'Model code runs sandboxed', body: 'The Agent’s code runs in a sandbox on your Mac.' },
     ],
-  },
-  examples: {
-    kicker: 'Examples',
-    title: 'Open a real model and keep going',
-    body: 'Open one from the home screen and edit it with the Agent.',
-    items: [
-      { id: 'pi', title: 'Raspberry Pi 5 cooling case', detail: 'Three-piece CNC aluminum, with a reference board' },
-      { id: 'fpv', title: 'Carbon quadcopter frame', detail: '5-inch, 220 mm wheelbase, with motors and FC' },
-      { id: 'gear', title: 'Planetary gearbox', detail: '4:1, three planets, involute teeth' },
-    ],
-    figure: 'Line drawing of the',
   },
   export: {
     kicker: 'Export',
@@ -179,17 +166,17 @@ export const en = {
     kicker: 'Get Tangent',
     title: 'Tangent is free',
     body: 'The app costs nothing. Any usage fees from the model source you pick are charged by that provider.',
-    waitlist: {
-      title: 'Tangent is still in development',
-      body: 'Join the waitlist to hear when it’s ready.',
-      button: 'Join the waitlist',
-      thanks: 'You’re on the list. We’ll email you when Tangent is ready.',
-      failed: 'The form opened in a new tab.',
+    download: {
+      title: 'Download Tangent',
+      button: 'Download for macOS',
+      version: 'Version',
+      requires: 'Needs macOS {macos} or later on an Apple Silicon Mac. Intel Macs aren’t supported.',
+      first: 'The first launch sets up the geometry engine, so it needs an internet connection. Updates arrive in the app.',
     },
   },
   final: {
     title: 'Point. Then talk.',
-    body: 'For macOS, in English and Traditional Chinese.',
+    body: 'For Apple Silicon Macs, in English and Traditional Chinese.',
   },
   footer: {
     tagline: 'Point at the model, talk it into shape.',
@@ -208,7 +195,7 @@ export const en = {
     privacy: {
       title: 'Privacy Policy',
       meta: 'Tangent Privacy Policy',
-      description: 'What Nicraft handles when you use Tangent, its website and waitlist, what goes to your model source, and the choices you have.',
+      description: 'What Nicraft handles when you use Tangent and its website, what goes to your model source, and the choices you have.',
     },
     terms: {
       title: 'Terms of Use',

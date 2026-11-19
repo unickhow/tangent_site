@@ -18,16 +18,15 @@ export const zhTW: Dict = {
     label: '主選單',
     how: '運作方式',
     features: '功能',
-    examples: '範例',
     sources: 'Agent 來源',
     get: '取得 Tangent',
     home: 'Tangent 首頁',
   },
   theme: { label: '外觀', system: '跟隨系統', light: '淺色', dark: '深色' },
   lang_switch: { label: 'EN', aria: 'Switch to English', target: 'en' },
-  cta: '加入等候名單',
+  cta: '下載',
   hero: {
-    eyebrow: 'macOS 應用程式 · 開發中',
+    eyebrow: 'macOS 應用程式',
     lede: '點選任何面、邊或孔，說出要改什麼。Agent 清楚知道你指的是哪裡；每次修改都是能量測、能比較、能還原的 CAD 版本。',
     secondary: '了解運作方式',
     scroll: '捲動到下一段',
@@ -140,27 +139,15 @@ export const zhTW: Dict = {
   sources: {
     kicker: 'Agent 來源',
     title: '用你手邊已經有的模型',
-    body: '在輸入框旁的選單切換模型與選項。',
+    body: 'Tangent 沒有自己的模型。把 Mac 上已有的工具帶進來，再從輸入框旁的選單切換模型與選項。',
     groups: [
       { title: '本機 CLI', items: ['Claude Code', 'Codex'] },
       { title: '本機伺服器', items: ['Ollama', 'LM Studio'] },
-      { title: '雲端 API', items: ['OpenAI', 'Anthropic', 'Gemini', 'OpenRouter', '任何 OpenAI 相容服務'] },
     ],
     trust: [
-      { title: '金鑰存在鑰匙圈', body: 'API 金鑰存放在 macOS 鑰匙圈。' },
+      { title: 'Tangent 不存金鑰', body: '各工具保管自己的登入，Tangent 不儲存任何金鑰。' },
       { title: '程式碼在沙盒中執行', body: 'Agent 的程式碼在你 Mac 上的沙盒中執行。' },
     ],
-  },
-  examples: {
-    kicker: '範例',
-    title: '打開真正的模型，接著改下去',
-    body: '從首頁打開，就能和 Agent 一起修改。',
-    items: [
-      { id: 'pi', title: '樹莓派 5 散熱外殼', detail: 'CNC 鋁合金三件式，含主機板參考件' },
-      { id: 'fpv', title: '四軸碳纖機架', detail: '5 吋、220 mm 軸距，含馬達與飛控' },
-      { id: 'gear', title: '行星齒輪減速機', detail: '4:1、三行星輪、漸開線齒形' },
-    ],
-    figure: '線稿：',
   },
   export: {
     kicker: '匯出',
@@ -180,17 +167,17 @@ export const zhTW: Dict = {
     kicker: '取得 Tangent',
     title: 'Tangent 免費使用',
     body: 'App 本身不收費；你所選模型來源的用量費用，由該服務商另行收取。',
-    waitlist: {
-      title: 'Tangent 仍在開發中',
-      body: '加入等候名單，準備好時通知你。',
-      button: '加入等候名單',
-      thanks: '已加入等候名單，Tangent 準備好時會寄信通知你。',
-      failed: '表單已在新分頁開啟。',
+    download: {
+      title: '下載 Tangent',
+      button: '下載 macOS 版',
+      version: '版本',
+      requires: '需要 macOS {macos} 以上、Apple 晶片的 Mac。不支援 Intel Mac。',
+      first: '首次開啟會準備幾何引擎，需要連上網路。之後的更新會在 App 內送達。',
     },
   },
   final: {
     title: '先指，再說',
-    body: 'macOS 版，支援繁體中文與英文。',
+    body: 'macOS 版（Apple 晶片），支援繁體中文與英文。',
   },
   footer: {
     tagline: '指著模型，邊聊邊改。',
@@ -207,12 +194,12 @@ export const zhTW: Dict = {
     privacy: {
       title: '隱私權政策',
       meta: 'Tangent 隱私權政策',
-      description: '使用 Tangent、本網站、等候名單與授權時，Nicraft 如何處理您的資料、哪些內容會送往您的模型來源，以及您的選擇。',
+      description: '使用 Tangent 與本網站時，Nicraft 如何處理您的資料、哪些內容會送往您的模型來源，以及您的選擇。',
     },
     terms: {
       title: '使用條款',
       meta: 'Tangent 使用條款',
-      description: 'Tangent macOS App 的使用條款：授權與購買、模型來源、AI 產生的模型、您的設計，以及您的權利。',
+      description: 'Tangent macOS App 的使用條款：授權、模型來源、AI 產生的模型、您的設計，以及您的權利。',
     },
   },
 };

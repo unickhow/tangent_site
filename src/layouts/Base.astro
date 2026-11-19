@@ -3,6 +3,7 @@ import '@fontsource-variable/geist';
 import '@fontsource-variable/geist-mono';
 import '../styles/global.css';
 import { dicts, hreflang, type LegalDoc, type Locale } from '../i18n';
+import { release } from '../lib/release';
 
 interface Props { locale: Locale; page?: 'home' | LegalDoc }
 const { locale, page = 'home' } = Astro.props;
@@ -23,7 +24,10 @@ const jsonLd = page !== 'home' ? null : {
   name: 'Tangent',
   description: meta.description,
   applicationCategory: 'DesignApplication',
-  operatingSystem: 'macOS',
+  operatingSystem: `macOS ${release.macos}+`,
+  softwareVersion: release.version,
+  downloadUrl: release.dmgUrl,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   inLanguage: ['en', 'zh-TW'],
   url: canonical,
   image: ogImage,
@@ -109,6 +113,27 @@ const jsonLd = page !== 'home' ? null : {
           { rootMargin: '0px 0px -10% 0px' },
         );
         els.forEach((el) => io.observe(el));
+      }
+
+      // Cursor light on the card grids ([data-glow]): one pointer drives every card's --mx/--my, so the
+      // light moves from card to card. Skipped for touch and reduced motion (the cards stay plain).
+      if (matchMedia('(hover: hover) and (pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.querySelectorAll<HTMLElement>('[data-glow]').forEach((grid) => {
+          const cards = [...grid.querySelectorAll<HTMLElement>('.card')];
+          let x = 0, y = 0, frame = 0;
+          const paint = () => {
+            frame = 0;
+            for (const c of cards) {
+              const r = c.getBoundingClientRect();
+              c.style.setProperty('--mx', `${x - r.left}px`);
+              c.style.setProperty('--my', `${y - r.top}px`);
+            }
+          };
+          const queue = () => { frame ||= requestAnimationFrame(paint); };
+          grid.addEventListener('pointermove', (e) => { x = e.clientX; y = e.clientY; grid.classList.add('is-glowing'); queue(); });
+          grid.addEventListener('pointerleave', () => grid.classList.remove('is-glowing'));
+          addEventListener('scroll', () => grid.classList.contains('is-glowing') && queue(), { passive: true });
+        });
       }
 
       // Header gains a backdrop once the hero has scrolled away.

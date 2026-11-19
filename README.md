@@ -15,7 +15,7 @@ pnpm install
 pnpm dev            # dev server on http://localhost:4321 with live reload
 pnpm build          # static files into dist/
 pnpm preview        # serve dist/ on http://localhost:4321
-pnpm check          # after a build: checks titles, descriptions, canonical, hreflang, OG/Twitter, JSON-LD, h1, alt text, placeholders
+pnpm check          # after a build: checks titles, descriptions, canonical, hreflang, OG/Twitter, JSON-LD, h1, alt text, the download link
 pnpm og             # regenerate public/og-*.png and apple-touch-icon.png (needs rsvg-convert: brew install librsvg,
                     # and uvx, which converts the site's Geist fonts for it)
 ```
@@ -26,27 +26,30 @@ pnpm og             # regenerate public/og-*.png and apple-touch-icon.png (needs
   Open Graph URLs, `robots.txt` and `sitemap.xml` are built from `SITE_URL`, which falls back to
   Vercel's `VERCEL_PROJECT_PRODUCTION_URL` / `VERCEL_URL`, then to the public domain
   (`astro.config.mjs`). On Vercel, keep `tangent.nicraft.co` as the project's production domain.
-- **Waitlist.** The app is in development, so there is no download. Every call to action
-  ("Join the waitlist") points at the waitlist in the "Get Tangent" section
-  (`src/components/GetTangent.astro`, anchor `#get`), which is the owner's Tally form `Gee9QZ`
-  (`src/lib/waitlist.ts`). The button is a real link to `https://tally.so/r/Gee9QZ` (new tab,
-  works without JavaScript); with JavaScript it opens Tally's popup instead, loading Tally's
-  script only on click. The page language goes along as a hidden field `lang` (add a hidden field
-  with that name in Tally to record it). If the script can't load, the form opens in a new tab.
-  The form must be published in Tally, or the popup only shows a spinner. `pnpm check` verifies
-  the link and that Tally isn't loaded with the page.
+- **Download.** Every call to action points at the "Get Tangent" section (`#get`,
+  `src/components/GetTangent.astro`), whose button downloads the installer. The address is not
+  written by hand: `src/lib/release.ts` reads `public/updates/v0/latest.json` (the manifest the app
+  checks for updates) at build time and derives the installer `Tangent_X.Y.Z_aarch64.dmg` from the
+  update archive's address (same folder, same name stem: the app repo's convention, published names
+  are never replaced), so pushing a release (`tangent/docs/RELEASING.md`) also moves the button.
+  A manifest that doesn't match that pattern fails the build. `pnpm check` verifies the link equals
+  the manifest's version, that the host is `download.nicraft.co` (the host the Privacy Policy names)
+  and, online, that the installer answers 200 as a disk image: a release published without `--dmg`
+  would otherwise leave a dead button. The page, the JSON-LD and the hero show that version and
+  the macOS it needs.
 - **Free.** Tangent is free, with no trial, purchase or license key. The site says so once, in the
   "Get Tangent" section, and notes that a model source's own usage fees are separate. If a sign-in
   (e.g. Google) is added later, update the Privacy Policy before it ships.
 
 - **Legal.** The Privacy Policy and Terms of Use (`/privacy/`, `/terms/` and their `/zh-tw/`
   versions) are `src/legal/<doc>.<locale>.md`, adapted from Bangs' for what Tangent does
-  differently: requests go from the Mac straight to the model source the user picks (never
-  through Nicraft), keys stay in the Keychain, uv downloads the engine from PyPI, and AI-made
-  models must be checked before anything is made from them. Nicraft is the operator and
-  trademark owner, contact@nicraft.co the contact. When the app changes what it sends or stores (`tangent/AGENTS.md`), or before sign-in,
-  update checks, crash reports or analytics ship, update both languages
-  and bump `updated`.
+  differently: requests go from the Mac straight to the model source the user brings in (never
+  through Nicraft), Tangent stores no keys, it fetches its own uv (pinned, checksum-verified) and
+  uv downloads the engine from PyPI and GitHub, updates are checked against tangent.nicraft.co and
+  downloaded from download.nicraft.co (signed), and AI-made models must be checked before anything
+  is made from them. Nicraft is the operator and trademark owner, contact@nicraft.co the contact.
+  When the app changes what it sends or stores (`tangent/AGENTS.md`), or before sign-in, crash
+  reports or analytics ship, update both languages and bump `updated`.
 
 ## Version control
 
@@ -81,8 +84,8 @@ src/layouts/Base.astro  <head>: title, description, canonical, hreflang, OG, Twi
 src/components/         Home (all sections), MockApp (drawn app window playing one Agent turn),
                         PointDemo (click one hole, it joins the message, only it changes),
                         RefMock (a real reference-image project and its model),
-                        ExampleArt (line drawings), LaunchMark (the app's launch), AgentMark (the Agent's
-                        think / write / build motions), GetTangent ("Tangent is free", waitlist form),
+                        LaunchMark (the app's launch), AgentMark (the Agent's
+                        think / write / build motions), GetTangent ("Tangent is free", download),
                         ThemeSwitch (System / Light / Dark), Footer (same rows as Bangs' footer),
                         Legal (privacy and terms pages), Mark (mandarin logo), Icon
 src/components/brandMarkFacets.ts   copied from tangent/src/components/ (generated there; recopy if the mark changes)
@@ -122,7 +125,6 @@ Motion is ported from the app, with its timings, and each one shows something re
   reduced motion); the wheel keeps scrolling the page. Everywhere else the drawing stays.
 - **Selection:** a pointer clicks one of the lid's holes, it joins the message as a chip, the
   Agent builds, and only that hole gets larger. The app's own wording and labels.
-- **Examples:** each drawing traces its outline as it appears, like opening an example in the app.
 - **Closing mark:** one light pass.
 
 Nothing loops for decoration. Without JavaScript, or with `prefers-reduced-motion`, every piece

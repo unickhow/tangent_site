@@ -1,11 +1,11 @@
 ---
-// "Get Tangent": the app is free, and while it is in development this section is the waitlist.
+// "Get Tangent": the app is free; the download is the installer of the release in public/updates.
 import type { Dict } from '../i18n/en';
-import { TALLY_FORM_ID, TALLY_FORM_URL, TALLY_SCRIPT } from '../lib/waitlist';
+import { release } from '../lib/release';
 
 interface Props { t: Dict['get'] }
 const { t } = Astro.props;
-const w = t.waitlist;
+const d = t.download;
 ---
 <section id="get" class="section" aria-labelledby="get-title">
   <div class="narrow center" data-reveal>
@@ -13,63 +13,15 @@ const w = t.waitlist;
     <h2 id="get-title">{t.title}</h2>
     <p class="body-lg">{t.body}</p>
   </div>
-  <div id="waitlist" class="waitlist wide" data-reveal>
+  <div id="download" class="download wide" data-reveal>
     <div>
-      <h3>{w.title}</h3>
-      <p>{w.body}</p>
+      <h3>{d.title}</h3>
+      <p>{d.requires.replace('{macos}', release.macos)}</p>
+      <p>{d.first}</p>
     </div>
-    {/*
-      The waitlist is the owner's Tally form. The link works on its own (no JavaScript: Tally's page
-      in a new tab); with JavaScript it opens as a popup, loading Tally's script only on click. The
-      page language goes along as a hidden field named "lang".
-    */}
-    <div class="waitlist-action">
-      <a class="btn btn-primary" href={TALLY_FORM_URL} target="_blank" rel="noopener"
-        data-tally-form={TALLY_FORM_ID} data-tally-script={TALLY_SCRIPT}>
-        {w.button}
-      </a>
-      <p class="waitlist-message" role="status" aria-live="polite" data-thanks={w.thanks} data-failed={w.failed}></p>
+    <div class="download-action">
+      <a class="btn btn-primary btn-lg" href={release.dmgUrl} data-download>{d.button}</a>
+      <p class="download-version">{d.version} {release.version}</p>
     </div>
   </div>
 </section>
-
-<script>
-  type Tally = { openPopup: (id: string, options?: Record<string, unknown>) => void };
-  let loading: Promise<Tally> | null = null;
-  const loadTally = (src: string) =>
-    (loading ??= new Promise<Tally>((resolve, reject) => {
-      const script = document.createElement('script');
-      script.src = src;
-      script.async = true;
-      script.onload = () => {
-        const tally = (window as unknown as { Tally?: Tally }).Tally;
-        tally ? resolve(tally) : reject(new Error('Tally missing'));
-      };
-      script.onerror = () => reject(new Error('Tally blocked'));
-      document.head.append(script);
-    }).catch((e) => {
-      loading = null; // a later click may try again
-      throw e;
-    }));
-
-  for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-tally-form]')) {
-    const message = link.parentElement!.querySelector<HTMLElement>('.waitlist-message')!;
-    link.addEventListener('click', async (e) => {
-      e.preventDefault();
-      message.textContent = '';
-      try {
-        const tally = await loadTally(link.dataset.tallyScript!);
-        tally.openPopup(link.dataset.tallyForm!, {
-          layout: 'modal',
-          width: 460,
-          hiddenFields: { lang: document.documentElement.lang },
-          onSubmit: () => (message.textContent = message.dataset.thanks!),
-        });
-      } catch {
-        // Blocked or offline: Tally's own page still works
-        window.open(link.href, '_blank', 'noopener');
-        message.textContent = message.dataset.failed!;
-      }
-    });
-  }
-</script>

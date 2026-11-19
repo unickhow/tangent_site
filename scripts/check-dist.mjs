@@ -2,6 +2,7 @@
 // promises. Exits non-zero on the first page that breaks one.
 import { readFileSync, existsSync } from 'node:fs';
 
+const DOWNLOAD_HOST = 'https://download.nicraft.co/';
 const pages = { en: 'dist/index.html', 'zh-tw': 'dist/zh-tw/index.html' };
 const seen = { title: new Set(), description: new Set() };
 let failed = 0;
@@ -29,13 +30,15 @@ for (const [locale, file] of Object.entries(pages)) {
   check(/<fieldset[^>]*data-theme-switch/.test(html) && (html.match(/name="theme"/g) ?? []).length === 3, `${locale}: theme switch offers three choices`);
   check(!/<img(?![^>]*\balt=)[^>]*>/.test(html), `${locale}: every <img> has alt`);
   check(![...html.matchAll(/<svg[^>]*role="img"[^>]*>/g)].some((m) => !/aria-label="[^"]+"/.test(m[0])), `${locale}: every role=img svg is labelled`);
-  // The waitlist is the owner's Tally form: a real link that works without JavaScript, and Tally's
-  // script is never loaded with the page (only when someone opens the waitlist)
-  const tally = [...html.matchAll(/<a[^>]*data-tally-form="Gee9QZ"[^>]*>/g)];
-  check(tally.length === 1 && /href="https:\/\/tally\.so\/r\/Gee9QZ"/.test(tally[0][0]) && /rel="noopener"/.test(tally[0][0]), `${locale}: waitlist links to the Tally form`);
-  check(!/<script[^>]*src="https:\/\/tally\.so/.test(html), `${locale}: Tally isn't loaded with the page`);
-  check((html.match(/href="#waitlist"/g) ?? []).length >= 2 && html.includes('id="waitlist"'), `${locale}: calls to action point at the waitlist`);
-  check(!/data-placeholder="download"/.test(html), `${locale}: no dead Download button left`);
+  // The download is the installer of the release in public/updates (the manifest the app checks),
+  // and nothing third-party loads with the page
+  const latest = JSON.parse(readFileSync('public/updates/v0/latest.json', 'utf8'));
+  const dmg = latest.platforms['darwin-aarch64'].url.replace(/\.app\.tar\.gz$/, '.dmg');
+  check(dmg.endsWith(`/Tangent_${latest.version}_aarch64.dmg`) && dmg.startsWith(DOWNLOAD_HOST), `${locale}: installer is Tangent_${latest.version}_aarch64.dmg on ${DOWNLOAD_HOST} (the host the Privacy Policy names)`);
+  check(html.includes(`href="${dmg}"`), `${locale}: download links to the installer of ${latest.version}`);
+  check((html.match(/href="#get"/g) ?? []).length >= 2 && html.includes('id="get"'), `${locale}: calls to action point at the download`);
+  check(!/tally|waitlist/i.test(html), `${locale}: no waitlist or Tally left`);
+  check(!/<script[^>]*src="https?:/.test(html), `${locale}: no third-party script tag in the page`);
   check(html.includes(`href="https://bangs.nicraft.co${locale === 'en' ? '/' : '/zh-tw/'}"`), `${locale}: footer links Bangs in the same language`);
 }
 // Legal pages: their own title, description, canonical and hreflang; the contact address; linked
@@ -63,5 +66,18 @@ for (const [locale, file] of [...Object.entries(pages), ...legal.map(([n, f]) =>
 }
 for (const f of ['dist/robots.txt', 'dist/sitemap-index.xml', 'dist/sitemap-0.xml', 'dist/og-en.png', 'dist/og-zh-tw.png']) check(existsSync(f), `${f} exists`);
 check(readFileSync('dist/sitemap-0.xml', 'utf8').includes('hreflang="zh-TW"'), 'sitemap lists hreflang alternates');
+
+// The installer must really be there: a release published without --dmg would leave a dead button.
+// Offline is a warning, not a failure; a 404 or the wrong type is a failure.
+{
+  const latest = JSON.parse(readFileSync('public/updates/v0/latest.json', 'utf8'));
+  const dmg = latest.platforms['darwin-aarch64'].url.replace(/\.app\.tar\.gz$/, '.dmg');
+  try {
+    const res = await fetch(dmg, { method: 'HEAD', signal: AbortSignal.timeout(10000) });
+    check(res.ok && res.headers.get('content-type') === 'application/x-apple-diskimage', `installer is downloadable: ${dmg} (${res.status} ${res.headers.get('content-type')})`);
+  } catch {
+    console.warn(`! couldn't reach ${dmg}; the installer was not verified`);
+  }
+}
 
 process.exit(failed ? 1 : 0);
