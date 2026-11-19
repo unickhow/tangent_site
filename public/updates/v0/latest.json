@@ -1,13 +1,13 @@
 {
-  "version": "0.14.1",
-  "notes": "A new installer window.",
-  "notes_zh_tw": "全新的安裝視窗。",
-  "pub_date": "2026-11-19T04:10:26Z",
+  "version": "0.15.0",
+  "notes": "You can now report an error: you see exactly what would be sent first, and nothing goes unless you choose Send.",
+  "notes_zh_tw": "現在可以回報錯誤：會先讓你看到將送出的完整內容，按下「送出」才會傳送。",
+  "pub_date": "2026-11-19T05:51:55Z",
   "minimum_system_version": "12.0",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVm9SMVJmZ3NpVUlGR09yWTErcnZCOEtyTWdBRlZPUWR4Sy9PRnYvcUQ2SkRtSkRQOEV3aHNVcndrU0UwSUtLVi9vblh1aFpJbTVqYytUbzBBbDUydk84bU5oTVVEL0FzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1MDYxMzgwCWZpbGU6VGFuZ2VudC5hcHAudGFyLmd6CXZlcnNpb246MC4xNC4xCkptWEV3TGM3RXBEbVVRUmRUcC9HcWJiMHV1eGlnaEIwdlRDeVg4RlhFeXZkdlZZa2kxRlIwUjFjSXBVcTJad1V2aUYxTUgyZ3hPWFBQY05XVUYzbUR3PT0K",
-      "url": "https://download.nicraft.co/tangent/Tangent_0.14.1_aarch64.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVm9SMVJmZ3NpVU42Y2NoOVg1dFBwTmUyeThvRzRNS2FuQ1czQnVjdTlpVDM4MkFmTXdNSi9tdWlnUXNtcEZuYktTNDl6Nk45ZlFSNDd0Q1ByWlNTY3ovOUtNbVA4bVE4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1MDY3NDQ2CWZpbGU6VGFuZ2VudC5hcHAudGFyLmd6CXZlcnNpb246MC4xNS4wCjI1VXNyaU5BdWkvSHJXM1hkZ2V3MlFNVXNJbStZZkVoNHRueU5KMTNpaUJlUkFyOXlOcEdPSDFnUVExbnUwTis5MEZKWGRoMlpnUWU5YmlVVWU2WUR3PT0K",
+      "url": "https://download.nicraft.co/tangent/Tangent_0.15.0_aarch64.app.tar.gz"
     }
   }
 }
