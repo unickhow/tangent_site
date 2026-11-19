@@ -60,14 +60,14 @@ The model code the Agent writes is run in a sandbox on your Mac without network 
 ## 5. The website and downloads
 
 - **Website.** We use Microsoft Clarity to understand how visitors use this site. Clarity sets cookies and records how you interact with pages, such as clicks, scrolling and mouse movement, along with your device and browser type and approximate location; text you type into forms is masked. Microsoft processes this data under its own privacy statement. If you pick a theme, your browser remembers it in its own storage; it isn’t sent to us. Our hosting provider processes the technical data needed to deliver pages and keep the site secure, such as your IP address, browser type and the pages requested.
-- **Downloads.** The installer and update files are served from download.nicraft.co. Our storage provider processes the technical data needed to deliver them and keep the service secure, such as your IP address and the file requested. We don’t ask for your email address or an account to download Tangent.
+- **Downloads.** The installer and update files are served from download.nicraft.co, and the demo videos on this site from static.nicraft.co. Our storage provider processes the technical data needed to deliver them and keep the service secure, such as your IP address and the file requested. We don’t ask for your email address or an account to download Tangent.
 
 ## 6. Service providers
 
 We share information only with providers that help us run Tangent, and only what each one needs. Currently they are:
 
 - **Vercel:** website hosting, including the file that announces new versions.
-- **Cloudflare:** storage and delivery of the installer and update files, and receiving the error reports you choose to send.
+- **Cloudflare:** storage and delivery of the installer and update files and of the demo videos on this site, and receiving the error reports you choose to send.
 - **Microsoft Clarity:** website analytics.
 
 When we add a provider, we’ll add it to this list. We don’t sell your personal information, and we don’t share it for advertising.

@@ -3,6 +3,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 
 const DOWNLOAD_HOST = 'https://download.nicraft.co/';
+const videoSrcs = new Set();
 const pages = { en: 'dist/index.html', 'zh-tw': 'dist/zh-tw/index.html' };
 const seen = { title: new Set(), description: new Set() };
 let failed = 0;
@@ -40,6 +41,14 @@ for (const [locale, file] of Object.entries(pages)) {
   check(!/tally|waitlist/i.test(html), `${locale}: no waitlist or Tally left`);
   check(!/<script[^>]*src="https?:/.test(html), `${locale}: no third-party script tag in the page`);
   check(html.includes(`href="https://bangs.nicraft.co${locale === 'en' ? '/' : '/zh-tw/'}"`), `${locale}: footer links Bangs in the same language`);
+  // How it works plays four silent screen recordings: the posters ship with the site (public/videos), the clips
+  // are named in src/lib/media.ts and live in R2; the clips are checked online below
+  const clips = [...html.matchAll(/<video[^>]*\sposter="(\/videos\/[^"]+)"[^>]*\ssrc="(https:\/\/static\.nicraft\.co\/tangent\/videos\/[^"]+\.mp4)"/g)];
+  check(clips.length === 4, `${locale}: four screen recordings in How it works`);
+  for (const [, poster, src] of clips) {
+    check(existsSync(`dist${poster}`), `${locale}: poster ${poster} exists`);
+    videoSrcs.add(src);
+  }
 }
 // Legal pages: their own title, description, canonical and hreflang; the contact address; linked
 // from every page's footer.
@@ -77,6 +86,16 @@ check(readFileSync('dist/sitemap-0.xml', 'utf8').includes('hreflang="zh-TW"'), '
     check(res.ok && res.headers.get('content-type') === 'application/x-apple-diskimage', `installer is downloadable: ${dmg} (${res.status} ${res.headers.get('content-type')})`);
   } catch {
     console.warn(`! couldn't reach ${dmg}; the installer was not verified`);
+  }
+}
+
+// Every demo clip must really be there, a video, immutable. Offline is a warning, not a failure.
+for (const src of videoSrcs) {
+  try {
+    const res = await fetch(src, { method: 'HEAD', signal: AbortSignal.timeout(10000) });
+    check(res.ok && res.headers.get('content-type') === 'video/mp4' && /immutable/.test(res.headers.get('cache-control') ?? ''), `clip is downloadable, video/mp4, immutable: ${src} (${res.status})`);
+  } catch {
+    console.warn(`! couldn't reach ${src}; the clip was not verified`);
   }
 }
 

@@ -58,18 +58,28 @@ export const zhTW: Dict = {
   how: {
     kicker: '運作方式',
     title: '從一句話開始，接著用指的',
+    tablist: '步驟',
+    player: { play: '播放影片', pause: '暫停影片' },
     steps: [
       {
         title: '描述需求',
-        body: '寫下你想做的東西，需要時附上圖片、PDF、文字檔或連結。',
+        body: '寫下你想做的東西，需要時附上圖片、PDF 或連結。Tangent 在你 Mac 的沙盒中執行 Agent 寫的程式碼，出錯會自動送回修正。',
+        video: { name: 'first-prompt', file: 'first-prompt-be48da975222.mp4', w: 1048, h: 720, label: '螢幕錄影：請它做一個手機架，Tangent 建出模型' },
       },
       {
-        title: 'Agent 建模',
-        body: 'Agent 寫出 build123d 程式碼，Tangent 在 Mac 上的沙盒中執行，模型隨即出現。出錯會自動送回 Agent 修正。',
+        title: '指給它看',
+        body: '點選面、邊或孔，加入對話。Agent 拿到它的精確位置，只會改那個部位。',
+        video: { name: 'point-edit', file: 'point-edit-9c9391f204d5.mp4', w: 1048, h: 720, label: '螢幕錄影：選取手機架的一個面，請它在那裡加一個充電平台' },
       },
       {
-        title: '點選並修改',
-        body: '點選要改的部位，說出要怎麼改。每個結果都是一個版本，可以還原、開分支或比較。',
+        title: '再修改，然後匯出',
+        body: '一次選取多個部位，繼續下一個修改。滿意後匯出 STEP、STL，或在 Bambu Studio 開啟。',
+        video: { name: 'refine-export', file: 'refine-export-37038080e673.mp4', w: 1048, h: 720, label: '螢幕錄影：選取多個部位，請它把平台縮小，接著是匯出選項' },
+      },
+      {
+        title: '隨時退回',
+        body: '每個結果都是一個版本，可以還原、開分支，或與上一版比較。',
+        video: { name: 'history-restore', file: 'history-restore-22c13e47ee4b.mp4', w: 1164, h: 720, label: '螢幕錄影：在歷史中退回較早的版本' },
       },
     ],
   },

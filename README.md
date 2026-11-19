@@ -50,6 +50,17 @@ pnpm og             # regenerate public/og-*.png and apple-touch-icon.png (needs
   have to miss to break even (about one in six). It assumes the agent rewrites the whole code each time;
   an agent that patches only the changed lines uses fewer tokens, and the card says so. Re-measure and
   update both languages when the prompts, the skill, or the selection payload change.
+- **Videos.** How it works is a tab list beside one stage that plays four silent screen recordings. The
+  posters ship with the site (`public/videos/<name>.jpg`); the clips live in the `static` R2 bucket behind
+  `static.nicraft.co` under `tangent/videos/<name>-<12 hex of sha256>.mp4` (`src/lib/media.ts`, and each
+  step's `video.file` in both languages). To replace one: `ffmpeg -i in.mp4 -an -c:v copy -movflags +faststart out.mp4`
+  (no audio, moov up front), upload it under its new hashed name with `wrangler r2 object put static/<key>
+  --remote --content-type video/mp4 --cache-control 'public, max-age=31536000, immutable'`, then change
+  `file`. Never replace a published name, and never GET a URL before uploading it: the edge caches the 404 for
+  hours (check with `wrangler r2 object get`, or HEAD). Only the shown clip loads and plays, while the stage is
+  on screen; "reduce motion" starts still, and a pause button is always there. Without JS all four show with
+  their own controls. `pnpm check` requires four clips and posters and, online, that each clip answers 200 as
+  `video/mp4` with `immutable`.
 - **Free.** Tangent is free, with no trial, purchase or license key. The site says so once, in the
   "Get Tangent" section, and notes that a model source's own usage fees are separate. If a sign-in
   (e.g. Google) is added later, update the Privacy Policy before it ships.

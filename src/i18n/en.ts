@@ -58,18 +58,30 @@ export const en = {
   how: {
     kicker: 'How it works',
     title: 'Start with a sentence, then point',
+    tablist: 'Steps',
+    player: { play: 'Play video', pause: 'Pause video' },
+    // Screen recordings of the app, silent: the poster is public/videos/<name>.jpg, the clip is <file> in the R2 bucket
+    // (src/lib/media.ts); w and h = the video's size
     steps: [
       {
         title: 'Describe it',
-        body: 'Write what you need. Attach images, PDFs, text files or links if they help.',
+        body: 'Write what you need, with images, PDFs or links if they help. Tangent builds the Agent’s code in a sandbox on your Mac; build errors go back to it to fix.',
+        video: { name: 'first-prompt', file: 'first-prompt-be48da975222.mp4', w: 1048, h: 720, label: 'Screen recording: asking for a phone stand, and Tangent building it' },
       },
       {
-        title: 'The Agent models it',
-        body: 'It writes build123d code, Tangent runs it in a sandbox on your Mac, and the solid appears. Build errors go back to the Agent to fix.',
+        title: 'Point at the part',
+        body: 'Click a face, edge or hole and add it to the chat. The Agent gets its exact position, so it changes that part.',
+        video: { name: 'point-edit', file: 'point-edit-9c9391f204d5.mp4', w: 1048, h: 720, label: 'Screen recording: selecting a face of the phone stand and asking for a charging platform there' },
       },
       {
-        title: 'Point and refine',
-        body: 'Click the part you want changed and say what to do. Each result is a version you can restore, branch or compare.',
+        title: 'Refine, then export',
+        body: 'Select several parts at once and ask for the next change. When it’s right, export STEP or STL, or open it in Bambu Studio.',
+        video: { name: 'refine-export', file: 'refine-export-37038080e673.mp4', w: 1048, h: 720, label: 'Screen recording: selecting several parts and asking for a smaller platform, then the export options' },
+      },
+      {
+        title: 'Go back anytime',
+        body: 'Every result is a version. Restore one, branch from it, or compare it with the last.',
+        video: { name: 'history-restore', file: 'history-restore-22c13e47ee4b.mp4', w: 1164, h: 720, label: 'Screen recording: going back to an earlier version in History' },
       },
     ],
   },

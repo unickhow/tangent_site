@@ -362,6 +362,42 @@ h3 { font-size: 1.08rem; letter-spacing: -0.012em; line-height: 1.3; }
   display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 56px;
 }
 .step { padding-top: 24px; }
+/* How it works: the four steps as tabs beside one video stage (Home.astro). Without JS (no .is-ready) every
+   video shows in a list with its own controls. */
+.how-grid { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 16px; margin-top: 56px; align-items: start; }
+.how-tabs { display: grid; gap: 12px; }
+.how-stage-wrap { position: sticky; top: 96px; }
+.how-tab { display: block; width: 100%; text-align: left; font: inherit; color: inherit; cursor: pointer; padding: 20px 24px; }
+.how-tab .step-n { font-size: 1.05rem; margin-bottom: 12px; color: var(--fg-muted); }
+.how-tab[aria-selected='true'] { border-color: var(--fg); }
+.how-tab[aria-selected='true'] .step-n { color: var(--brand-text); }
+.how-tab:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.how-stage { position: relative; border-radius: var(--radius); overflow: hidden; background: #0b0b0d; border: 1px solid var(--line); box-shadow: var(--shadow); display: grid; gap: 12px; }
+.how-stage.is-ready { aspect-ratio: 1048 / 720; display: block; }
+.how-vid { display: block; width: 100%; height: auto; background: #0b0b0d; }
+.how-stage.is-ready .how-vid { height: 100%; object-fit: contain; }
+.how-vid[hidden] { display: none; }
+.how-toggle { display: none; }
+.how-stage.is-ready .how-toggle {
+  display: grid; place-items: center; position: absolute; right: 12px; bottom: 12px; width: 40px; height: 40px; border-radius: 50%;
+  border: 0; color: #fff; background: rgba(0, 0, 0, 0.55); backdrop-filter: blur(6px); cursor: pointer;
+}
+.how-toggle[data-state='playing'] .i-play, .how-toggle[data-state='paused'] .i-pause { display: none; }
+.how-toggle:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.how-caption { display: none; margin-top: 12px; color: var(--fg-muted); font-size: 0.95rem; }
+@media (max-width: 900px) {
+  .how-grid { grid-template-columns: 1fr; }
+  .how-stage-wrap { position: static; order: -1; }
+  .how-tabs { grid-template-columns: 1fr 1fr; }
+  .how-tab { padding: 14px 16px; }
+  .how-tab .step-n { margin-bottom: 6px; }
+  .how-tab p { display: none; }
+  .how-caption { display: block; }
+}
+@media (max-width: 420px) { .how-tab h3 { font-size: 1rem; } }
+html:not(.js) .how-tab p { display: block; }
+html:not(.js) .how-caption { display: none; }
+
 .step-n {
   display: block; font-family: var(--mono); font-size: 2.6rem; letter-spacing: -0.04em; line-height: 1;
   color: var(--fg); margin-bottom: 40px;
