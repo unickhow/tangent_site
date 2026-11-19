@@ -10,7 +10,7 @@ This Privacy Policy explains what information Nicraft (“we”, “us”) handl
 - Tangent doesn’t include an AI model. You choose a model source, and when you ask the Agent, your request goes from your Mac to that source, never through us.
 - Tangent doesn’t store API keys or sign-ins. A model source you bring in keeps its own.
 - Tangent has no Nicraft account and no cloud sync, and it contains no advertising or tracking code.
-- Tangent’s own servers only deliver the website, the installer and update files. They never receive your projects.
+- Tangent’s own servers deliver the website, the installer and update files. They receive an error report only if you choose to send one, and it never contains your projects.
 
 ## 1. Information that stays on your Mac
 
@@ -52,7 +52,8 @@ Tangent currently doesn’t ask for special macOS permissions such as Accessibil
 - **Geometry engine setup.** Tangent’s geometry engine isn’t part of the installer. The first time Tangent starts, and after an update that changes the engine, it builds the engine on your Mac with uv. If your Mac has no suitable uv, Tangent first downloads its own pinned release from GitHub and only uses it if it matches a checksum built into the app. uv then downloads the engine’s pinned open-source components (such as build123d) from the Python Package Index and, if your Mac has no suitable Python, a Python runtime from GitHub. Those services receive the ordinary information any download involves, such as your IP address. Nothing from your projects is sent.
 - **Links.** Links in the Agent’s replies open in your web browser, only when you click them.
 - **Updates.** A few seconds after it starts, and then once a day, Tangent asks tangent.nicraft.co for a small file that names the newest version. The request carries nothing about you or your Mac: no identifier, no version and nothing from your projects. If you turn automatic checks off in Settings, it stops. When a newer version exists, Tangent downloads it from download.nicraft.co in the background, checks its signature against a key built into the app, and only then replaces itself. These servers receive the ordinary information any request involves, such as your IP address.
-- **Crash reports and analytics.** Tangent currently doesn’t send crash reports or usage analytics. If we add them, we’ll describe them here first. They will never include your conversations, attachments or models.
+- **Error reports.** When an Agent turn or the geometry engine’s setup fails, the error offers a “Report this error” button. It shows exactly what would be sent, and nothing is sent unless you click Send. A report contains only: the Tangent version, the macOS version, the chip type, where the failure happened and its category, and the name of the model source (for example “ollama”). For a failed engine setup it also contains the setup’s output, with your home folder, user name, computer name and any address other than where the engine’s packages come from removed. It never contains your conversations, attachments, models, projects, files, the message a model source returned, or any identifier. It goes to tangent.nicraft.co. We don’t store your IP address with it: the address is used only to limit how often one address can send reports, and our provider sees it as it does for any web request.
+- **Analytics.** Tangent doesn’t send crash reports on its own, and it sends no usage analytics. If we add either, we’ll describe it here first. Neither will include your conversations, attachments or models.
 
 The model code the Agent writes is run in a sandbox on your Mac without network access.
 
@@ -66,7 +67,7 @@ The model code the Agent writes is run in a sandbox on your Mac without network 
 We share information only with providers that help us run Tangent, and only what each one needs. Currently they are:
 
 - **Vercel:** website hosting, including the file that announces new versions.
-- **Cloudflare:** storage and delivery of the installer and update files.
+- **Cloudflare:** storage and delivery of the installer and update files, and receiving the error reports you choose to send.
 - **Microsoft Clarity:** website analytics.
 
 When we add a provider, we’ll add it to this list. We don’t sell your personal information, and we don’t share it for advertising.
@@ -94,6 +95,7 @@ Our providers may process information in countries other than yours, including t
 
 - **Information on your Mac:** you control it. It stays until you delete the project or remove the app’s data.
 - **Information sent to your model source:** kept for as long as that provider’s policy and your settings with it allow. We don’t hold a copy.
+- **Error reports you send:** deleted automatically after 90 days.
 - **Technical logs at our providers:** kept for the limited periods those providers set.
 
 ## 10. Your rights
