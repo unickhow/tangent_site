@@ -57,6 +57,7 @@ const nav = [
             <a class="btn btn-primary btn-lg" href="#get">{t.cta}</a>
             <a class="btn btn-ghost btn-lg" href="#how">{t.hero.secondary}</a>
           </div>
+          <p class="hero-needs">{t.hero.needs}</p>
         </div>
       </div>
       <a class="scroll-cue" href="#intro" aria-label={t.hero.scroll}><Icon name="arrow" /></a>
@@ -169,6 +170,45 @@ const nav = [
           </li>
         ))}
       </ul>
+      <section class="usage wide" data-reveal aria-labelledby="usage-title">
+        <h3 id="usage-title">{t.sources.usage.title}</h3>
+        <p class="usage-sub">{t.sources.usage.body}</p>
+        <ul class="usage-stats">
+          {t.sources.usage.stats.map((x) => (
+            <li><strong>{x.big}</strong><span>{x.label}</span><p>{x.sub}</p></li>
+          ))}
+        </ul>
+        <figure class="strips">
+          <figcaption>{t.sources.usage.strips.caption}</figcaption>
+          {t.sources.usage.strips.scenarios.map((sc) => {
+            const wordsTotal = (6 + sc.retries) * 100;
+            const tangentTotal = 6 * 117;
+            return (
+              <div class="strip-group">
+                <p class="strip-head"><span>{sc.name}</span><b>{sc.verdict}</b></p>
+                <div class="strip-row">
+                  <span class="strip-label">{t.sources.usage.strips.words}</span>
+                  <div class="strip" style={`--len:${(wordsTotal / 900) * 100}%`} role="img" aria-label={`${t.sources.usage.strips.words}: ${wordsTotal / 600 * 100}%`}>
+                    {Array.from({ length: 6 }).map(() => <i class="blk plain"></i>)}
+                    {Array.from({ length: sc.retries }).map(() => <i class="blk retry" title={t.sources.usage.strips.retry}></i>)}
+                  </div>
+                </div>
+                <div class="strip-row">
+                  <span class="strip-label">{t.sources.usage.strips.tangent}</span>
+                  <div class="strip" style={`--len:${(tangentTotal / 900) * 100}%`} role="img" aria-label={`${t.sources.usage.strips.tangent}: ${Math.round(tangentTotal / 6)}%`}>
+                    {Array.from({ length: 6 }).map(() => <i class="blk tangent"></i>)}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+          <p class="strip-legend"><i class="blk retry"></i>{t.sources.usage.strips.retry}</p>
+        </figure>
+        <details class="usage-fine">
+          <summary>{t.sources.usage.fine.summary}</summary>
+          <ul>{t.sources.usage.fine.items.map((n) => <li>{n}</li>)}</ul>
+        </details>
+      </section>
     </section>
 
     <GetTangent t={t.get} />

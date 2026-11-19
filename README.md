@@ -37,6 +37,19 @@ pnpm og             # regenerate public/og-*.png and apple-touch-icon.png (needs
   and, online, that the installer answers 200 as a disk image: a release published without `--dmg`
   would otherwise leave a dead button. The page, the JSON-LD and the hero show that version and
   the macOS it needs.
+- **Token use.** The card under the sources compares an agent using the same text-to-cad skill, where
+  the user describes each change in words, with Tangent, where the user points. It is computed from the
+  app, not written by hand, for one change on a model with 1,919 tokens of code (`pi_enclosure`),
+  English, GPT `o200k_base` as a stand-in. Words-only agent per message: skill 2,922
+  (`skills/text-to-cad/cad-modeling.md`) + code 1,919 + a 30-token request + the whole code written
+  back 2,009 = 6,880. Tangent: system prompt plus skill 4,021 (`server.py` `system_prompt()`) + code 1,919
+  + 20 for headings + a pointed request of 91 (12 words + 79 for the selected face's position, normal and
+  size, measured with `compose_turn`) + 2,009 = 8,060, 117% of the first. The second chart is
+  6,880 x (1 + m) / 8,060 for m = 0, 1/10, 1/6, 1/4, 1/2: each wrong guess costs one more round, pointing
+  is assumed never to miss, and m is not measured by anyone, so the card says only how often words would
+  have to miss to break even (about one in six). It assumes the agent rewrites the whole code each time;
+  an agent that patches only the changed lines uses fewer tokens, and the card says so. Re-measure and
+  update both languages when the prompts, the skill, or the selection payload change.
 - **Free.** Tangent is free, with no trial, purchase or license key. The site says so once, in the
   "Get Tangent" section, and notes that a model source's own usage fees are separate. If a sign-in
   (e.g. Google) is added later, update the Privacy Policy before it ships.

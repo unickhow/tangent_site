@@ -277,6 +277,7 @@ p { text-wrap: pretty; }
 .hero-copy { margin-top: 24px; }
 .lede { font-size: clamp(1.2rem, 1.9vw, 1.55rem); line-height: 1.35; letter-spacing: -0.012em; max-width: 30ch; }
 .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.hero-needs { margin-top: 16px; color: var(--hero-muted); font-size: 0.92rem; max-width: 34em; }
 
 .scroll-cue {
   position: absolute; left: 50%; bottom: 24px; translate: -50% 0;
@@ -434,6 +435,45 @@ h3 { font-size: 1.08rem; letter-spacing: -0.012em; line-height: 1.3; }
 .trust .feature-icon { margin: 0; }
 .trust p { margin-top: 6px; color: var(--fg-muted); font-size: 0.95rem; }
 @media (max-width: 620px) { .sources, .trust { grid-template-columns: 1fr; } }
+
+/* What a message costs in tokens (Home.astro, under the sources): two big numbers, then the same six changes
+   drawn as blocks (one block = one change; a longer strip = more tokens) in three cases. Colors are validated
+   categorical slots (light and dark stepped separately); text stays in text tokens. */
+.usage {
+  --s1: #2a78d6; --s2: #eb6834; --neutral: #9a9ba3;
+  margin-top: 16px; padding: 28px; border-radius: var(--radius); border: 1px dashed var(--line-strong);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .usage { --s1: #3987e5; --s2: #d95926; --neutral: #6c6f7a; }
+}
+:root[data-theme='dark'] .usage { --s1: #3987e5; --s2: #d95926; --neutral: #6c6f7a; }
+.usage h3 { font-size: clamp(1.15rem, 2.2vw, 1.5rem); letter-spacing: -0.02em; max-width: 30em; }
+.usage-sub { margin-top: 8px; color: var(--fg-muted); font-size: 0.95rem; max-width: 62ch; }
+.usage-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+.usage-stats li { padding: 20px 22px; border-radius: var(--radius-sm); background: var(--surface); border: 1px solid var(--line); display: grid; gap: 2px; align-content: start; }
+.usage-stats strong { font-size: clamp(2.2rem, 5vw, 3.2rem); line-height: 1; letter-spacing: -0.04em; font-weight: 500; }
+.usage-stats span { font-family: var(--mono); font-size: 0.82rem; color: var(--fg-muted); margin-top: 6px; }
+.usage-stats p { margin-top: 8px; color: var(--fg-muted); font-size: 0.92rem; }
+.strips { margin-top: 28px; }
+.strips figcaption { font-size: 0.82rem; color: var(--fg-muted); margin-bottom: 12px; }
+.strip-group { padding: 14px 0; border-top: 1px solid var(--line); display: grid; gap: 6px; }
+.strip-head { display: flex; justify-content: space-between; gap: 16px; font-size: 0.92rem; }
+.strip-head b { font-weight: 600; }
+.strip-row { display: grid; grid-template-columns: 5.5em minmax(0, 1fr); align-items: center; gap: 12px; }
+.strip-label { font-family: var(--mono); font-size: 0.8rem; color: var(--fg-muted); }
+.strip { width: var(--len); display: flex; gap: 2px; height: 18px; }
+.blk { flex: 1 1 0; border-radius: 3px; display: block; min-width: 0; }
+.blk.plain { background: var(--neutral); }
+.blk.tangent { background: var(--s1); }
+.blk.retry { background: var(--s2); }
+.strip-legend { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 0.82rem; color: var(--fg-muted); }
+.strip-legend .blk { flex: none; width: 14px; height: 14px; }
+.usage-fine { margin-top: 20px; border-top: 1px solid var(--line); padding-top: 14px; font-size: 0.9rem; color: var(--fg-muted); }
+.usage-fine summary { cursor: pointer; width: fit-content; }
+.usage-fine ul { display: grid; gap: 8px; margin-top: 10px; }
+.usage-fine li { padding-left: 16px; position: relative; }
+.usage-fine li::before { content: ''; position: absolute; left: 0; top: 0.7em; width: 6px; height: 1px; background: var(--fg-muted); }
+@media (max-width: 720px) { .usage-stats { grid-template-columns: 1fr; } .strip-row { grid-template-columns: minmax(0, 1fr); gap: 4px; } .strip-head { flex-direction: column; gap: 0; } .strip { height: 14px; } }
 
 /* Export */
 .exports {

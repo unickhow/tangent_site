@@ -29,6 +29,7 @@ export const zhTW: Dict = {
     eyebrow: 'macOS 應用程式',
     lede: '點選任何面、邊或孔，說出要改什麼。Agent 清楚知道你指的是哪裡；每次修改都是能量測、能比較、能還原的 CAD 版本。',
     secondary: '了解運作方式',
+    needs: '自備 AI：搭配 Mac 上的 Claude Code、Codex、Ollama 或 LM Studio 使用。',
     scroll: '捲動到下一段',
   },
   intro: {
@@ -148,6 +149,34 @@ export const zhTW: Dict = {
       { title: 'Tangent 不存金鑰', body: '各工具保管自己的登入，Tangent 不儲存任何金鑰。' },
       { title: '程式碼在沙盒中執行', body: 'Agent 的程式碼在你 Mac 上的沙盒中執行。' },
     ],
+    usage: {
+      title: '指定位置每則訊息多花一點，文字描述指錯時就賺回來。',
+      body: '對照的是同樣用 text-to-cad 技能、每次用文字描述修改的 Agent。範例：一個約 1,900 tokens 程式碼的模型。',
+      stats: [
+        { big: '+17%', label: '每則訊息', sub: 'Tangent 多了自己的規則，以及你標記部位的精確位置。' },
+        { big: '6 次錯 1 次', label: '文字描述指錯', sub: '文字描述指錯的頻率到這裡，總量一樣；比這更常指錯，指定位置反而省。' },
+      ],
+      strips: {
+        caption: '6 次修改，總共用掉的 tokens',
+        words: '文字',
+        tangent: 'Tangent',
+        retry: '指錯後重做的一輪',
+        scenarios: [
+          { name: '文字都沒指錯', retries: 0, verdict: 'Tangent 多 17%' },
+          { name: '6 次錯 1 次', retries: 1, verdict: '差不多' },
+          { name: '2 次錯 1 次', retries: 3, verdict: 'Tangent 少 22%' },
+        ],
+      },
+      fine: {
+        summary: '這個比較的前提',
+        items: [
+          '假設指定位置每次都指對。沒有人量過文字描述多常指錯。',
+          '算的是每次修改後都把整份程式碼重寫一遍的 Agent，和 Tangent 一樣。只改有變動那幾行的 Agent，每則訊息用的 token 更少。',
+          '標記一個面約多 80 tokens，不到一則訊息的 1%。Agent 自己的系統指示沒有計入。',
+          '用 GPT 分詞器代替你的模型自己的分詞器計算，實際會有些出入。',
+        ],
+      },
+    },
   },
   export: {
     kicker: '匯出',
@@ -172,6 +201,7 @@ export const zhTW: Dict = {
       button: '下載 macOS 版',
       version: '版本',
       requires: '需要 macOS {macos} 以上、Apple 晶片的 Mac。不支援 Intel Mac。',
+      needs: '還需要 Mac 上已有一個 AI 工具：Claude Code、Codex、Ollama 或 LM Studio。Tangent 本身沒有模型。',
       first: '首次開啟會準備幾何引擎，需要連上網路。之後的更新會在 App 內送達。',
     },
   },

@@ -28,6 +28,8 @@ export const en = {
     eyebrow: 'macOS app',
     lede: 'Click any face, edge or hole and say what to change. The Agent knows exactly which part you mean, and every result is a measurable CAD version you can compare or roll back.',
     secondary: 'See how it works',
+    // Tangent has no model of its own: say what it needs before anything else
+    needs: 'Bring your own AI: works with Claude Code, Codex, Ollama or LM Studio on your Mac.',
     scroll: 'Scroll to the next section',
   },
   intro: {
@@ -147,6 +149,37 @@ export const en = {
       { title: 'No keys in Tangent', body: 'Each tool keeps its own sign-in. Tangent stores no keys.' },
       { title: 'Model code runs sandboxed', body: 'The Agent’s code runs in a sandbox on your Mac.' },
     ],
+    // Measured from the app (tangent/src-python): the system prompt plus the bundled CAD skill, and
+    // the three example models, counted with the GPT tokenizers as a stand-in. Re-measure when
+    // server.py's prompts or skills/text-to-cad/cad-modeling.md change.
+    usage: {
+      title: 'Pointing costs a little more per message. It pays for itself when words miss.',
+      body: 'Compared with an agent using the same text-to-cad skill, describing each change in words. Example: a model with about 1,900 tokens of code.',
+      stats: [
+        { big: '+17%', label: 'per message', sub: 'Tangent adds its own rules and the exact position of what you marked.' },
+        { big: '1 in 6', label: 'edits that miss', sub: 'If words land on the wrong part that often, the total is the same. More often, pointing costs less.' },
+      ],
+      strips: {
+        caption: '6 changes, tokens used in total',
+        words: 'Words',
+        tangent: 'Tangent',
+        retry: 'a retry after a miss',
+        scenarios: [
+          { name: 'Words never miss', retries: 0, verdict: 'Tangent costs 17% more' },
+          { name: '1 in 6 misses', retries: 1, verdict: 'About the same' },
+          { name: '1 in 2 misses', retries: 3, verdict: 'Tangent costs 22% less' },
+        ],
+      },
+      fine: {
+        summary: 'What this assumes',
+        items: [
+          'Pointing is assumed to hit the right part every time. Nobody has measured how often words miss.',
+          'It counts an agent that writes the whole code again after each change, as Tangent does. An agent that edits only the changed lines uses fewer tokens per message.',
+          'Marking a face adds about 80 tokens, under 1% of a message. The agent’s own instructions are not counted.',
+          'Counted with GPT tokenizers as a stand-in for your model’s own, so expect some difference.',
+        ],
+      },
+    },
   },
   export: {
     kicker: 'Export',
@@ -171,6 +204,7 @@ export const en = {
       button: 'Download for macOS',
       version: 'Version',
       requires: 'Needs macOS {macos} or later on an Apple Silicon Mac. Intel Macs aren’t supported.',
+      needs: 'You also need one AI tool already on your Mac: Claude Code, Codex, Ollama or LM Studio. Tangent has no model of its own.',
       first: 'The first launch sets up the geometry engine, so it needs an internet connection. Updates arrive in the app.',
     },
   },
