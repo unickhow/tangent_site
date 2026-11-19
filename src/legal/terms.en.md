@@ -1,5 +1,5 @@
 ---
-updated: 2026-11-04
+updated: 2026-11-19
 ---
 
 These Terms of Use (“Terms”) are an agreement between you and Nicraft (“we”, “us”). They govern the Tangent app for macOS (“Tangent” or “the app”), its updates, and this website (tangent.nicraft.co). By downloading, installing or using Tangent, you agree to these Terms. If you don’t agree, don’t use Tangent. Nothing in these Terms limits rights you have under consumer protection laws that can’t be waived.
@@ -24,10 +24,10 @@ We may offer preview, beta or test versions. They may be unstable or incomplete,
 
 ## 5. Model sources
 
-Tangent’s Agent works with a model source you choose and set up yourself: a command-line tool, a local model server or a cloud service. Tangent doesn’t provide, host or resell any of them. When you use one:
+Tangent’s Agent works with a model source you choose and set up yourself: a command-line tool or a local model server. Tangent doesn’t provide, host or resell any of them. When you use one:
 
 - your use of it is governed by its own terms, usage policies and privacy policy, and you are responsible for following them;
-- any account, subscription, API key or usage fees it requires are yours, and you pay them to that provider;
+- any account, subscription or usage fees it requires are yours, and you pay them to that provider;
 - what you send it and how it handles your data are described in our [Privacy Policy](/privacy/) and in the provider’s own policy;
 - its availability, limits, models and behavior are set by the provider and can change at any time.
 
@@ -66,7 +66,7 @@ Tangent includes and downloads open-source components, such as build123d and the
 
 ## 10. Feedback
 
-If you send us suggestions or feedback, including through the waitlist, we may use them to improve Tangent. We have no obligation to you for doing so.
+If you send us suggestions or feedback, including by email, we may use them to improve Tangent. We have no obligation to you for doing so.
 
 ## 11. Intellectual property and trademarks
 
