@@ -1,13 +1,13 @@
 {
-  "version": "0.15.0",
-  "notes": "You can now report an error: you see exactly what would be sent first, and nothing goes unless you choose Send.",
-  "notes_zh_tw": "現在可以回報錯誤：會先讓你看到將送出的完整內容，按下「送出」才會傳送。",
-  "pub_date": "2026-11-19T05:51:55Z",
+  "version": "0.17.0",
+  "notes": "Press ↑ in an empty message box to bring back what you sent, and Retry a reply you stopped. Markers stay the same size on screen when you zoom. Export shows a live preview, lets you choose which parts go in, and lets you choose where each file is saved.",
+  "notes_zh_tw": "輸入框是空的時候按 ↑ 可以叫回送出過的訊息，停止的回覆可以重試。縮放時，點與線的標記在畫面上維持同樣大小。匯出時有即時預覽，可以選擇要輸出哪些零件，也可以選擇每個檔案存在哪裡。",
+  "pub_date": "2026-11-20T05:37:15Z",
   "minimum_system_version": "12.0",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVm9SMVJmZ3NpVU42Y2NoOVg1dFBwTmUyeThvRzRNS2FuQ1czQnVjdTlpVDM4MkFmTXdNSi9tdWlnUXNtcEZuYktTNDl6Nk45ZlFSNDd0Q1ByWlNTY3ovOUtNbVA4bVE4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1MDY3NDQ2CWZpbGU6VGFuZ2VudC5hcHAudGFyLmd6CXZlcnNpb246MC4xNS4wCjI1VXNyaU5BdWkvSHJXM1hkZ2V3MlFNVXNJbStZZkVoNHRueU5KMTNpaUJlUkFyOXlOcEdPSDFnUVExbnUwTis5MEZKWGRoMlpnUWU5YmlVVWU2WUR3PT0K",
-      "url": "https://download.nicraft.co/tangent/Tangent_0.15.0_aarch64.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVm9SMVJmZ3NpVUE0cjdtL0NWZjkzNEJDbFZHUFhFS1BsdjRVRGxFUzc0UGVxMzdjWTl1WkdmOTBKL08xdGRjTFovZ2ZGZ0dPUC9TdFo2WTFrTFZyOWE5ZjZXaTJ5UWdNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1MTUyODY5CWZpbGU6VGFuZ2VudC5hcHAudGFyLmd6CXZlcnNpb246MC4xNy4wCjdveitIbk5wUURyd0xRblJGQnBnZCtzRXhBWG9jOVNteWhGVm0ybGpUM1MxVk53bEVEYjZVbGtadm8xWTNHOHVOWWZubDBERnBsdzdoYm9QZkRsMEF3PT0K",
+      "url": "https://download.nicraft.co/tangent/Tangent_0.17.0_aarch64.app.tar.gz"
     }
   }
 }
