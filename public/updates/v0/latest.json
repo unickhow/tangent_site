@@ -1,13 +1,13 @@
 {
-  "version": "0.17.0",
-  "notes": "Press ↑ in an empty message box to bring back what you sent, and Retry a reply you stopped. Markers stay the same size on screen when you zoom. Export shows a live preview, lets you choose which parts go in, and lets you choose where each file is saved.",
-  "notes_zh_tw": "輸入框是空的時候按 ↑ 可以叫回送出過的訊息，停止的回覆可以重試。縮放時，點與線的標記在畫面上維持同樣大小。匯出時有即時預覽，可以選擇要輸出哪些零件，也可以選擇每個檔案存在哪裡。",
-  "pub_date": "2026-11-20T05:37:15Z",
+  "version": "0.17.1",
+  "notes": "Curved surfaces now shade smoothly, with no visible seam lines on cylinders and other round faces, and curved edges follow the real outline. The example covers on the home screen are renders of the actual models. Projects saved before this version keep their old look until the model is rebuilt.",
+  "notes_zh_tw": "曲面現在以精確的法線平滑著色，圓柱等圓形表面不再出現接縫線，曲線邊緣也貼合實際輪廓。首頁範例的封面改為模型本身的渲染圖。這版之前儲存的專案會維持舊的外觀，重新建立模型後才會更新。",
+  "pub_date": "2026-11-21T00:18:10Z",
   "minimum_system_version": "12.0",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVm9SMVJmZ3NpVUE0cjdtL0NWZjkzNEJDbFZHUFhFS1BsdjRVRGxFUzc0UGVxMzdjWTl1WkdmOTBKL08xdGRjTFovZ2ZGZ0dPUC9TdFo2WTFrTFZyOWE5ZjZXaTJ5UWdNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1MTUyODY5CWZpbGU6VGFuZ2VudC5hcHAudGFyLmd6CXZlcnNpb246MC4xNy4wCjdveitIbk5wUURyd0xRblJGQnBnZCtzRXhBWG9jOVNteWhGVm0ybGpUM1MxVk53bEVEYjZVbGtadm8xWTNHOHVOWWZubDBERnBsdzdoYm9QZkRsMEF3PT0K",
-      "url": "https://download.nicraft.co/tangent/Tangent_0.17.0_aarch64.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVm9SMVJmZ3NpVUhwN3l2SnVpZGxpNzFRR2J2SG95SDdjczgrb3BNVmtoLzBCV2pWcXBxVFN2VmxoamRvdEI0OHQyeVJyV3dPNlZIT1IvWmp2VmlLOFFBOFZMbWY5RHdBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1MjIwMjU1CWZpbGU6VGFuZ2VudC5hcHAudGFyLmd6CXZlcnNpb246MC4xNy4xCmtvRVFoL3EzZFBqRG5FWmhMeW9ad2M2a1NuK0M2UVVFbktvRmp4ZnNCNHVvZmdaMURwN083czMwZVdBU2RiZWtOaGVwWUExVDFYak5iak43U2VVcER3PT0K",
+      "url": "https://download.nicraft.co/tangent/Tangent_0.17.1_aarch64.app.tar.gz"
     }
   }
 }
