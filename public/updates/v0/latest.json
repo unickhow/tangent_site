@@ -1,13 +1,13 @@
 {
-  "version": "0.18.0",
-  "notes": "A new Projects page lists everything you've saved, with search, sorting, rename, duplicate and delete with undo. Sort projects into groups and star the ones you use most. The home screen shows the four you opened last, and Tangent starts faster with many projects.",
-  "notes_zh_tw": "新增「專案」頁，列出所有儲存過的專案，可搜尋、排序、重新命名、建立副本，刪除後可以復原。可以把專案分到群組、加上星號。首頁只顯示最近開啟的四個專案，專案很多時啟動也更快。",
-  "pub_date": "2026-11-21T02:27:56Z",
+  "version": "0.18.1",
+  "notes": "Settings are now sorted into five categories, one page at a time. The view cube no longer covers the bars at the top of the 3D view in a narrow window, and the right-hand tabs fit in English.",
+  "notes_zh_tw": "設定改成五個分類，一次顯示一頁。視窗縮小時，視角方塊不再蓋住 3D 視窗上方的工具列，右側的標籤在英文介面下也放得下。",
+  "pub_date": "2026-11-23T17:17:38Z",
   "minimum_system_version": "12.0",
   "platforms": {
     "darwin-aarch64": {
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVm9SMVJmZ3NpVUQ0QzdIR3oxWThaalBPRXBjSUlsSEVhTXh5ZmVVMDc3TzEra2QwTERsVmlvbXB1eTFjZFMwc29ObFVZdWxSNVBtSU1ncHVuUG4waExBOE5GRXNmM1FzPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1MjI4MDM0CWZpbGU6VGFuZ2VudC5hcHAudGFyLmd6CXZlcnNpb246MC4xOC4wCkJhZk00KzdKT1NhWmZ2Zys1YzNVTktHdFdhcS9oVmtCTDZubnlBSkpweHQrbDVNbHhHSmFtdXY5ejlDV2NzVStNRWJseGprR3hoZ3dCcVVDQitZTkFRPT0K",
-      "url": "https://download.nicraft.co/tangent/Tangent_0.18.0_aarch64.app.tar.gz"
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRVm9SMVJmZ3NpVUJrbW8yN0haY0QzZ05PT2piQkorN1JYN1ZWeGpqUytONnAxbFUwdGx5bVFWMzE0VVpDY21TckQxQzdPbEtPMHdZMGY5anVwU0laNUxrUzBjVFc4aWc4PQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzk1NDU0MjE0CWZpbGU6VGFuZ2VudC5hcHAudGFyLmd6CXZlcnNpb246MC4xOC4xCnYwM3UrSzc5ek9MWnNIMW93aHFucjM5RmE1WVdzMVRCVjlOUVcvVHRiK2ZabEFDS2EwNzVNeFJMY3hML0VKa2g3RFZScGYvRHpSbzh0aEhLZkNYRUN3PT0K",
+      "url": "https://download.nicraft.co/tangent/Tangent_0.18.1_aarch64.app.tar.gz"
     }
   }
 }
